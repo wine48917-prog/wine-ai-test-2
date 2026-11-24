@@ -32,3 +32,6 @@
 .form-error{color:#f0a2a2}.toast{background:#1b2832;border-color:#526b7b}
 .sidebar-close{background:#17212a;border-color:#40515e;color:#e5edf3}
 @media(max-width:850px){.sidebar-scrim.show{background:#05090dcc}}
+
+/* Name-only guest entry */
+.guest-chip{font-size:12px;color:#b9cbd7;border:1px solid #35434f;background:#121a22;padding:8px 12px;border-radius:999px}.name-modal{max-width:420px}.name-modal .modal-sub{line-height:1.8}.name-modal label{display:grid;gap:8px;text-align:right;font-size:13px;color:var(--muted);margin:18px 0}.name-modal input{width:100%;padding:14px;border-radius:12px;border:1px solid #35424e;background:#0b1117;color:#edf1f5;font:inherit;outline:none}.name-modal input:focus{border-color:#91aaba}
