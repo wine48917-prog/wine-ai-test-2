@@ -35,3 +35,15 @@
 
 /* Name-only guest entry */
 .guest-chip{font-size:12px;color:#b9cbd7;border:1px solid #35434f;background:#121a22;padding:8px 12px;border-radius:999px}.name-modal{max-width:420px}.name-modal .modal-sub{line-height:1.8}.name-modal label{display:grid;gap:8px;text-align:right;font-size:13px;color:var(--muted);margin:18px 0}.name-modal input{width:100%;padding:14px;border-radius:12px;border:1px solid #35424e;background:#0b1117;color:#edf1f5;font:inherit;outline:none}.name-modal input:focus{border-color:#91aaba}
+
+/* Readable, copyable and syntax-highlighted code */
+.code-card{direction:ltr;text-align:left;margin:14px 0 18px;border:1px solid #344653;border-radius:14px;overflow:hidden;background:#080e14;max-width:100%;box-shadow:0 10px 30px #0003}
+.code-toolbar{height:39px;display:flex;align-items:center;justify-content:space-between;padding:0 11px;background:#121c25;border-bottom:1px solid #293a47;color:#aebdca;font:600 10px Manrope, sans-serif;letter-spacing:.4px}
+.copy-code{border:1px solid #435969;background:#1c2b36;color:#e2ebf1;border-radius:8px;padding:5px 10px;font:600 10px Cairo,sans-serif;cursor:pointer;transition:background .15s,border-color .15s}
+.copy-code:hover{background:#2a3d4b;border-color:#8ba6b8}
+.code-card pre{margin:0;padding:16px;max-height:560px;overflow:auto;white-space:pre;tab-size:2;direction:ltr;text-align:left;font:12px/1.75 ui-monospace,SFMono-Regular,Consolas,monospace;color:#dce6ed}
+.code-card pre code{color:inherit;font:inherit;white-space:pre}
+.code-card .tok-keyword{color:#c7a6ff}.code-card .tok-string{color:#a8d6a0}.code-card .tok-comment{color:#778995;font-style:italic}.code-card .tok-number{color:#e6b879}.code-card .tok-function{color:#82c9df}.code-card .tok-tag{color:#e6a2ba}
+.inline-code{direction:ltr;display:inline-block;background:#202b35;color:#d9e6ee;border:1px solid #354653;border-radius:5px;padding:0 5px;font:11px ui-monospace,monospace}
+.md-heading{display:inline-block;color:#e3edf3;font-size:14px;margin:8px 0 3px}
+@media(max-width:600px){.code-card pre{font-size:11px;padding:12px;max-height:440px}.code-toolbar{height:36px}.copy-code{padding:5px 8px}}
