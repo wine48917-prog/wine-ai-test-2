@@ -35,7 +35,7 @@ function renderText(text){
   html=html.replace(/(^|\n)###?\s+([^\n]+)/g,'$1<strong class="md-heading">$2</strong>');
   html=html.replace(/\n/g,'<br>');
   return html.replace(/\u0001CODE(\d+)\u0001/g,(_,i)=>{
-    const b=blocks[Number(i)],lang=escapeHtml(b.lang||'code'),code=highlightCode(b.code,b.lang);
+    const b=blocks[Number(i)],lang=escapeHtml(b.lang||'code'),decoded=b.code.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'\"').replace(/&#39;/g,"'").replace(/&amp;/g,'&'),code=highlightCode(decoded,b.lang);
     return '<section class="code-card"><div class="code-toolbar"><span>'+lang+'</span><button type="button" class="copy-code" data-copy="'+Number(i)+'">نسخ الكود</button></div><pre><code>'+code+'</code></pre></section>';
   });
 }
