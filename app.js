@@ -25,21 +25,19 @@ function highlightCode(code,language='') {
   return masked;
 }
 function renderText(text){
-  const source=String(text||'');
   const blocks=[];
-  let html=escapeHtml(source).replace(/```([\\w+#.-]*)\\n?([\\s\\S]*?)```/g,(_,lang,code)=>{
+  let html=escapeHtml(String(text||'')).replace(/```([\\w+#.-]*)\\n?([\\s\\S]*?)```/g,(_,lang,code)=>{
     const id=blocks.length;blocks.push({lang,code:code.replace(/\\n$/,'')});
-    return '\u0001CODE'+id+'\u0001';
+    return '\\u0001CODE'+id+'\\u0001';
   });
   html=html.replace(/`([^`\\n]+)`/g,'<code class="inline-code">$1</code>');
   html=html.replace(/\\*\\*(.+?)\\*\\*/g,'<strong>$1</strong>');
   html=html.replace(/(^|\\n)###?\\s+([^\\n]+)/g,'$1<strong class="md-heading">$2</strong>');
   html=html.replace(/\\n/g,'<br>');
-  html=html.replace(/\u0001CODE(\d+)\u0001/g,(_,i)=>{
+  return html.replace(/\\u0001CODE(\\d+)\\u0001/g,(_,i)=>{
     const b=blocks[Number(i)],lang=escapeHtml(b.lang||'code'),code=highlightCode(b.code,b.lang);
     return '<section class="code-card"><div class="code-toolbar"><span>'+lang+'</span><button type="button" class="copy-code" data-copy="'+Number(i)+'">نسخ الكود</button></div><pre><code>'+code+'</code></pre></section>';
   });
-  return html;
 }
 function addMessage(role,text){welcome.style.display='none';messages.classList.add('active');const item=document.createElement('div');item.className=`message ${role}`;item.innerHTML=`<div class="message-avatar">${role==='user'?'YOU':'W'}</div><div class="bubble">${role==='assistant'?renderText(text):escapeHtml(text)}</div>`;messages.appendChild(item);messages.scrollTop=messages.scrollHeight;return item}
 function newThread(){state.active=null;state.sessionId=null;messages.innerHTML='';messages.classList.remove('active');welcome.style.display='block';renderHistory();closeSidebar();promptInput.focus()}
