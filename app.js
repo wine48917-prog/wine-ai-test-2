@@ -26,15 +26,15 @@ function highlightCode(code,language='') {
 }
 function renderText(text){
   const blocks=[];
-  let html=escapeHtml(String(text||'')).replace(/```([\\w+#.-]*)\\n?([\\s\\S]*?)```/g,(_,lang,code)=>{
-    const id=blocks.length;blocks.push({lang,code:code.replace(/\\n$/,'')});
-    return '\\u0001CODE'+id+'\\u0001';
+  let html=escapeHtml(String(text||'')).replace(/```([\w+#.-]*)\n?([\s\S]*?)```/g,(_,lang,code)=>{
+    const id=blocks.length;blocks.push({lang,code:code.replace(/\n$/,'')});
+    return '\u0001CODE'+id+'\u0001';
   });
-  html=html.replace(/`([^`\\n]+)`/g,'<code class="inline-code">$1</code>');
-  html=html.replace(/\\*\\*(.+?)\\*\\*/g,'<strong>$1</strong>');
-  html=html.replace(/(^|\\n)###?\\s+([^\\n]+)/g,'$1<strong class="md-heading">$2</strong>');
-  html=html.replace(/\\n/g,'<br>');
-  return html.replace(/\\u0001CODE(\\d+)\\u0001/g,(_,i)=>{
+  html=html.replace(/`([^`\n]+)`/g,'<code class="inline-code">$1</code>');
+  html=html.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+  html=html.replace(/(^|\n)###?\s+([^\n]+)/g,'$1<strong class="md-heading">$2</strong>');
+  html=html.replace(/\n/g,'<br>');
+  return html.replace(/\u0001CODE(\d+)\u0001/g,(_,i)=>{
     const b=blocks[Number(i)],lang=escapeHtml(b.lang||'code'),code=highlightCode(b.code,b.lang);
     return '<section class="code-card"><div class="code-toolbar"><span>'+lang+'</span><button type="button" class="copy-code" data-copy="'+Number(i)+'">نسخ الكود</button></div><pre><code>'+code+'</code></pre></section>';
   });
