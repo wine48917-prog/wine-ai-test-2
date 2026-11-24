@@ -55,13 +55,13 @@ async function sendMessage(text){
  bubble.innerHTML='<span class="typing">WINE AI بيجهّز الرد</span>';saveThreads();
  try{
   await ensureGuest();
-  const history=thread.items.slice(-13,-1).map(m=>`${m.role==='user'?'المستخدم':'WINE AI'}: ${m.text}`).join('\\n');
+  const history=thread.items.slice(-13,-1).map(m=>`${m.role==='user'?'المستخدم':'WINE AI'}: ${m.text}`).join('\n');
   const response=await fetch('/api/chat?stream=1',{method:'POST',headers:{'Content-Type':'application/json','Accept':'text/event-stream','X-User-Token':`Bearer ${state.token}`},body:JSON.stringify({prompt:text,history,sessionId:state.sessionId})});
   if(!response.ok){let err={};try{err=await response.json()}catch{}throw new Error(err.error||'تعذر الاتصال بمحرك الذكاء الاصطناعي');}
   if(!response.body)throw new Error('المتصفح لا يدعم استقبال الرد المباشر');
   const reader=response.body.getReader(),decoder=new TextDecoder();let buffer='',answer='',streamError='';
   const handleEvent=raw=>{
-   const lines=raw.split('\\n');let event='message',data='';
+   const lines=raw.split('\n');let event='message',data='';
    for(const line of lines){if(line.startsWith('event:'))event=line.slice(6).trim();else if(line.startsWith('data:'))data+=line.slice(5).trim();}
    if(!data)return;
    let payload={};try{payload=JSON.parse(data)}catch{return}
@@ -69,7 +69,7 @@ async function sendMessage(text){
    if(event==='error')streamError=payload.error||'فشل توليد الرد';
    if(event==='done'&&payload.sessionId)state.sessionId=payload.sessionId;
   };
-  while(true){const {value,done}=await reader.read();if(done)break;buffer+=decoder.decode(value,{stream:true});const events=buffer.split('\\n\\n');buffer=events.pop()||'';for(const ev of events)handleEvent(ev);}
+  while(true){const {value,done}=await reader.read();if(done)break;buffer+=decoder.decode(value,{stream:true});const events=buffer.split('\n\n');buffer=events.pop()||'';for(const ev of events)handleEvent(ev);}
   if(buffer.trim())handleEvent(buffer);
   if(streamError)throw new Error(streamError);
   if(!answer.trim())throw new Error('لم يصل رد من محرك الذكاء الاصطناعي');
@@ -80,10 +80,11 @@ async function sendMessage(text){
 }
 function openName(){ $('#nameModal').classList.add('show'); $('#guestName').value=state.name||''; }
 function closeName(){ $('#nameModal').classList.remove('show'); }
-function saveName(e){e.preventDefault();const name=$('#guestName').value.trim().replace(/\\s+/g,' ');if(name.length<2||name.length>30){$('#nameError').textContent='اكتب اسماً من حرفين إلى 30 حرفاً';return;}state.name=name;state.guest=true;state.token='';localStorage.setItem('wine_name',name);localStorage.removeItem('wine_token');localStorage.setItem('wine_guest','1');setIdentity();closeName();toast('أهلاً بك يا '+name);}
+function saveName(e){e.preventDefault();const name=$('#guestName').value.trim().replace(/\s+/g,' ');if(name.length<2||name.length>30){$('#nameError').textContent='اكتب اسماً من حرفين إلى 30 حرفاً';return;}state.name=name;state.guest=true;state.token='';localStorage.setItem('wine_name',name);localStorage.removeItem('wine_token');localStorage.setItem('wine_guest','1');setIdentity();closeName();toast('أهلاً بك يا '+name);}
 $('#send').addEventListener('click',()=>sendMessage(promptInput.value));promptInput.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage(promptInput.value)}});promptInput.addEventListener('input',()=>{promptInput.style.height='auto';promptInput.style.height=Math.min(promptInput.scrollHeight,180)+'px'});
 document.querySelectorAll('[data-prompt]').forEach(b=>b.addEventListener('click',()=>sendMessage(b.dataset.prompt)));
-$('#newChat').addEventListener('click',newThread);$('#history').addEventListener('click',e=>{const t=e.target.closest('[data-id]');if(t)openThread(t.dataset.id)});\nmessages.addEventListener('click',async e=>{const btn=e.target.closest('[data-copy]');if(!btn)return;const card=btn.closest('.code-card');const code=card?.querySelector('pre code')?.innerText||'';try{await navigator.clipboard.writeText(code);btn.textContent='تم النسخ ✓';setTimeout(()=>btn.textContent='نسخ الكود',1500)}catch{toast('تعذر النسخ تلقائياً؛ حدد الكود وانسخه')}});
+$('#newChat').addEventListener('click',newThread);$('#history').addEventListener('click',e=>{const t=e.target.closest('[data-id]');if(t)openThread(t.dataset.id)});
+messages.addEventListener('click',async e=>{const btn=e.target.closest('[data-copy]');if(!btn)return;const card=btn.closest('.code-card');const code=card?.querySelector('pre code')?.innerText||'';try{await navigator.clipboard.writeText(code);btn.textContent='تم النسخ ✓';setTimeout(()=>btn.textContent='نسخ الكود',1500)}catch{toast('تعذر النسخ تلقائياً؛ حدد الكود وانسخه')}});
 $('#accountBtn').addEventListener('click',openName);$('#nameForm').addEventListener('submit',saveName);$('#nameModal').addEventListener('click',e=>{if(e.target.id==='nameModal')closeName()});
 
 $('#mobileMenu').addEventListener('click',toggleSidebar);$('#sidebarClose').addEventListener('click',closeSidebar);$('#sidebarScrim').addEventListener('click',closeSidebar);document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSidebar();closeName()}});window.addEventListener('resize',()=>{if(window.innerWidth>850)closeSidebar()});
