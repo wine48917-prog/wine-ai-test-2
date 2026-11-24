@@ -1,6 +1,6 @@
 import crypto from 'node:crypto';
 import gemini from './scrap/ai/gemini.js';
-import pool from '../../db.js';
+import pool, { ensureDatabase } from '../../db.js';
 import { getAppContext } from './app-context.js';
 import { verifyToken } from './jwt.js';
 import { checkRateLimit, recordAuthFail, isAuthBlocked } from './rate-limit.js';
