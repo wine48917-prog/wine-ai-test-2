@@ -6,7 +6,41 @@ function setIdentity(){const label=state.name||'زائر';$('#userLabel').textCo
 function saveThreads(){localStorage.setItem('wine_threads',JSON.stringify(state.threads));renderHistory()}
 function renderHistory(){const el=$('#history');if(!state.threads.length){el.innerHTML='<div class="history-empty">محادثاتك الجديدة هتظهر هنا</div>';return}el.innerHTML=state.threads.slice().reverse().map(t=>`<div class="history-item ${t.id===state.active?'active':''}" data-id="${t.id}">${escapeHtml(t.title||'محادثة جديدة')}</div>`).join('')}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function renderText(text){let safe=escapeHtml(text);safe=safe.replace(/```([\s\S]*?)```/g,(_,code)=>`<pre><code>${code.trim()}</code></pre>`).replace(/`([^`]+)`/g,'<code>$1</code>');return safe}
+function highlightCode(code,language='') {
+  const escaped=escapeHtml(code);
+  const lang=String(language||'').toLowerCase();
+  const rules=[
+    {type:'comment',re:/(\/\/[^\n]*|\/\*[\s\S]*?\*\/|#[^\n]*)/g},
+    {type:'string',re:/("(?:\\\\.|[^"\\\\])*"|'(?:\\\\.|[^'\\\\])*'|`(?:\\\\.|[^`\\\\])*`)/g},
+    {type:'number',re:/\b\d+(?:\.\d+)?\b/g},
+    {type:'keyword',re:/\b(const|let|var|function|return|if|else|for|while|class|new|this|async|await|import|from|export|default|try|catch|throw|extends|switch|case|break|continue|public|private|static|void|int|string|boolean|def|lambda|pass|None|True|False|SELECT|FROM|WHERE|INSERT|UPDATE|DELETE|CREATE|TABLE|JOIN|AND|OR)\b/g},
+    {type:'function',re:/\b([A-Za-z_$][\w$]*)(?=\s*\()/g},
+    {type:'tag',re:/(&lt;\/?[A-Za-z][^&]*?&gt;)/g}
+  ];
+  let tokens=[],masked=escaped.replace(/&lt;\/?[A-Za-z][^&]*?&gt;/g,m=>{tokens.push({v:m,t:'tag'});return '\u0000'+(tokens.length-1)+'\u0000'});
+  for(const rule of rules.slice(0,5)){
+    masked=masked.replace(rule.re,m=>{tokens.push({v:m,t:rule.type});return '\u0000'+(tokens.length-1)+'\u0000'});
+  }
+  masked=masked.replace(/\u0000(\d+)\u0000/g,(_,i)=>{const x=tokens[Number(i)];return x?'<span class="tok-'+x.t+'">'+x.v+'</span>':''});
+  return masked;
+}
+function renderText(text){
+  const source=String(text||'');
+  const blocks=[];
+  let html=escapeHtml(source).replace(/```([\\w+#.-]*)\\n?([\\s\\S]*?)```/g,(_,lang,code)=>{
+    const id=blocks.length;blocks.push({lang,code:code.replace(/\\n$/,'')});
+    return '\u0001CODE'+id+'\u0001';
+  });
+  html=html.replace(/`([^`\\n]+)`/g,'<code class="inline-code">$1</code>');
+  html=html.replace(/\\*\\*(.+?)\\*\\*/g,'<strong>$1</strong>');
+  html=html.replace(/(^|\\n)###?\\s+([^\\n]+)/g,'$1<strong class="md-heading">$2</strong>');
+  html=html.replace(/\\n/g,'<br>');
+  html=html.replace(/\u0001CODE(\d+)\u0001/g,(_,i)=>{
+    const b=blocks[Number(i)],lang=escapeHtml(b.lang||'code'),code=highlightCode(b.code,b.lang);
+    return '<section class="code-card"><div class="code-toolbar"><span>'+lang+'</span><button type="button" class="copy-code" data-copy="'+Number(i)+'">نسخ الكود</button></div><pre><code>'+code+'</code></pre></section>';
+  });
+  return html;
+}
 function addMessage(role,text){welcome.style.display='none';messages.classList.add('active');const item=document.createElement('div');item.className=`message ${role}`;item.innerHTML=`<div class="message-avatar">${role==='user'?'YOU':'W'}</div><div class="bubble">${role==='assistant'?renderText(text):escapeHtml(text)}</div>`;messages.appendChild(item);messages.scrollTop=messages.scrollHeight;return item}
 function newThread(){state.active=null;state.sessionId=null;messages.innerHTML='';messages.classList.remove('active');welcome.style.display='block';renderHistory();closeSidebar();promptInput.focus()}
 function currentThread(){let t=state.threads.find(x=>x.id===state.active);if(!t){t={id:crypto.randomUUID(),title:'محادثة جديدة',items:[]};state.threads.push(t);state.active=t.id}return t}
@@ -14,17 +48,45 @@ function closeSidebar(){ $('#sidebar').classList.remove('open'); $('#sidebarScri
 function toggleSidebar(){const open=!$('#sidebar').classList.contains('open');$('#sidebar').classList.toggle('open',open);$('#sidebarScrim').classList.toggle('show',open)}
 function openThread(id){const t=state.threads.find(x=>x.id===id);if(!t)return;state.active=id;state.sessionId=null;messages.innerHTML='';messages.classList.add('active');welcome.style.display='none';t.items.forEach(m=>addMessage(m.role,m.text));renderHistory();closeSidebar()}
 async function ensureGuest(){if(state.token)return true;const r=await fetch('/api/guest',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:state.name||'زائر'})});const d=await r.json();if(!r.ok||!d.token)throw new Error(d.error||'تعذر بدء جلسة الزائر');state.token=d.token;state.guest=true;state.name=d.name||state.name||'زائر';localStorage.setItem('wine_name',state.name);localStorage.setItem('wine_token',state.token);localStorage.setItem('wine_guest','1');setIdentity();return true}
-async function sendMessage(text){text=(text||'').trim();if(!text||state.busy)return;state.busy=true;$('#send').disabled=true;promptInput.value='';promptInput.style.height='auto';let thread=currentThread();if(thread.items.length===0)thread.title=text.slice(0,34);thread.items.push({role:'user',text});addMessage('user',text);const loading=addMessage('assistant','');loading.querySelector('.bubble').innerHTML='<span class="typing">WINE AI بيجهّز الرد</span>';saveThreads();
- try{await ensureGuest();const history=thread.items.slice(-12,-1).map(m=>`${m.role==='user'?'المستخدم':'WINE AI'}: ${m.text}`).join('\n');const response=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json','X-User-Token':`Bearer ${state.token}`},body:JSON.stringify({prompt:text,history,sessionId:state.sessionId})});const data=await response.json();if(!response.ok||!data.success)throw new Error(data.error||'حدث خطأ أثناء الاتصال بالمساعد');const answer=data.response||data.text||'لم يصل رد من المحرك.';state.sessionId=data.sessionId||state.sessionId;loading.querySelector('.bubble').innerHTML=renderText(answer);thread.items.push({role:'assistant',text:answer});saveThreads();}
- catch(e){loading.querySelector('.bubble').textContent=`تعذّر إكمال الطلب: ${e.message}`;thread.items.push({role:'assistant',text:`تعذّر إكمال الطلب: ${e.message}`});saveThreads()}
- finally{state.busy=false;$('#send').disabled=false;messages.scrollTop=messages.scrollHeight;promptInput.focus()}}
+async function sendMessage(text){
+ text=(text||'').trim();if(!text||state.busy)return;
+ state.busy=true;$('#send').disabled=true;promptInput.value='';promptInput.style.height='auto';
+ const thread=currentThread();if(thread.items.length===0)thread.title=text.slice(0,34);
+ thread.items.push({role:'user',text});addMessage('user',text);
+ const loading=addMessage('assistant','');const bubble=loading.querySelector('.bubble');
+ bubble.innerHTML='<span class="typing">WINE AI بيجهّز الرد</span>';saveThreads();
+ try{
+  await ensureGuest();
+  const history=thread.items.slice(-13,-1).map(m=>`${m.role==='user'?'المستخدم':'WINE AI'}: ${m.text}`).join('\\n');
+  const response=await fetch('/api/chat?stream=1',{method:'POST',headers:{'Content-Type':'application/json','Accept':'text/event-stream','X-User-Token':`Bearer ${state.token}`},body:JSON.stringify({prompt:text,history,sessionId:state.sessionId})});
+  if(!response.ok){let err={};try{err=await response.json()}catch{}throw new Error(err.error||'تعذر الاتصال بمحرك الذكاء الاصطناعي');}
+  if(!response.body)throw new Error('المتصفح لا يدعم استقبال الرد المباشر');
+  const reader=response.body.getReader(),decoder=new TextDecoder();let buffer='',answer='',streamError='';
+  const handleEvent=raw=>{
+   const lines=raw.split('\\n');let event='message',data='';
+   for(const line of lines){if(line.startsWith('event:'))event=line.slice(6).trim();else if(line.startsWith('data:'))data+=line.slice(5).trim();}
+   if(!data)return;
+   let payload={};try{payload=JSON.parse(data)}catch{return}
+   if(event==='chunk'&&payload.text){answer+=payload.text;bubble.textContent=answer;messages.scrollTop=messages.scrollHeight;}
+   if(event==='error')streamError=payload.error||'فشل توليد الرد';
+   if(event==='done'&&payload.sessionId)state.sessionId=payload.sessionId;
+  };
+  while(true){const {value,done}=await reader.read();if(done)break;buffer+=decoder.decode(value,{stream:true});const events=buffer.split('\\n\\n');buffer=events.pop()||'';for(const ev of events)handleEvent(ev);}
+  if(buffer.trim())handleEvent(buffer);
+  if(streamError)throw new Error(streamError);
+  if(!answer.trim())throw new Error('لم يصل رد من محرك الذكاء الاصطناعي');
+  bubble.innerHTML=renderText(answer);thread.items.push({role:'assistant',text:answer});saveThreads();
+ }catch(e){
+  bubble.textContent=`تعذّر إكمال الطلب: ${e.message}`;thread.items.push({role:'assistant',text:`تعذّر إكمال الطلب: ${e.message}`});saveThreads();
+ }finally{state.busy=false;$('#send').disabled=false;messages.scrollTop=messages.scrollHeight;promptInput.focus();}
+}
 function openName(){ $('#nameModal').classList.add('show'); $('#guestName').value=state.name||''; }
 function closeName(){ $('#nameModal').classList.remove('show'); }
 function saveName(e){e.preventDefault();const name=$('#guestName').value.trim().replace(/\\s+/g,' ');if(name.length<2||name.length>30){$('#nameError').textContent='اكتب اسماً من حرفين إلى 30 حرفاً';return;}state.name=name;state.guest=true;state.token='';localStorage.setItem('wine_name',name);localStorage.removeItem('wine_token');localStorage.setItem('wine_guest','1');setIdentity();closeName();toast('أهلاً بك يا '+name);}
 $('#send').addEventListener('click',()=>sendMessage(promptInput.value));promptInput.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage(promptInput.value)}});promptInput.addEventListener('input',()=>{promptInput.style.height='auto';promptInput.style.height=Math.min(promptInput.scrollHeight,180)+'px'});
 document.querySelectorAll('[data-prompt]').forEach(b=>b.addEventListener('click',()=>sendMessage(b.dataset.prompt)));
-$('#newChat').addEventListener('click',newThread);$('#history').addEventListener('click',e=>{const t=e.target.closest('[data-id]');if(t)openThread(t.dataset.id)});
+$('#newChat').addEventListener('click',newThread);$('#history').addEventListener('click',e=>{const t=e.target.closest('[data-id]');if(t)openThread(t.dataset.id)});\nmessages.addEventListener('click',async e=>{const btn=e.target.closest('[data-copy]');if(!btn)return;const card=btn.closest('.code-card');const code=card?.querySelector('pre code')?.innerText||'';try{await navigator.clipboard.writeText(code);btn.textContent='تم النسخ ✓';setTimeout(()=>btn.textContent='نسخ الكود',1500)}catch{toast('تعذر النسخ تلقائياً؛ حدد الكود وانسخه')}});
 $('#accountBtn').addEventListener('click',openName);$('#nameForm').addEventListener('submit',saveName);$('#nameModal').addEventListener('click',e=>{if(e.target.id==='nameModal')closeName()});
 
-$('#mobileMenu').addEventListener('click',toggleSidebar);$('#sidebarClose').addEventListener('click',closeSidebar);$('#sidebarScrim').addEventListener('click',closeSidebar);document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSidebar();closeAuth()}});window.addEventListener('resize',()=>{if(window.innerWidth>850)closeSidebar()});
+$('#mobileMenu').addEventListener('click',toggleSidebar);$('#sidebarClose').addEventListener('click',closeSidebar);$('#sidebarScrim').addEventListener('click',closeSidebar);document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSidebar();closeName()}});window.addEventListener('resize',()=>{if(window.innerWidth>850)closeSidebar()});
 setIdentity();renderHistory();if(!state.name)openName();
