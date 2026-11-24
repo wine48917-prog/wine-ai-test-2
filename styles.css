@@ -3,3 +3,32 @@
 @media(max-width:430px){.welcome h1{font-size:25px}.welcome>p{font-size:11px}.orb{transform:scale(.85);margin-bottom:12px}.quick-card{min-height:99px;padding:12px}.quick-card b{font-size:11px}.quick-card small{font-size:8px}.workspace{padding-top:17px}.topbar{height:60px}.login-top{font-size:10px;padding:6px 9px}}
 
 .sidebar-scrim{display:none}.sidebar-close{display:none}@media(max-width:850px){.sidebar-scrim.show{display:block;position:fixed;inset:0;background:#0009;z-index:9;backdrop-filter:blur(2px)}.sidebar{z-index:11}.sidebar-close{display:grid;place-items:center;position:absolute;left:14px;top:18px;width:34px;height:34px;border:1px solid #383840;border-radius:9px;background:#17171d;color:#ddd;font-size:23px;line-height:1}.brand{padding-left:42px}}
+
+
+/* WINE AI — refined graphite & platinum theme */
+:root{--bg:#0b0e12;--panel:#11161c;--panel2:#171e26;--line:#29333e;--text:#edf1f5;--muted:#9ba8b5;--silver:#dce4ec;--wine:#7895a8;--wine2:#a9bdca}
+.app-shell{background:radial-gradient(ellipse at 58% -18%,#8ba9bd18,transparent 42%),#0b0e12}
+.sidebar{background:#0e1319;border-color:#28333e}
+.brand-mark{border-color:#9eafbd;background:linear-gradient(145deg,#c9d4dd,#596a78 58%,#18212a);box-shadow:inset 0 1px #ffffff80,0 8px 25px #0009}
+.brand b i,.top-brand span{color:#b7c7d3}
+.new-chat{border-color:#526575;background:linear-gradient(120deg,#253441,#151e27);color:#f1f5f8}.new-chat span{color:#d3e0e8}
+.history-item:hover,.history-item.active{background:#9fb4c21a;color:#f5f8fa}
+.status span,.model-chip i,.eyebrow span{background:#8fb9a8;box-shadow:0 0 10px #8fb9a8}
+.avatar{background:#202c36;border-color:#455b6b;color:#d5e1e9}
+.topbar{background:#0b0e12e8}.login-top{border-color:#3b4a57;background:#151d25;color:#e8eef3}
+.orb-core{background:linear-gradient(145deg,#e0e7ec,#8193a1 55%,#202a34);color:#101820;box-shadow:0 0 45px #8ca9bd38,inset 0 2px 3px #fff}
+.orbit{border-color:#9db7c466}.o2{border-color:#ffffff20}.o3{border-color:#7e9caf55}
+.welcome h1 em{color:#c2d2dd}
+.quick-card{background:linear-gradient(145deg,#171f28,#10161d);border-color:#2b3945}.quick-card:hover{border-color:#8299a9;background:#1b2832}.quick-icon{color:#b8cbd8}
+.welcome-foot span{color:#b6c9d6}
+.message-avatar{background:#18212a;border-color:#3a4b59;color:#dbe4eb}.message.assistant .message-avatar{border-color:#617c8e;color:#d9e5ec;background:#1c2a35}
+.user .bubble{background:#19232c;border-color:#3a4c59}.bubble pre{background:#090e13;border-color:#34414d}.bubble code{color:#c6d7e2}
+.composer{border-color:#35434f;background:#121a22}.composer:focus-within{border-color:#829bad;box-shadow:0 0 0 3px #829bad20}
+.send-btn{background:linear-gradient(135deg,#b9cbd7,#60798a);color:#0b1218;box-shadow:0 5px 17px #8ca9bd2b}
+.modal{background:#111820;border-color:#35434e}.modal-logo{background:linear-gradient(145deg,#e0e7ec,#8193a1);color:#111820}
+.auth-tabs{background:#0b1117}.auth-tabs button.active{background:#293844;color:#f4f7fa}
+.modal input{background:#0b1117;border-color:#35424e}.modal input:focus{border-color:#91aaba}
+.primary-btn{background:linear-gradient(120deg,#b7c9d5,#627d8f);color:#0d151c}
+.form-error{color:#f0a2a2}.toast{background:#1b2832;border-color:#526b7b}
+.sidebar-close{background:#17212a;border-color:#40515e;color:#e5edf3}
+@media(max-width:850px){.sidebar-scrim.show{background:#05090dcc}}
