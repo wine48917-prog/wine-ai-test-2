@@ -7,6 +7,8 @@ export default function handler(req, res) {
   if (!isOriginAllowed(req)) return res.status(403).json({ success:false, error:'Origin not allowed' });
   if (req.method !== 'POST') return res.status(405).json({ success:false, error:'Method not allowed' });
   if (!process.env.JWT_SECRET || process.env.JWT_SECRET.length < 32) return res.status(503).json({ success:false, error:'JWT_SECRET غير مضبوط في إعدادات السيرفر' });
+  const rawName = typeof req.body?.name === 'string' ? req.body.name.trim().replace(/\\s+/g, ' ') : '';
+  if (rawName.length < 2 || rawName.length > 30) return res.status(400).json({ success:false, error:'الاسم يجب أن يكون من حرفين إلى 30 حرفاً' });
   const uid = 'guest_' + crypto.randomUUID();
-  return res.status(200).json({ success:true, token:signToken({ uid, guest:true }, 7), uuid:uid, guest:true });
+  return res.status(200).json({ success:true, token:signToken({ uid, guest:true, name:rawName }, 7), uuid:uid, guest:true, name:rawName });
 }
