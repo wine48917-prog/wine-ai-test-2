@@ -307,7 +307,9 @@ export async function streamChat(req, res) {
   res.flushHeaders?.();
 
   let closed = false;
-  req.on('close', () => { closed = true; });
+  // The request body can finish before the SSE response; only the response
+  // closing early means the client disconnected.
+  res.on('close', () => { if (!res.writableEnded) closed = true; });
 
   const send = (event, data) => {
     if (closed || res.destroyed) return;
