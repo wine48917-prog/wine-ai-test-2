@@ -20,6 +20,7 @@ app.use(express.json({ limit: '8mb' }));
 app.get('/', (_req, res) => res.sendFile(path.join(root, 'index.html'), {
   headers: { 'Cache-Control': 'no-cache' }
 }));
+app.get('/guide', (_req, res) => res.sendFile(path.join(root, 'pages/guide.html'), { headers: { 'Cache-Control': 'no-cache' } }));
 app.get('/features', (_req, res) => res.sendFile(path.join(root, 'pages/features.html'), { headers: { 'Cache-Control': 'no-cache' } }));
 app.get('/chat-info', (_req, res) => res.sendFile(path.join(root, 'pages/chat.html'), { headers: { 'Cache-Control': 'no-cache' } }));
 app.get('/studio-info', (_req, res) => res.sendFile(path.join(root, 'pages/studio.html'), { headers: { 'Cache-Control': 'no-cache' } }));
