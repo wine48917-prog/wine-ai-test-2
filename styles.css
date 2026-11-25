@@ -82,3 +82,41 @@ html,body{background:#080a12;color:var(--text)}
 .copy-code{border-color:#4b5a82;background:#202d4b;color:#e4e8ff}.copy-code:hover{background:#303d63;border-color:#9186ff}
 .inline-code{background:#24294b;color:#d7d2ff;border-color:#454b7b}
 @media(max-width:850px){.sidebar-scrim.show{background:#050817df}}
+
+
+/* WINE AI / PLATINUM ICE — fast, restrained visual refresh */
+:root{--bg:#090c10;--panel:#11171d;--panel2:#171f27;--line:#303b45;--text:#f1f5f8;--muted:#98a5af;--silver:#dce5eb;--wine:#aebdc8;--wine2:#7bb5cf}
+html,body{background:#090c10;color:#f1f5f8}
+.app-shell{background:radial-gradient(ellipse at 50% -25%,#b7c9d51b,transparent 48%),linear-gradient(135deg,#090c10,#0d1218 58%,#090c10)}
+.sidebar{background:linear-gradient(180deg,#111820,#0b1015);border-color:#29343e;box-shadow:12px 0 50px #0003}
+.brand{gap:12px}.brand-mark{width:46px;height:46px;border:1px solid #aebfca88;border-radius:14px;background:linear-gradient(145deg,#f0f4f6 0%,#9eafb9 43%,#354957 100%);box-shadow:0 8px 28px #9db4c522,inset 0 1px #fff;color:#101820;display:grid;place-items:center}
+.brand-mark svg{width:30px;height:30px}.brand b{letter-spacing:2.5px}.brand b i,.top-brand span{color:#a9c5d5}
+.new-chat{border:1px solid #526574;background:linear-gradient(115deg,#263541,#18222b);box-shadow:0 8px 24px #0003;color:#f3f7fa}
+.new-chat:hover{background:linear-gradient(115deg,#344b5a,#202d37);border-color:#a4bac8}
+.history-item:hover,.history-item.active{background:#9db4c21a;color:#fff}
+.status span,.model-chip i,.eyebrow span{background:#80b9c9;box-shadow:0 0 10px #80b9c966}
+.avatar{background:#202c35;border-color:#536674;color:#e1e9ee}
+.topbar{background:#0b1015ed;border-color:#ffffff12;backdrop-filter:blur(18px)}
+.top-brand{letter-spacing:2.4px}.login-top{border-color:#4a5a66;background:#17212a;color:#edf3f6}
+.orb{filter:drop-shadow(0 12px 28px #8daebe18)}.orb-core{width:70px;height:70px;border-radius:21px;background:linear-gradient(145deg,#f1f5f7,#9eafb9 55%,#506879);color:#111a21;font:800 18px Manrope;letter-spacing:1.5px;box-shadow:0 0 48px #8daebe35,inset 0 2px 4px #fff}
+.orbit{border-color:#a8bdca66}.o2{border-color:#ffffff22}.o3{border-color:#7da6bb44}
+.welcome h1 em{background:linear-gradient(90deg,#eef4f7,#a9c6d5 70%,#7bb5cf);color:transparent;background-clip:text}
+.quick-card{background:linear-gradient(145deg,#18222b,#10171e);border-color:#303e49;box-shadow:0 8px 24px #0003;transition:transform .18s ease,border-color .18s ease,background .18s ease}
+.quick-card:hover{border-color:#8ba9ba;transform:translateY(-3px);background:linear-gradient(145deg,#22323e,#131d25);box-shadow:0 12px 28px #0004}
+.quick-icon{color:#b7cbd7}.welcome-foot span{color:#91c1d1}
+.message-avatar{background:#18232b;border-color:#465965;color:#dce8ee}.message.assistant .message-avatar{border-color:#7894a4;color:#e3edf2;background:#1b2a34}
+.user .bubble{background:#1a2731;border-color:#3c505e}.bubble pre{background:#080e13;border-color:#34434d}.bubble code{color:#c7dce7}
+.composer{border-color:#3a4b57;background:#121b23;box-shadow:0 12px 38px #0005}
+.composer:focus-within{border-color:#8daebe;box-shadow:0 0 0 3px #8daebe20,0 12px 38px #0005}
+.send-btn{background:linear-gradient(135deg,#e4edf2,#8ba9ba);color:#101920;box-shadow:0 5px 18px #8daebe33}
+.modal{background:linear-gradient(145deg,#18232b,#10171e);border-color:#3b4a55}
+.modal-logo{background:linear-gradient(145deg,#eef3f6,#91a8b6 60%,#455c6a);color:#111a20}
+.auth-tabs{background:#0c1218}.auth-tabs button.active{background:#2b3d49;color:#f5f8fa}
+.modal input{background:#0b1218;border-color:#394954}.modal input:focus{border-color:#91adbd}
+.primary-btn{background:linear-gradient(110deg,#dbe6ec,#89a9ba);color:#101820}
+.toast{background:#1b2a34;border-color:#536e7e}.sidebar-close{background:#17232b;border-color:#485b68}
+.guest-chip{color:#d4e0e7;border-color:#40515d;background:#17212a}
+.code-card{border-color:#394c58;background:#080e13}.code-toolbar{background:#14202a;border-color:#344651;color:#d2e0e7}
+.copy-code{border-color:#4a606f;background:#20313d;color:#eaf1f5}.copy-code:hover{background:#2d4554;border-color:#9bb8c8}
+.inline-code{background:#23323c;color:#dce9ef;border-color:#425563}
+@media(max-width:850px){.sidebar-scrim.show{background:#05090dcc}}
