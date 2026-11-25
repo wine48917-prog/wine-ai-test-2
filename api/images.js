@@ -14,24 +14,35 @@ function getToken(req) {
   return header.startsWith('Bearer ') ? header.slice(7).trim() : '';
 }
 
-async function consumeImageQuota(uid) {
-  await ensureDatabase();
+async function incrementImageQuota(key, limit) {
   const now = Date.now();
   const resetAt = now + WINDOW_MS;
-  const key = 'image:' + crypto.createHash('sha256').update(uid).digest('hex');
   await pool.query(
     'INSERT INTO rate_limits (rk, cnt, reset_at) VALUES (?, 1, ?) ON DUPLICATE KEY UPDATE cnt = IF(reset_at <= ?, 1, cnt + 1), reset_at = IF(reset_at <= ?, VALUES(reset_at), reset_at)',
     [key, resetAt, now, now]
   );
   const [rows] = await pool.query('SELECT cnt, reset_at FROM rate_limits WHERE rk = ? LIMIT 1', [key]);
   const count = Number(rows[0]?.cnt || 0);
-  return { ok: count <= DAILY_IMAGE_LIMIT, count, resetAt: Number(rows[0]?.reset_at || resetAt), key };
+  return { ok: count <= limit, count, resetAt: Number(rows[0]?.reset_at || resetAt), key };
 }
 
-async function refundImageQuota(key) {
-  try {
-    await pool.query('UPDATE rate_limits SET cnt = GREATEST(0, cnt - 1) WHERE rk = ?', [key]);
-  } catch {}
+async function consumeImageQuota(uid, ip) {
+  await ensureDatabase();
+  const userHash = crypto.createHash('sha256').update(String(uid)).digest('hex');
+  const ipHash = crypto.createHash('sha256').update(String(ip || 'unknown')).digest('hex');
+  const user = await incrementImageQuota('image:user:' + userHash, DAILY_IMAGE_LIMIT);
+  if (!user.ok) return { ok: false, reason: 'user', key: user.key };
+  const network = await incrementImageQuota('image:ip:' + ipHash, 20);
+  if (!network.ok) {
+    await refundImageQuota(user.key);
+    return { ok: false, reason: 'ip', key: network.key };
+  }
+  return { ok: true, count: user.count, resetAt: user.resetAt, keys: [user.key, network.key] };
+}
+async function refundImageQuota(keys) {
+  for (const key of Array.isArray(keys) ? keys : [keys]) {
+    try { await pool.query('UPDATE rate_limits SET cnt = GREATEST(0, cnt - 1) WHERE rk = ?', [key]); } catch {}
+  }
 }
 
 export default async function handler(req, res) {
@@ -60,13 +71,14 @@ export default async function handler(req, res) {
 
   let quota;
   try {
-    quota = await consumeImageQuota(identity.uid);
+    quota = await consumeImageQuota(identity.uid, ip);
   } catch (error) {
     console.error('[image quota]', error.message);
     return res.status(503).json({ success: false, error: 'تعذر التحقق من حد إنشاء الصور حالياً.' });
   }
   if (!quota.ok) {
-    return res.status(429).json({ success: false, error: 'وصلت إلى الحد اليومي لإنشاء الصور (5 صور). حاول غداً.' });
+    const message = quota.reason === 'ip' ? 'تم بلوغ حد إنشاء الصور اليومي لهذا الاتصال. حاول غداً.' : 'وصلت إلى الحد اليومي لإنشاء الصور (5 صور). حاول غداً.';
+    return res.status(429).json({ success: false, error: message });
   }
 
   const model = process.env.OPENAI_IMAGE_MODEL || 'gpt-image-2.5-flare';
@@ -94,7 +106,7 @@ export default async function handler(req, res) {
 
     const payload = await response.json().catch(() => ({}));
     if (!response.ok) {
-      await refundImageQuota(quota.key);
+      await refundImageQuota(quota.keys);
       const upstreamMessage = String(payload?.error?.message || '');
       console.error('[image provider]', response.status, upstreamMessage.slice(0, 300));
       if (response.status === 401) {
@@ -108,7 +120,7 @@ export default async function handler(req, res) {
 
     const image = payload?.data?.[0]?.b64_json;
     if (typeof image !== 'string' || image.length < 100) {
-      await refundImageQuota(quota.key);
+      await refundImageQuota(quota.keys);
       return res.status(502).json({ success: false, error: 'لم يرجع مزود الصور ملفاً صالحاً.' });
     }
 
@@ -120,7 +132,7 @@ export default async function handler(req, res) {
       remaining: Math.max(0, DAILY_IMAGE_LIMIT - quota.count)
     });
   } catch (error) {
-    await refundImageQuota(quota.key);
+    await refundImageQuota(quota.keys);
     console.error('[image generation]', error.name || 'Error', String(error.message || '').slice(0, 200));
     const timeout = error.name === 'TimeoutError' || error.name === 'AbortError';
     return res.status(timeout ? 504 : 502).json({
