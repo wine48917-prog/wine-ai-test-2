@@ -73,7 +73,7 @@ function validate(body) {
   if (typeof body.prompt !== 'string' || !body.prompt.trim()) return 'prompt is required.';
   if (body.prompt.length > MAX_PROMPT_CHARS) return 'الرسالة طويلة جداً. الحد الأقصى 8000 حرف.';
   if (body.history != null && (typeof body.history !== 'string' || body.history.length > MAX_HISTORY_CHARS)) return 'سجل المحادثة كبير جداً.';
-  if (body.sessionId != null && (typeof body.sessionId !== 'string' || body.sessionId.length > 256)) return 'معرّف الجلسة غير صالح.';
+  if (body.sessionId != null && (typeof body.sessionId !== 'string' || body.sessionId.length > 16 * 1024)) return 'معرّف الجلسة غير صالح.';
   if (body.image != null && (typeof body.image !== 'string' || body.image.length > MAX_IMAGE_BASE64_CHARS)) return 'حجم الصورة أكبر من الحد المسموح.';
   return null;
 }
