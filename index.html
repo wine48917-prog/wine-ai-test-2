@@ -14,6 +14,10 @@ body{min-height:100svh;overflow-x:hidden;position:relative;background:radial-gra
 body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.16;background-image:linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px);background-size:72px 72px;mask-image:linear-gradient(to bottom,#000,transparent 85%)}
 .shell{width:min(1160px,100%);min-height:100svh;margin:auto;padding:26px 34px 30px;display:flex;flex-direction:column;position:relative;z-index:1}
 nav{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.maintenance{display:flex;align-items:center;justify-content:center;gap:10px;margin:24px auto 0;padding:12px 18px;width:fit-content;max-width:100%;border:1px solid #d9b88e55;border-radius:12px;background:linear-gradient(100deg,#d8798318,#d9b88e12);color:#f0d8d0;font-size:13px;font-weight:700;text-align:center;box-shadow:0 8px 28px #0003}
+.maintenance .dot{width:8px;height:8px;flex:0 0 8px;border-radius:50%;background:#d9b88e;box-shadow:0 0 12px #d9b88e;animation:pulse 1.8s infinite}
+@keyframes pulse{50%{opacity:.45;box-shadow:0 0 3px #d9b88e}}
+@media(max-width:520px){.maintenance{margin-top:16px;padding:10px 12px;font-size:11px}}
 .brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--text)}
 .symbol{width:42px;height:42px;filter:drop-shadow(0 0 16px #d8798355)}
 .wordmark{font:700 25px Manrope,sans-serif;letter-spacing:.16em;background:linear-gradient(110deg,#fff0e8,#d87983 65%,#d9b88e);color:transparent;background-clip:text}
@@ -65,6 +69,7 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:16px;pa
 <body>
 <div class="shell">
 <nav><a class="brand" href="/" aria-label="WINE AI"><svg class="symbol" viewBox="0 0 64 64" fill="none"><path d="M8 12L21 52L32 25L43 52L56 12" stroke="url(#g)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="g" x1="8" y1="12" x2="56" y2="52"><stop stop-color="#f0c9bc"/><stop offset="1" stop-color="#a43c58"/></linearGradient></defs></svg><span class="wordmark">WINE</span></a><div class="nav-note">WINE · THINK BEYOND</div></nav>
+<div class="maintenance" role="status"><span class="dot" aria-hidden="true"></span><span>الموقع تحت التعديل والتطوير حاليًا — نعمل على تحسين تجربتكم</span></div>
 <main>
 <section class="copy">
 <div class="eyebrow">YOUR CREATIVE INTELLIGENCE</div>
