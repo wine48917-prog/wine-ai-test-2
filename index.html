@@ -1,66 +1,45 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#09090b"><meta name="robots" content="noindex,nofollow">
-  <title>WINE AI — قيد التطوير</title>
-  <link rel="icon" type="image/png" href="/icon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    *{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#09090b;color:#f4f4f5;font-family:Cairo,sans-serif}
-    body{min-height:100vh;display:grid;place-items:center;padding:24px;overflow:hidden;position:relative}
-    body:before,body:after{content:"";position:fixed;width:440px;height:440px;border-radius:50%;filter:blur(110px);opacity:.13;pointer-events:none}
-    body:before{background:#a1a1aa;top:-230px;right:-160px}body:after{background:#71717a;bottom:-270px;left:-150px}
-    .panel{width:min(100%,560px);text-align:center;padding:52px 34px 35px;border:1px solid #27272a;border-radius:28px;background:linear-gradient(145deg,rgba(24,24,27,.96),rgba(12,12,14,.97));box-shadow:0 28px 100px #0009;position:relative}
-    .logo{width:68px;height:68px;margin:0 auto 25px;border:1px solid #52525b;border-radius:21px;display:grid;place-items:center;font:800 35px Manrope,sans-serif;color:#fafafa;background:linear-gradient(145deg,#27272a,#09090b);box-shadow:inset 0 1px #ffffff18,0 10px 35px #0008}
-    .tag{display:inline-flex;align-items:center;gap:9px;padding:7px 13px;border:1px solid #3f3f46;border-radius:99px;color:#d4d4d8;font-size:12px;letter-spacing:1.3px;font-family:Manrope,Cairo,sans-serif}
-    .dot{width:7px;height:7px;border-radius:50%;background:#a1a1aa;box-shadow:0 0 12px #d4d4d8;animation:pulse 1.8s infinite}
-    h1{font-size:clamp(27px,6vw,39px);line-height:1.5;margin:23px 0 10px;font-weight:800}h1 span{color:#a1a1aa}
-    p{color:#a1a1aa;font-size:15px;line-height:2;margin:0 auto;max-width:410px}
-    .line{height:1px;background:linear-gradient(90deg,transparent,#3f3f46,transparent);margin:32px 0 22px}
-    .foot{font:600 10px Manrope,sans-serif;letter-spacing:2px;color:#71717a}
-    .owner-toggle{margin-top:24px;background:none;border:0;color:#71717a;font:500 11px Cairo;cursor:pointer;padding:8px 14px}
-    .owner-toggle:hover{color:#d4d4d8}.owner-form{display:none;margin:8px auto 0;max-width:330px;text-align:right}.owner-form.open{display:block}
-    .owner-form label{display:block;color:#a1a1aa;font-size:12px;margin-bottom:8px}
-    .owner-form input{width:100%;padding:13px 14px;border-radius:12px;border:1px solid #3f3f46;background:#09090b;color:#fff;font:14px Cairo;outline:none}
-    .owner-form input:focus{border-color:#a1a1aa}.owner-form button{width:100%;margin-top:10px;padding:12px;border:0;border-radius:12px;background:#e4e4e7;color:#18181b;font:700 14px Cairo;cursor:pointer}
-    .error{min-height:22px;margin-top:7px;color:#fca5a5;font-size:12px;text-align:center}
-    @keyframes pulse{50%{opacity:.35;box-shadow:0 0 3px #d4d4d8}}
-    @media(max-width:480px){.panel{padding:42px 22px 30px;border-radius:23px}p{font-size:14px}}
-  </style>
-</head>
-<body>
-  <main class="panel" role="status" aria-live="polite">
-    <div class="logo" aria-label="WINE AI">W</div>
-    <div class="tag"><span class="dot"></span> MAINTENANCE MODE</div>
-    <h1>WINE AI <span>قيد التعديل</span></h1>
-    <p>نعمل حالياً على تطوير وتحسين WINE AI لتقديم تجربة أفضل وأقوى. الموقع غير متاح مؤقتاً، وسنعود إليكم قريباً.</p>
-    <div class="line"></div><div class="foot">WINE — BUILDING WHAT'S NEXT</div>
-    <button class="owner-toggle" id="ownerToggle" type="button">دخول المالك</button>
-    <form class="owner-form" id="ownerForm">
-      <label for="ownerPassword">كلمة مرور المالك</label>
-      <input id="ownerPassword" type="password" autocomplete="current-password" required>
-      <button type="submit" id="ownerSubmit">فتح WINE AI</button>
-      <div class="error" id="ownerError" role="alert"></div>
-    </form>
-  </main>
-  <script>
-    const toggle=document.getElementById('ownerToggle');
-    const form=document.getElementById('ownerForm');
-    const error=document.getElementById('ownerError');
-    const submit=document.getElementById('ownerSubmit');
-    toggle.addEventListener('click',()=>{form.classList.toggle('open');if(form.classList.contains('open'))document.getElementById('ownerPassword').focus()});
-    form.addEventListener('submit',async e=>{
-      e.preventDefault();error.textContent='';submit.disabled=true;submit.textContent='جارٍ التحقق...';
-      try{
-        const response=await fetch('/api/owner',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:document.getElementById('ownerPassword').value})});
-        const data=await response.json().catch(()=>({}));
-        if(!response.ok)throw new Error(data.error||'تعذر تسجيل الدخول.');
-        location.href='/api/owner';
-      }catch(err){error.textContent=err.message||'حدث خطأ، حاول مرة أخرى.'}
-      finally{submit.disabled=false;submit.textContent='فتح WINE AI'}
-    });
-  </script>
-</body>
-</html>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#050505"><meta name="robots" content="noindex,nofollow">
+<title>WINE AI — Coming Back Stronger</title>
+<link rel="icon" type="image/png" href="/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#050505;color:#f5f5f5;font-family:Cairo,sans-serif}
+body{min-height:100svh;display:grid;place-items:center;padding:22px;overflow:hidden;position:relative}
+body:before{content:"";position:fixed;inset:0;background:linear-gradient(135deg,transparent 48%,#ffffff05 49%,transparent 50%),radial-gradient(ellipse at 50% 45%,#ffffff0a,transparent 58%);pointer-events:none}
+.grain{position:fixed;inset:0;opacity:.12;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E")}
+.panel{width:min(100%,650px);text-align:center;position:relative;padding:60px 30px 38px}
+.wordmark{font:300 clamp(62px,15vw,112px)/1 Manrope,sans-serif;letter-spacing:.13em;padding-left:.13em;color:#f7f7f7;text-shadow:0 0 55px #ffffff12;margin:0 auto 28px}
+.rule{width:54px;height:1px;background:#777;margin:0 auto 25px}
+.tag{font:500 10px Manrope,sans-serif;letter-spacing:.32em;color:#a5a5a5}
+h1{font-size:clamp(22px,5vw,31px);font-weight:600;margin:20px 0 10px;letter-spacing:-.5px}
+p{color:#929292;font-size:14px;line-height:2;margin:0 auto;max-width:440px}
+.foot{margin-top:38px;color:#666;font:500 9px Manrope,sans-serif;letter-spacing:.24em}
+.owner-toggle{margin-top:27px;background:transparent;border:1px solid #303030;color:#999;border-radius:30px;padding:9px 19px;font:500 11px Cairo;cursor:pointer;transition:.2s}
+.owner-toggle:hover{border-color:#aaa;color:#fff}
+.owner-form{display:none;margin:15px auto 0;max-width:320px;text-align:right}.owner-form.open{display:block}
+.owner-form label{display:block;color:#aaa;font-size:12px;margin-bottom:8px}
+.owner-form input{width:100%;padding:13px 14px;border-radius:10px;border:1px solid #333;background:#0b0b0b;color:#fff;font:14px Cairo;outline:none}
+.owner-form input:focus{border-color:#aaa}.owner-form button{width:100%;margin-top:9px;padding:12px;border:1px solid #eee;border-radius:10px;background:#eee;color:#111;font:700 13px Cairo;cursor:pointer}
+.error{min-height:22px;margin-top:7px;color:#fca5a5;font-size:12px;text-align:center}
+@media(max-width:480px){.panel{padding:40px 12px 28px}p{font-size:13px}}
+</style></head>
+<body><div class="grain"></div>
+<main class="panel" role="status" aria-live="polite">
+<div class="wordmark" aria-label="WINE">WINE</div><div class="rule"></div>
+<div class="tag">A NEW INTELLIGENCE IS TAKING SHAPE</div>
+<h1>WINE AI — نعود بتجربة أقوى</h1>
+<p>نعيد بناء التجربة من البداية. واجهة أكثر هدوءاً، أداء أسرع، وذكاء يفهمك بشكل أفضل.</p>
+<div class="foot">WINE · BUILDING WHAT'S NEXT</div>
+<button class="owner-toggle" id="ownerToggle" type="button">دخول المالك</button>
+<form class="owner-form" id="ownerForm"><label for="ownerPassword">كلمة مرور المالك</label><input id="ownerPassword" type="password" autocomplete="current-password" required><button type="submit" id="ownerSubmit">فتح WINE AI</button><div class="error" id="ownerError" role="alert"></div></form>
+</main>
+<script>
+const toggle=document.getElementById('ownerToggle'),form=document.getElementById('ownerForm'),error=document.getElementById('ownerError'),submit=document.getElementById('ownerSubmit');
+toggle.addEventListener('click',()=>{form.classList.toggle('open');if(form.classList.contains('open'))document.getElementById('ownerPassword').focus()});
+form.addEventListener('submit',async e=>{e.preventDefault();error.textContent='';submit.disabled=true;submit.textContent='جارٍ التحقق...';try{const response=await fetch('/api/owner',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:document.getElementById('ownerPassword').value})});const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.error||'تعذر تسجيل الدخول.');location.href='/api/owner'}catch(err){error.textContent=err.message||'حدث خطأ، حاول مرة أخرى.'}finally{submit.disabled=false;submit.textContent='فتح WINE AI'}});
+</script></body></html>
