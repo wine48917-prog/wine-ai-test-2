@@ -8,7 +8,7 @@ function saveThreads(){
  catch{toast('تعذر حفظ سجل المحادثات على هذا الجهاز.');}
  renderHistory();
 }
-function renderHistory(){const el=$('#history');if(!state.threads.length){el.innerHTML='<div class="history-empty">محادثاتك الجديدة هتظهر هنا</div>';return}el.innerHTML=state.threads.slice().reverse().map(t=>`<div class="history-item ${t.id===state.active?'active':''}" data-id="${t.id}">${escapeHtml(t.title||'محادثة جديدة')}</div>`).join('')}
+function renderHistory(){const el=$('#history');$('#historyCount').textContent=String(state.threads.length).padStart(2,'0');if(!state.threads.length){el.innerHTML='<div class="history-empty">محادثاتك هتظهر هنا</div>';return}el.innerHTML=state.threads.slice().reverse().map(t=>`<button type="button" class="history-item ${t.id===state.active?'active':''}" data-id="${t.id}"><span class="history-item-icon">◌</span><span class="history-item-title">${escapeHtml(t.title||'محادثة جديدة')}</span><span class="history-item-arrow">‹</span></button>`).join('')}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function highlightCode(code,language='') {
   const escaped=escapeHtml(code);
@@ -49,9 +49,9 @@ function addMessage(role,text){
  const avatar=document.createElement('div');avatar.className='message-avatar';avatar.textContent=role==='user'?'YOU':'W';
  const bubble=document.createElement('div');bubble.className='bubble';
  if(role==='assistant')bubble.innerHTML=renderText(text);else bubble.textContent=text||'';
- item.append(avatar,bubble);messages.appendChild(item);messages.scrollTop=messages.scrollHeight;return item;
+ item.append(avatar,bubble);messages.appendChild(item);if(role==='assistant'){const actions=document.createElement('div');actions.className='message-actions';actions.innerHTML='<button type="button" data-copy-message>نسخ الرد</button><span>WINE AI</span>';item.appendChild(actions)}messages.scrollTop=messages.scrollHeight;return item;
 }
-function newThread(){state.active=null;state.sessionId=null;messages.innerHTML='';messages.classList.remove('active');welcome.style.display='block';renderHistory();closeSidebar();promptInput.focus()}
+function newThread(){state.active=null;state.sessionId=null;messages.innerHTML='';messages.classList.remove('active');welcome.style.display='block';$('#activeTitle').textContent='مساحة المحادثة';renderHistory();closeSidebar();promptInput.focus()}
 function currentThread(){let t=state.threads.find(x=>x.id===state.active);if(!t){t={id:crypto.randomUUID(),title:'محادثة جديدة',items:[]};state.threads.push(t);state.active=t.id}return t}
 function closeSidebar(){ $('#sidebar').classList.remove('open'); $('#sidebarScrim').classList.remove('show'); }
 function toggleSidebar(){const open=!$('#sidebar').classList.contains('open');$('#sidebar').classList.toggle('open',open);$('#sidebarScrim').classList.toggle('show',open)}
@@ -94,8 +94,8 @@ function closeName(){ $('#nameModal').classList.remove('show'); }
 function saveName(e){e.preventDefault();const name=$('#guestName').value.trim().replace(/\s+/g,' ');if(name.length<2||name.length>30){$('#nameError').textContent='اكتب اسماً من حرفين إلى 30 حرفاً';return;}state.name=name;state.guest=true;state.token='';localStorage.setItem('wine_name',name);localStorage.removeItem('wine_token');localStorage.setItem('wine_guest','1');setIdentity();closeName();toast('أهلاً بك يا '+name);}
 $('#send').addEventListener('click',()=>sendMessage(promptInput.value));promptInput.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage(promptInput.value)}});promptInput.addEventListener('input',()=>{promptInput.style.height='auto';promptInput.style.height=Math.min(promptInput.scrollHeight,180)+'px'});
 document.querySelectorAll('[data-prompt]').forEach(b=>b.addEventListener('click',()=>sendMessage(b.dataset.prompt)));
-$('#newChat').addEventListener('click',newThread);$('#history').addEventListener('click',e=>{const t=e.target.closest('[data-id]');if(t)openThread(t.dataset.id)});
-messages.addEventListener('click',async e=>{const btn=e.target.closest('[data-copy]');if(!btn)return;const card=btn.closest('.code-card');const code=card?.querySelector('pre code')?.innerText||'';try{await navigator.clipboard.writeText(code);btn.textContent='تم النسخ ✓';setTimeout(()=>btn.textContent='نسخ الكود',1500)}catch{toast('تعذر النسخ تلقائياً؛ حدد الكود وانسخه')}});
+$('#newChat').addEventListener('click',newThread);$('#newChatTop').addEventListener('click',newThread);$('#history').addEventListener('click',e=>{const t=e.target.closest('[data-id]');if(t)openThread(t.dataset.id)});
+messages.addEventListener('click',async e=>{const replyBtn=e.target.closest('[data-copy-message]');if(replyBtn){const text=replyBtn.closest('.message')?.querySelector('.bubble')?.innerText||'';try{await navigator.clipboard.writeText(text);replyBtn.textContent='تم النسخ ✓';setTimeout(()=>replyBtn.textContent='نسخ الرد',1500)}catch{toast('تعذر النسخ تلقائياً')}return}const btn=e.target.closest('[data-copy]');if(!btn)return;const card=btn.closest('.code-card');const code=card?.querySelector('pre code')?.innerText||'';try{await navigator.clipboard.writeText(code);btn.textContent='تم النسخ ✓';setTimeout(()=>btn.textContent='نسخ الكود',1500)}catch{toast('تعذر النسخ تلقائياً؛ حدد الكود وانسخه')}});
 $('#accountBtn').addEventListener('click',openName);$('#nameForm').addEventListener('submit',saveName);$('#nameModal').addEventListener('click',e=>{if(e.target.id==='nameModal')closeName()});
 
 $('#mobileMenu').addEventListener('click',toggleSidebar);$('#sidebarClose').addEventListener('click',closeSidebar);$('#sidebarScrim').addEventListener('click',closeSidebar);document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSidebar();closeName()}});window.addEventListener('resize',()=>{if(window.innerWidth>850)closeSidebar()});
