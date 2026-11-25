@@ -5,7 +5,6 @@ import { chat, streamChat } from './lib/api-handler.js';
 import guestHandler from '../api/guest.js';
 import authHandler from '../api/auth.js';
 import healthHandler from '../api/health.js';
-import imageHandler from '../api/images.js';
 
 const app = express();
 const port = Number(process.env.PORT || 3000);
@@ -23,7 +22,6 @@ app.get('/health', (_req, res) => healthHandler(_req, res));
 app.get('/api/health', (_req, res) => healthHandler(_req, res));
 app.post('/api/guest', (req, res) => guestHandler(req, res));
 app.post('/api/auth', (req, res) => authHandler(req, res));
-app.post('/api/images', (req, res) => imageHandler(req, res));
 app.post('/api/chat', chat);
 app.post('/v1/chat', chat);
 app.post('/v1/chat/stream', streamChat);
