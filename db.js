@@ -11,6 +11,9 @@ if (!global.dbPool) {
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
+    connectTimeout: 5000,
+    maxIdle: 5,
+    idleTimeout: 60000,
     enableKeepAlive: true,
     keepAliveInitialDelay: 10000
   });
