@@ -34,6 +34,13 @@ app.use((err, _req, res, _next) => {
   res.status(status).json({ success: false, error: status === 413 ? 'Request body too large' : 'Invalid JSON request' });
 });
 
-const server = app.listen(port, () => console.log(`WINE AI listening on http://localhost:${port}`));
-server.keepAliveTimeout = 65_000;
-server.headersTimeout = 66_000;
+// Export the Express application for Vercel's serverless adapter.
+// Start a listener only when this file is executed directly (local development).
+export default app;
+
+const isDirectRun = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+if (isDirectRun) {
+  const server = app.listen(port, () => console.log(`WINE AI listening on http://localhost:${port}`));
+  server.keepAliveTimeout = 65_000;
+  server.headersTimeout = 66_000;
+}
