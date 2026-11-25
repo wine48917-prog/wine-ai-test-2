@@ -156,9 +156,17 @@ async function getUser(req) {
   return rows[0] || null;
 }
 
-const guestUsage = new Map();
 export async function readQuota(req) {
-  if (req._jwtPayload?.guest) { const used = guestUsage.get(req._jwtPayload.uid) || 0; return { remaining: Math.max(0, 50-used), limit: 50, resetAt: 0, uuid: req._jwtPayload.uid, isDev: false }; }
+  if (req._jwtPayload?.guest) {
+    try {
+      await ensureDatabase();
+      const key = 'guest:' + req._jwtPayload.uid;
+      const [rows] = await pool.query('SELECT cnt, reset_at FROM rate_limits WHERE rk = ? LIMIT 1', [key]);
+      const row = rows[0];
+      const used = row && Number(row.reset_at) > Date.now() ? Number(row.cnt) : 0;
+      return { remaining: Math.max(0, 50 - used), limit: 50, resetAt: row?.reset_at || 0, uuid: req._jwtPayload.uid, isDev: false };
+    } catch { return null; }
+  }
   try {
     const user = await getUser(req);
     if (!user) return { remaining: TEXT_TOTAL_LIMIT, limit: TEXT_TOTAL_LIMIT, resetAt: 0, uuid: null, isDev: false };
@@ -178,7 +186,26 @@ export async function readQuota(req) {
 }
 
 async function consumeQuota(req) {
-  if (req._jwtPayload?.guest) { const id = req._jwtPayload.uid; const used = guestUsage.get(id) || 0; if (used >= 50) return { ok:false, error:'وصلت للحد التجريبي للزائر (50 رسالة). سجّل حساباً للمتابعة.' }; guestUsage.set(id, used + 1); return { ok:true, remaining:49-used, limit:50, resetAt:0, uuid:id, isDev:false }; }
+  if (req._jwtPayload?.guest) {
+    const id = req._jwtPayload.uid;
+    const key = 'guest:' + id;
+    const now = Date.now();
+    const expiresAt = Number(req._jwtPayload.exp || 0) * 1000 || now + 7 * 24 * 60 * 60 * 1000;
+    try {
+      await ensureDatabase();
+      await pool.query(
+        'INSERT INTO rate_limits (rk, cnt, reset_at) VALUES (?, 1, ?) ON DUPLICATE KEY UPDATE cnt = IF(reset_at <= ?, 1, LEAST(cnt + 1, 51)), reset_at = IF(reset_at <= ?, VALUES(reset_at), reset_at)',
+        [key, expiresAt, now, now]
+      );
+      const [rows] = await pool.query('SELECT cnt, reset_at FROM rate_limits WHERE rk = ? LIMIT 1', [key]);
+      const used = Number(rows[0]?.cnt || 0);
+      if (used > 50) return { ok: false, error: 'وصلت للحد التجريبي للزائر (50 رسالة). سجّل حساباً للمتابعة.' };
+      return { ok: true, remaining: 50 - used, limit: 50, resetAt: Number(rows[0]?.reset_at || expiresAt), uuid: id, isDev: false };
+    } catch (error) {
+      console.error('[guest quota]', error.message);
+      return { ok: false, error: 'تعذر التحقق من رصيد الزائر حالياً. حاول مرة أخرى.' };
+    }
+  }
   const now = Date.now();
   try {
     const user = await getUser(req);
@@ -238,7 +265,12 @@ async function consumeQuota(req) {
 }
 
 async function refundQuota(req) {
-  if (req._jwtPayload?.guest) { const id=req._jwtPayload.uid; guestUsage.set(id, Math.max(0,(guestUsage.get(id)||0)-1)); return; }
+  if (req._jwtPayload?.guest) {
+    try {
+      await pool.query('UPDATE rate_limits SET cnt = GREATEST(0, cnt - 1) WHERE rk = ?', ['guest:' + req._jwtPayload.uid]);
+    } catch {}
+    return;
+  }
   try {
     const user = await getUser(req);
     if (!user) return;

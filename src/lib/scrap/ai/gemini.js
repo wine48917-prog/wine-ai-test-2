@@ -300,10 +300,10 @@ class GeminiClient {
     return Object.assign(h, extra);
   }
 
-  _buildPayload(message) {
+  _buildPayload(message, resumeArray = null) {
     const inner = [
       [message, 0, null, null, null, null, 0], ['id'],
-      ['', '', '', null, null, null, null, null, null, ''], this.tokenBlob, this._sessionId,
+      resumeArray || ['', '', '', null, null, null, null, null, null, ''], this.tokenBlob, this._sessionId,
       null, [0], 1, null, null, 1, 0, null, null, null, null, null, [[0]], 0,
       null, null, null, null, null, null, null, null, 1, null, null, [4],
       null, null, null, null, null, null, null, null, null, null, [2],
@@ -317,9 +317,9 @@ class GeminiClient {
     return params.toString();
   }
 
-  async sendMessage(message, onChunk) {
+  async sendMessage(message, onChunk, resumeArray = null) {
     this._reqid++;
-    const payload = this._buildPayload(message);
+    const payload = this._buildPayload(message, resumeArray);
     const url = new URL(CONFIG.ENDPOINT);
     url.searchParams.set('bl', this.bl);
     url.searchParams.set('f.sid', this.fSid);
@@ -349,6 +349,7 @@ class GeminiClient {
           let emittedLength = 0;
           let conversationId = null;
           let responseId = null;
+          let replyId = null;
 
           res.on('data', chunk => {
             buffer += chunk.toString('utf8');
@@ -371,6 +372,7 @@ class GeminiClient {
               const messages = inner[4];
               if (Array.isArray(messages)) {
                 for (const block of messages) {
+                  if (block?.[0]) replyId = block[0];
                   const arr = block?.[1];
                   if (Array.isArray(arr)) {
                     const candidate = arr.filter(v => typeof v === 'string').join('');
@@ -412,7 +414,7 @@ class GeminiClient {
               } catch {}
             }
             if (!fullText.trim()) return reject(new Error('Method 3: empty or unrecognized response.'));
-            resolve({ text: fullText.trim(), conversationId, responseId });
+            resolve({ text: fullText.trim(), conversationId, responseId, replyId });
           });
           res.on('error', reject);
         }
@@ -426,23 +428,29 @@ class GeminiClient {
 }
 
 async function geminiMethod3(message, options = {}) {
+  const saved = options.sessionId ? unpack(options.sessionId) : null;
   let boot;
   try { boot = await bootstrap(); } catch { boot = null; }
   const client = new GeminiClient({
-    cookie: boot?.cookie,
-    bl: boot?.bl,
-    fSid: boot?.fsid,
-    atToken: boot?.snlM0e || generateAtToken(),
-    tokenBlob: boot?.tokenBlob,
+    cookie: saved?.cookie || boot?.cookie,
+    bl: saved?.bl || boot?.bl,
+    fSid: saved?.fSid || boot?.fsid,
+    atToken: saved?.atToken || boot?.snlM0e || generateAtToken(),
+    tokenBlob: saved?.tokenBlob || boot?.tokenBlob,
+    deviceId: saved?.deviceId,
+    hl: saved?.hl || 'id',
   });
-  const result = await client.sendMessage(message);
+  const result = await client.sendMessage(message, options.onChunk, saved?.resume || null);
+  const sessionId = pack({
+    provider: 'method3',
+    resume: [result.conversationId, result.responseId, result.replyId],
+    cookie: client.cookie, bl: client.bl, fSid: client.fSid,
+    atToken: client.atToken, tokenBlob: client.tokenBlob,
+    deviceId: client.deviceId, hl: client.hl,
+  });
   return {
-    success: true,
-    response: cleanText(result.text),
-    sessionId: null,
-    conversationId: result.conversationId,
-    responseId: result.responseId,
-    method: 'method3',
+    success: true, response: cleanText(result.text), sessionId,
+    conversationId: result.conversationId, responseId: result.responseId, method: 'method3',
   };
 }
 
@@ -458,12 +466,14 @@ const gemini = {
     const prompt = params.prompt.trim();
     const errors = [];
     const savedSession = params.sessionId ? unpack(params.sessionId) : null;
-    const isMethod1Session = Boolean(savedSession?.resume);
+    const isMethod1Session = Boolean(savedSession?.resume && !savedSession?.provider);
     const isMethod2Session = Boolean(savedSession?.resumeArray);
+    const isMethod3Session = savedSession?.provider === 'method3';
     const hasInstruction = Boolean(params.instruction && params.instruction.trim());
 
     let ordered;
-    if (isMethod1Session) ordered = [SOURCES[0], SOURCES[1], SOURCES[2]];
+    if (isMethod3Session) ordered = [SOURCES[2], SOURCES[0], SOURCES[1]];
+    else if (isMethod1Session) ordered = [SOURCES[0], SOURCES[1], SOURCES[2]];
     else if (isMethod2Session || hasInstruction) ordered = [SOURCES[1], SOURCES[0], SOURCES[2]];
     else ordered = SOURCES;
 
@@ -483,44 +493,24 @@ const gemini = {
 
   async chatStream(params = {}, onChunk) {
     if (typeof params.prompt !== 'string' || !params.prompt.trim()) throw new Error('prompt مطلوب');
-    const prompt = params.prompt.trim();
     let chunksSent = 0;
     const wrapped = delta => {
       if (!delta) return;
       chunksSent++;
-      try { onChunk(delta); } catch (_) {}
+      try { onChunk?.(delta); } catch {}
     };
-
     try {
-      const client = new GeminiClient({ cookie: '', bl: undefined, fSid: undefined });
-      const boot = await bootstrap().catch(() => null);
-      if (boot) {
-        client.cookie = boot.cookie;
-        client.bl = boot.bl;
-        client.fSid = boot.fsid;
-        client.atToken = boot.snlM0e || client.atToken;
-        client.tokenBlob = boot.tokenBlob;
-      }
-      const result = await client.sendMessage(prompt, wrapped);
-      if (!result.text.trim()) throw new Error('empty response');
-      return {
-        success: true,
-        response: cleanText(result.text),
-        sessionId: null,
-        method: 'method3',
-        conversationId: result.conversationId,
-        responseId: result.responseId,
-      };
+      const result = await geminiMethod3(params.prompt.trim(), { ...params, onChunk: wrapped });
+      if (!result.response.trim()) throw new Error('empty response');
+      return result;
     } catch (err) {
       console.error('[stream] method3 failed:', err.message);
       if (chunksSent > 0) throw err;
       const result = await this.chat(params);
-      if (result.response && onChunk) {
-        try { onChunk(result.response); } catch (_) {}
-      }
- return result;
+      if (result.response) wrapped(result.response);
+      return result;
     }
-  },
+  }
 };
 
 export default gemini;

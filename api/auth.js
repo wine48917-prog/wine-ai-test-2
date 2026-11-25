@@ -3,7 +3,7 @@ import pool, { ensureDatabase } from '../db.js';
 import { signToken } from '../src/lib/jwt.js';
 import { applyCORS, isOriginAllowed } from '../src/lib/cors.js';
 
-const EMAIL_RE = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PBKDF2_ITERATIONS = 150_000;
 const PBKDF2_KEYLEN = 64;
 const PBKDF2_DIGEST = 'sha512';

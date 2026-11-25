@@ -44,7 +44,7 @@ function newThread(){state.active=null;state.sessionId=null;messages.innerHTML='
 function currentThread(){let t=state.threads.find(x=>x.id===state.active);if(!t){t={id:crypto.randomUUID(),title:'محادثة جديدة',items:[]};state.threads.push(t);state.active=t.id}return t}
 function closeSidebar(){ $('#sidebar').classList.remove('open'); $('#sidebarScrim').classList.remove('show'); }
 function toggleSidebar(){const open=!$('#sidebar').classList.contains('open');$('#sidebar').classList.toggle('open',open);$('#sidebarScrim').classList.toggle('show',open)}
-function openThread(id){const t=state.threads.find(x=>x.id===id);if(!t)return;state.active=id;state.sessionId=null;messages.innerHTML='';messages.classList.add('active');welcome.style.display='none';t.items.forEach(m=>addMessage(m.role,m.text));renderHistory();closeSidebar()}
+function openThread(id){const t=state.threads.find(x=>x.id===id);if(!t)return;state.active=id;state.sessionId=t.sessionId||null;messages.innerHTML='';messages.classList.add('active');welcome.style.display='none';t.items.forEach(m=>addMessage(m.role,m.text));renderHistory();closeSidebar()}
 async function ensureGuest(){if(state.token)return true;const r=await fetch('/api/guest',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:state.name||'زائر'})});const d=await r.json();if(!r.ok||!d.token)throw new Error(d.error||'تعذر بدء جلسة الزائر');state.token=d.token;state.guest=true;state.name=d.name||state.name||'زائر';localStorage.setItem('wine_name',state.name);localStorage.setItem('wine_token',state.token);localStorage.setItem('wine_guest','1');setIdentity();return true}
 async function sendMessage(text){
  text=(text||'').trim();if(!text||state.busy)return;
@@ -56,7 +56,7 @@ async function sendMessage(text){
  try{
   await ensureGuest();
   const history=thread.items.slice(-13,-1).map(m=>`${m.role==='user'?'المستخدم':'WINE AI'}: ${m.text}`).join('\n');
-  const response=await fetch('/api/chat?stream=1',{method:'POST',headers:{'Content-Type':'application/json','Accept':'text/event-stream','X-User-Token':`Bearer ${state.token}`},body:JSON.stringify({prompt:text,history,sessionId:state.sessionId})});
+  const response=await fetch('/api/chat?stream=1',{method:'POST',headers:{'Content-Type':'application/json','Accept':'text/event-stream','X-User-Token':`Bearer ${state.token}`},body:JSON.stringify({prompt:text,history,sessionId:thread.sessionId||state.sessionId})});
   if(!response.ok){let err={};try{err=await response.json()}catch{}throw new Error(err.error||'تعذر الاتصال بمحرك الذكاء الاصطناعي');}
   if(!response.body)throw new Error('المتصفح لا يدعم استقبال الرد المباشر');
   const reader=response.body.getReader(),decoder=new TextDecoder();let buffer='',answer='',streamError='';
@@ -67,7 +67,7 @@ async function sendMessage(text){
    let payload={};try{payload=JSON.parse(data)}catch{return}
    if(event==='chunk'&&payload.text){answer+=payload.text;bubble.textContent=answer;messages.scrollTop=messages.scrollHeight;}
    if(event==='error')streamError=payload.error||'فشل توليد الرد';
-   if(event==='done'&&payload.sessionId)state.sessionId=payload.sessionId;
+   if(event==='done'&&payload.sessionId){state.sessionId=payload.sessionId;thread.sessionId=payload.sessionId;saveThreads();}
   };
   while(true){const {value,done}=await reader.read();if(done)break;buffer+=decoder.decode(value,{stream:true});const events=buffer.split('\n\n');buffer=events.pop()||'';for(const ev of events)handleEvent(ev);}
   if(buffer.trim())handleEvent(buffer);
