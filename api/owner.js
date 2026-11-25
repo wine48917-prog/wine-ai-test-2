@@ -18,6 +18,7 @@ const APP_HTML = `<!doctype html>
 <a class="brand" href="#home"><span class="brand-mark">W</span><span><b>WINE <i>AI</i></b><small>INTELLIGENCE WORKSPACE</small></span></a>
 <div class="side-section-label">مساحة العمل</div>
 <button class="new-chat" id="newChat"><span>＋</span> ابدأ محادثة جديدة</button>
+<button class="studio-nav" id="studioNav" type="button"><span>✧</span> WINE STUDIO</button>
 <div class="history-head"><span class="side-label">سجل المحادثات</span><span class="history-count" id="historyCount">LOCAL</span></div>
 <div class="history" id="history"><div class="history-empty">محادثاتك هتظهر هنا</div></div>
 <div class="sidebar-bottom">
@@ -28,7 +29,7 @@ const APP_HTML = `<!doctype html>
 <main class="main">
 <header class="topbar">
 <div class="topbar-leading"><button class="mobile-menu" id="mobileMenu" aria-label="القائمة">☰</button><div class="top-brand">WINE <span>AI</span></div><span class="top-divider"></span><span class="top-context" id="activeTitle">مساحة المحادثة</span></div>
-<div class="top-actions"><span class="model-chip"><i></i> WINE CORE</span><button class="top-new-chat" id="newChatTop">＋ <span>محادثة جديدة</span></button></div>
+<div class="top-actions"><span class="model-chip"><i></i> WINE CORE</span><button class="studio-top-link" id="studioTop" type="button">✧ Studio</button><button class="top-new-chat" id="newChatTop">＋ <span>محادثة جديدة</span></button></div>
 </header>
 <section class="workspace" id="workspace">
 <div class="welcome" id="welcome">
@@ -46,6 +47,12 @@ const APP_HTML = `<!doctype html>
 <div class="welcome-footer"><span class="footer-mark">W</span><span>PRIVATE BY DESIGN</span><i></i><span>BUILT TO THINK WITH YOU</span></div>
 </div>
 <div class="messages" id="messages" aria-live="polite"></div>
+</section>
+<section class="studio-page" id="studioPage" hidden>
+ <div class="studio-heading"><div><span class="studio-kicker">WINE CREATIVE LAB</span><h1>WINE <em>STUDIO</em></h1><p>حوّل أفكارك إلى صور، واحتفظ بنسخة تحمل توقيع الاستوديو.</p></div><div class="studio-symbol">✧</div></div>
+ <div class="studio-workbench"><label for="studioPrompt">وصف الصورة</label><textarea id="studioPrompt" maxlength="4000" rows="4" placeholder="مثال: مدينة مستقبلية وقت الغروب، إضاءة سينمائية وتفاصيل واقعية..."></textarea><div class="studio-controls"><span>حتى 4000 حرف</span><button id="studioGenerate" type="button">✧ إنشاء الصورة</button></div></div>
+ <div class="studio-result" id="studioResult"><div class="studio-empty"><span>✧</span><b>مساحتك الإبداعية</b><small>الصورة التي تنشئها ستظهر هنا مع توقيع WINE STUDIO AI</small></div></div>
+ <button class="studio-back" id="studioBack" type="button">← العودة إلى WINE AI</button>
 </section>
 <div class="composer-dock"><div class="composer-wrap"><div class="composer"><div class="composer-topline"><span class="composer-mode"><i></i> رسالة جديدة</span><span class="composer-shortcut">ENTER للإرسال</span></div><textarea id="prompt" rows="1" placeholder="اكتب فكرتك أو اسأل WINE AI..." maxlength="12000"></textarea><div class="composer-bottom"><span class="composer-hint">Shift + Enter لسطر جديد</span><div class="composer-actions"><button id="generateImage" class="image-btn" type="button" aria-label="إنشاء صورة"><span>✧</span> صورة</button><button id="send" class="send-btn" aria-label="إرسال الرسالة"><span>↑</span></button></div></div></div><div class="disclaimer"><span>◇</span> راجع المعلومات المهمة واختبر الأكواد قبل استخدامها.</div></div></div>
 </main></div>
