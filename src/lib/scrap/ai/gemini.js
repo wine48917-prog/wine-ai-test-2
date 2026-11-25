@@ -4,7 +4,7 @@ import https from 'node:https';
 const CONFIG = {
   UA: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36',
   UA_MOBILE: 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Mobile Safari/537.36',
-  TIMEOUT: Number(process.env.REQUEST_TIMEOUT || 120000),
+  TIMEOUT: Math.max(5000, Math.min(Number(process.env.REQUEST_TIMEOUT) || 35000, 45000)),
   HOME: 'https://gemini.google.com/app',
   ENDPOINT: 'https://gemini.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate',
   BATCH: 'https://gemini.google.com/_/BardChatUi/data/batchexecute',
@@ -51,27 +51,42 @@ function cleanText(text) {
 }
 
 let bootCache = { data: null, exp: 0 };
+let bootPromise = null;
 
 async function bootstrap(force = false) {
   if (!force && bootCache.data && Date.now() < bootCache.exp) return bootCache.data;
-  const res = await fetch(CONFIG.HOME, {
-    headers: { 'user-agent': CONFIG.UA, 'accept-language': 'en-US,en;q=0.9' },
-    signal: AbortSignal.timeout(CONFIG.TIMEOUT),
-  });
-  const setCookie = res.headers.getSetCookie ? res.headers.getSetCookie() : [];
-  const cookie = setCookie.map(c => c.split(';')[0]).join('; ');
-  const html = await res.text();
-  const data = {
-    cookie,
-    bl: (html.match(/"cfb2h":"(.*?)"/) || [])[1] || '',
-    fsid: (html.match(/"FdrFJe":"(.*?)"/) || [])[1] || '',
-    snlM0e: (html.match(/"SNlM0e":"(.*?)"/) || [])[1] || '',
-    uid: uuid(),
-    atToken: generateAtToken(),
-    tokenBlob: generateTokenBlob(),
-  };
-  bootCache = { data, exp: Date.now() + 5 * 60_000 };
-  return data;
+  if (!force && bootPromise) return bootPromise;
+
+  const task = (async () => {
+    const res = await fetch(CONFIG.HOME, {
+      headers: { 'user-agent': CONFIG.UA, 'accept-language': 'en-US,en;q=0.9' },
+      signal: AbortSignal.timeout(CONFIG.TIMEOUT),
+    });
+    if (!res.ok) throw new Error(`Gemini bootstrap HTTP ${res.status}`);
+
+    const setCookie = res.headers.getSetCookie ? res.headers.getSetCookie() : [];
+    const cookie = setCookie.map(c => c.split(';')[0]).join('; ');
+    const html = await res.text();
+    const data = {
+      cookie,
+      bl: (html.match(/"cfb2h":"(.*?)"/) || [])[1] || '',
+      fsid: (html.match(/"FdrFJe":"(.*?)"/) || [])[1] || '',
+      snlM0e: (html.match(/"SNlM0e":"(.*?)"/) || [])[1] || '',
+      uid: uuid(),
+      atToken: generateAtToken(),
+      tokenBlob: generateTokenBlob(),
+    };
+    if (!data.bl || !data.fsid) throw new Error('Gemini bootstrap tokens were not found.');
+    bootCache = { data, exp: Date.now() + 5 * 60_000 };
+    return data;
+  })();
+
+  if (!force) bootPromise = task;
+  try {
+    return await task;
+  } finally {
+    if (bootPromise === task) bootPromise = null;
+  }
 }
 
 function buildBody(message, resume, uid) {
@@ -179,6 +194,7 @@ async function geminiMethod1(message, options = {}) {
     body: buildBody(message, resumeArray, uid),
     signal: AbortSignal.timeout(CONFIG.TIMEOUT),
   });
+  if (!res.ok) throw new Error(`Method 1: HTTP ${res.status}`);
   const raw = await res.text();
   const reply = parseReply(raw);
   if (!reply.text) throw new Error('Method 1: response text not found.');
@@ -214,6 +230,7 @@ async function geminiMethod2(message, options = {}) {
         signal: AbortSignal.timeout(CONFIG.TIMEOUT),
       }
     );
+    if (!boot.ok) throw new Error(`Method 2 bootstrap HTTP ${boot.status}`);
     const sc = boot.headers.getSetCookie ? boot.headers.getSetCookie() : [];
     cookie = sc[0]?.split(';')[0] || '';
   }
@@ -234,6 +251,7 @@ async function geminiMethod2(message, options = {}) {
       signal: AbortSignal.timeout(CONFIG.TIMEOUT),
     }
   );
+  if (!res.ok) throw new Error(`Method 2: HTTP ${res.status}`);
   const raw = await res.text();
   const result = parseMethod2(raw);
   if (!result) throw new Error('Method 2: could not parse response.');
