@@ -49,34 +49,3 @@
 @media(max-width:600px){.code-card pre{font-size:11px;padding:12px;max-height:440px}.code-toolbar{height:36px}.copy-code{padding:5px 8px}}
 
 
-
-/* WINE identity refresh — monochrome wordmark */
-:root{--bg:#070707;--panel:#101010;--panel2:#171717;--line:#292929;--text:#f5f5f5;--muted:#999;--silver:#dedede;--wine:#aaa;--wine2:#eee}
-.app-shell{background:radial-gradient(ellipse at 55% -20%,#ffffff0a,transparent 44%),#070707}
-.sidebar{background:#0b0b0b;border-color:#252525}
-.brand{gap:13px}.brand-wordmark{font:300 28px/1 Manrope,sans-serif;letter-spacing:.12em;color:#f5f5f5;padding-left:.12em}
-.brand b{font:700 12px Manrope;letter-spacing:2px;color:#aaa}.brand b i{display:none}.brand small{font:500 8px Manrope;letter-spacing:1.8px;color:#666}
-.new-chat{border-color:#555;background:linear-gradient(120deg,#252525,#111);color:#f5f5f5}.new-chat span{color:#fff}
-.history-item:hover,.history-item.active{background:#ffffff0d;color:#fff}
-.status span,.model-chip i,.eyebrow span{background:#cfcfcf;box-shadow:0 0 9px #ffffff55}
-.avatar{background:#202020;border-color:#444;color:#eee}
-.topbar{background:#080808ed}.top-brand span{color:#aaa}.login-top{border-color:#444;background:#171717;color:#eee}
-.orb-core{width:82px;height:82px;border-radius:50%;background:linear-gradient(145deg,#f4f4f4,#888 60%,#292929);color:#111;font:500 13px Manrope;letter-spacing:2px;box-shadow:0 0 50px #ffffff18,inset 0 2px 3px #fff}
-.orbit{border-color:#ffffff35}.o2{border-color:#ffffff17}.o3{border-color:#ffffff20}
-.welcome h1 em{color:#c9c9c9}.quick-card{background:linear-gradient(145deg,#171717,#101010);border-color:#303030}
-.quick-card:hover{border-color:#888;background:#1c1c1c}.quick-icon{color:#ddd}
-.welcome-foot span{color:#bbb}.message-avatar{background:#191919;border-color:#444;color:#eee}
-.message.assistant .message-avatar{border-color:#777;color:#fff;background:#202020}
-.user .bubble{background:#191919;border-color:#393939}.bubble pre{background:#090909;border-color:#333}.bubble code{color:#ddd}
-.composer{border-color:#393939;background:#121212}.composer:focus-within{border-color:#aaa;box-shadow:0 0 0 3px #ffffff12}
-.send-btn{background:linear-gradient(135deg,#f1f1f1,#999);color:#111;box-shadow:0 5px 17px #ffffff15}
-.modal{background:#111;border-color:#393939}.modal-logo{width:auto;height:auto;display:block;background:none;color:#f5f5f5;font:300 24px Manrope;letter-spacing:3px}
-.auth-tabs{background:#090909}.auth-tabs button.active{background:#292929;color:#fff}.modal input{background:#090909;border-color:#383838}.modal input:focus{border-color:#aaa}
-.primary-btn{background:linear-gradient(120deg,#eee,#aaa);color:#111}.toast{background:#202020;border-color:#555}
-.sidebar-close{background:#171717;border-color:#444;color:#eee}
-.guest-chip{color:#ddd;border-color:#383838;background:#141414}
-.code-card{border-color:#383838;background:#080808}.code-toolbar{background:#151515;border-color:#303030;color:#ccc}
-.copy-code{border-color:#444;background:#222;color:#eee}.copy-code:hover{background:#333;border-color:#aaa}
-.code-card .tok-keyword{color:#d0c4e8}.code-card .tok-string{color:#c7d4c2}.code-card .tok-comment{color:#888}.code-card .tok-number{color:#ddd}.code-card .tok-function{color:#c4d8df}.code-card .tok-tag{color:#ddd}
-.inline-code{background:#222;color:#eee;border-color:#444}
-@media(max-width:850px){.sidebar-scrim.show{background:#000d}}
