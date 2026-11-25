@@ -60,8 +60,8 @@ export default async function handler(req, res) {
     return res.status(400).json({ success: false, error: 'اكتب وصفاً للصورة من 1 إلى 1500 حرف.' });
   }
 
-  if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY.length < 20) {
-    return res.status(503).json({ success: false, error: 'ميزة إنشاء الصور تحتاج إضافة OPENAI_API_KEY إلى إعدادات Vercel.' });
+  if (!process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY.length < 20) {
+    return res.status(503).json({ success: false, error: 'ميزة إنشاء الصور تحتاج إضافة GEMINI_API_KEY من Google AI Studio إلى إعدادات Vercel.' });
   }
 
   const ip = req.ip || req.socket?.remoteAddress || 'unknown';
@@ -81,63 +81,73 @@ export default async function handler(req, res) {
     return res.status(429).json({ success: false, error: message });
   }
 
-  const model = process.env.OPENAI_IMAGE_MODEL || 'gpt-image-2.5-flare';
-  const safetyIdentifier = crypto.createHash('sha256').update(String(identity.uid)).digest('hex').slice(0, 64);
+  const model = process.env.GEMINI_IMAGE_MODEL || 'gemini-3.1-flash-image';
 
   try {
-    const response = await fetch('https://api.openai.com/v1/images/generations', {
-      method: 'POST',
-      headers: {
-        Authorization: 'Bearer ' + process.env.OPENAI_API_KEY,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        model,
-        prompt,
-        n: 1,
-        size: '1024x1024',
-        quality: 'medium',
-        output_format: 'webp',
-        moderation: 'auto',
-        safety_identifier: safetyIdentifier
-      }),
-      signal: AbortSignal.timeout(150000)
-    });
+    const response = await fetch(
+      'https://generativelanguage.googleapis.com/v1beta/models/' + encodeURIComponent(model) + ':generateContent',
+      {
+        method: 'POST',
+        headers: {
+          'x-goog-api-key': process.env.GEMINI_API_KEY,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          contents: [{ role: 'user', parts: [{ text: prompt }] }],
+          generationConfig: {
+            responseModalities: ['TEXT', 'IMAGE'],
+            imageConfig: { aspectRatio: '1:1', imageSize: '1K' }
+          }
+        }),
+        signal: AbortSignal.timeout(150000)
+      }
+    );
 
     const payload = await response.json().catch(() => ({}));
     if (!response.ok) {
       await refundImageQuota(quota.keys);
       const upstreamMessage = String(payload?.error?.message || '');
-      console.error('[image provider]', response.status, upstreamMessage.slice(0, 300));
-      if (response.status === 401) {
-        return res.status(502).json({ success: false, error: 'مفتاح OpenAI غير صالح. راجع OPENAI_API_KEY في Vercel.' });
+      console.error('[Gemini image provider]', response.status, upstreamMessage.slice(0, 300));
+      if (response.status === 400 || response.status === 404) {
+        return res.status(502).json({ success: false, error: 'تعذر استخدام نموذج Gemini للصور. تحقق من اسم النموذج وإتاحته لمفتاحك.' });
+      }
+      if (response.status === 401 || response.status === 403) {
+        return res.status(502).json({ success: false, error: 'مفتاح Gemini غير صالح أو ليس لديه صلاحية إنشاء الصور. راجع إعداد GEMINI_API_KEY.' });
       }
       if (response.status === 429) {
-        return res.status(429).json({ success: false, error: 'مزود إنشاء الصور مزدحم أو وصلت إلى حد الاستخدام. حاول لاحقاً.' });
+        return res.status(429).json({ success: false, error: 'وصل Gemini إلى حد الاستخدام أو توجد طلبات كثيرة. حاول لاحقاً.' });
       }
-      return res.status(502).json({ success: false, error: 'تعذر إنشاء الصورة حالياً. حاول بوصف آخر.' });
+      return res.status(502).json({ success: false, error: 'تعذر إنشاء الصورة عبر Gemini حالياً. حاول بوصف آخر.' });
     }
 
-    const image = payload?.data?.[0]?.b64_json;
-    if (typeof image !== 'string' || image.length < 100) {
+    const parts = payload?.candidates?.[0]?.content?.parts || [];
+    const imagePart = parts.find(part => part?.inlineData?.data);
+    const image = imagePart?.inlineData?.data;
+    const mimeType = imagePart?.inlineData?.mimeType || 'image/png';
+    if (typeof image !== 'string' || image.length < 100 || !/^image\//i.test(mimeType)) {
       await refundImageQuota(quota.keys);
-      return res.status(502).json({ success: false, error: 'لم يرجع مزود الصور ملفاً صالحاً.' });
+      const blocked = payload?.promptFeedback?.blockReason;
+      console.error('[Gemini image response]', blocked || 'No image part returned');
+      return res.status(502).json({
+        success: false,
+        error: blocked ? 'Gemini لم يسمح بهذا الوصف. جرّب وصفاً مختلفاً.' : 'Gemini لم يرجع صورة صالحة لهذا الطلب. جرّب وصفاً أكثر تحديداً.'
+      });
     }
 
     res.setHeader('Cache-Control', 'no-store');
     return res.status(200).json({
       success: true,
-      image: 'data:image/webp;base64,' + image,
+      image: 'data:' + mimeType + ';base64,' + image,
       model,
       remaining: Math.max(0, DAILY_IMAGE_LIMIT - quota.count)
     });
   } catch (error) {
     await refundImageQuota(quota.keys);
-    console.error('[image generation]', error.name || 'Error', String(error.message || '').slice(0, 200));
+    console.error('[Gemini image generation]', error.name || 'Error', String(error.message || '').slice(0, 200));
     const timeout = error.name === 'TimeoutError' || error.name === 'AbortError';
     return res.status(timeout ? 504 : 502).json({
       success: false,
-      error: timeout ? 'استغرق إنشاء الصورة وقتاً طويلاً. حاول مرة أخرى.' : 'تعذر الاتصال بخدمة إنشاء الصور.'
+      error: timeout ? 'استغرق إنشاء الصورة وقتاً طويلاً. حاول مرة أخرى.' : 'تعذر الاتصال بخدمة Gemini لإنشاء الصور.'
     });
   }
 }

@@ -11,8 +11,8 @@ export default async function handler(req, res) {
       success: true,
       service: 'WINE AI',
       database: 'connected',
-      providers: process.env.OPENAI_API_KEY ? ['gemini', 'openai-images'] : ['gemini'],
-      features: { chat: true, imageGeneration: Boolean(process.env.OPENAI_API_KEY) },
+      providers: ['gemini'],
+      features: { chat: true, imageGeneration: Boolean(process.env.GEMINI_API_KEY) },
       timestamp: new Date().toISOString()
     });
   } catch (error) {
