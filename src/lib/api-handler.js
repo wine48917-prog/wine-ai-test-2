@@ -6,7 +6,10 @@ import { verifyToken } from './jwt.js';
 import { checkRateLimit, recordAuthFail, isAuthBlocked } from './rate-limit.js';
 
 const TEXT_TOTAL_LIMIT = 50;
-const TEXT_WINDOW_MS = 5 * 60 * 60 * 1000;\nconst MAX_PROMPT_CHARS = 8000;\nconst MAX_HISTORY_CHARS = 16000;\nconst MAX_IMAGE_BASE64_CHARS = 6 * 1024 * 1024 * 1.4;
+const TEXT_WINDOW_MS = 5 * 60 * 60 * 1000;
+const MAX_PROMPT_CHARS = 8000;
+const MAX_HISTORY_CHARS = 16000;
+const MAX_IMAGE_BASE64_CHARS = 6 * 1024 * 1024 * 1.4;
 
 // 🚀 إزالة المفتاح السري المكتوب (الأمان)
 const LENS_SECRET = process.env.LENS_SECRET;
