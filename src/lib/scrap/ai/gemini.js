@@ -461,9 +461,105 @@ const SOURCES = [
   { name: 'method3', fn: geminiMethod3 },
 ];
 
+
+async function officialGeminiRequest(message, onChunk) {
+  const apiKey = process.env.WINE_API_KEY || process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    const error = new Error('Gemini API key is not configured (WINE_API_KEY or GEMINI_API_KEY).');
+    error.code = 'NO_API_KEY';
+    throw error;
+  }
+
+  const model = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
+  const endpoint = onChunk
+    ? `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:streamGenerateContent?alt=sse&key=${encodeURIComponent(apiKey)}`
+    : `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{ role: 'user', parts: [{ text: message }] }],
+      generationConfig: { temperature: 0.7, maxOutputTokens: 2048 },
+    }),
+    signal: AbortSignal.timeout(20000),
+  });
+
+  if (!response.ok) {
+    let detail = '';
+    try {
+      const body = await response.json();
+      detail = body?.error?.message || '';
+    } catch {}
+    const error = new Error(
+      response.status === 429
+        ? 'Gemini API quota exceeded or rate limit reached. Check Google AI Studio usage and limits.'
+        : `Gemini API HTTP ${response.status}${detail ? ': ' + detail.slice(0, 240) : ''}`
+    );
+    error.status = response.status;
+    throw error;
+  }
+
+  if (!onChunk) {
+    const data = await response.json();
+    const text = (data?.candidates?.[0]?.content?.parts || [])
+      .map(part => typeof part.text === 'string' ? part.text : '')
+      .join('')
+      .trim();
+    if (!text) throw new Error('Gemini API returned an empty response.');
+    return { success: true, response: cleanText(text), sessionId: null, method: 'gemini-api' };
+  }
+
+  const reader = response.body?.getReader();
+  if (!reader) throw new Error('Gemini API streaming response is unavailable.');
+  const decoder = new TextDecoder();
+  let buffer = '';
+  let fullText = '';
+  while (true) {
+    const { value, done } = await reader.read();
+    if (done) break;
+    buffer += decoder.decode(value, { stream: true });
+    const lines = buffer.split('\n');
+    buffer = lines.pop() || '';
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (!trimmed.startsWith('data:')) continue;
+      const payload = trimmed.slice(5).trim();
+      if (!payload || payload === '[DONE]') continue;
+      let data;
+      try { data = JSON.parse(payload); } catch { continue; }
+      const piece = (data?.candidates?.[0]?.content?.parts || [])
+        .map(part => typeof part.text === 'string' ? part.text : '')
+        .join('');
+      if (piece) {
+        fullText += piece;
+        try { onChunk(piece); } catch {}
+      }
+    }
+  }
+  if (buffer.trim().startsWith('data:')) {
+    try {
+      const data = JSON.parse(buffer.trim().slice(5).trim());
+      const piece = (data?.candidates?.[0]?.content?.parts || [])
+        .map(part => typeof part.text === 'string' ? part.text : '')
+        .join('');
+      if (piece) { fullText += piece; try { onChunk(piece); } catch {} }
+    } catch {}
+  }
+  if (!fullText.trim()) throw new Error('Gemini API returned an empty stream.');
+  return { success: true, response: cleanText(fullText), sessionId: null, method: 'gemini-api' };
+}
+
 const gemini = {
   async chat(params = {}) {
     if (typeof params.prompt !== 'string' || !params.prompt.trim()) throw new Error('prompt مطلوب');
+    try {
+      return await officialGeminiRequest(params.prompt.trim());
+    } catch (error) {
+      console.warn('[Gemini official API]', String(error?.message || error).slice(0, 220));
+      if (error?.status === 429 || error?.status === 403 || error?.code === 'NO_API_KEY') throw error;
+    }
+
     const savedSession = params.sessionId ? unpack(params.sessionId) : null;
     const isMethod1Session = Boolean(savedSession?.resume && !savedSession?.provider);
     const isMethod2Session = Boolean(savedSession?.resumeArray);
@@ -483,45 +579,29 @@ const gemini = {
       }
     }
 
-    // Run remaining providers concurrently instead of waiting through three
-    // long serial timeouts. The first valid response wins.
     const fallbacks = SOURCES.filter(source => source !== preferred && !(params.skipMethod3 && source === SOURCES[2]));
     if (!fallbacks.length) throw new Error('محرك الذكاء الاصطناعي لم يستجب. حاول مرة أخرى.');
     try {
       return await Promise.any(fallbacks.map(async source => {
-        try {
-          const result = await source.fn(params.prompt.trim(), { sessionId: params.sessionId, instruction: params.instruction });
-          if (result?.success && result.response) return result;
-          throw new Error('empty response');
-        } catch (error) {
-          const msg = String(error?.message || error).slice(0, 180);
-          console.warn('[Gemini fallback]', source.name, msg);
-          throw new Error(source.name + ': ' + msg);
-        }
+        const result = await source.fn(params.prompt.trim(), { sessionId: params.sessionId, instruction: params.instruction });
+        if (result?.success && result.response) return result;
+        throw new Error(source.name + ': empty response');
       }));
     } catch (error) {
       const reasons = error?.errors?.map(item => item.message).filter(Boolean) || [];
-      throw new Error(('لم يتمكن محرك WINE AI من الرد بسرعة. ' + [...errors, ...reasons].join(' | ')).slice(0, 700));
+      throw new Error(('تعذر الاتصال بمحرك الذكاء الاصطناعي. ' + [...errors, ...reasons].join(' | ')).slice(0, 700));
     }
   },
 
   async chatStream(params = {}, onChunk) {
     if (typeof params.prompt !== 'string' || !params.prompt.trim()) throw new Error('prompt مطلوب');
-    let chunksSent = 0;
-    const wrapped = delta => {
-      if (!delta) return;
-      chunksSent++;
-      try { onChunk?.(delta); } catch {}
-    };
     try {
-      const result = await geminiMethod3(params.prompt.trim(), { ...params, onChunk: wrapped });
-      if (!result.response.trim()) throw new Error('empty response');
-      return result;
-    } catch (err) {
-      console.error('[stream] method3 failed:', err.message);
-      if (chunksSent > 0) throw err;
+      return await officialGeminiRequest(params.prompt.trim(), onChunk || (() => {}));
+    } catch (error) {
+      console.warn('[Gemini official stream]', String(error?.message || error).slice(0, 220));
+      if (error?.status === 429 || error?.status === 403 || error?.code === 'NO_API_KEY') throw error;
       const result = await this.chat({ ...params, skipMethod3: true });
-      if (result.response) wrapped(result.response);
+      if (result.response) { try { onChunk?.(result.response); } catch {} }
       return result;
     }
   }
