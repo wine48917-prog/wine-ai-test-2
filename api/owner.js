@@ -16,41 +16,41 @@ const APP_HTML = `<!doctype html>
 <aside class="sidebar" id="sidebar">
 <button class="sidebar-close" id="sidebarClose" aria-label="إغلاق القائمة">×</button>
 <a class="brand" href="#home"><span class="brand-mark">W</span><span><b>WINE <i>AI</i></b><small>INTELLIGENCE WORKSPACE</small></span></a>
-<div class="side-section-label">مساحة العمل</div>
-<button class="new-chat" id="newChat"><span>＋</span> ابدأ محادثة جديدة</button>
+<div class="side-section-label">مساحة WINE</div>
+<button class="new-chat" id="newChat"><span>＋</span> محادثة جديدة</button>
 <a class="studio-nav" href="/studio"><span>✧</span> WINE STUDIO</a>
-<div class="history-head"><span class="side-label">سجل المحادثات</span><span class="history-count" id="historyCount">LOCAL</span></div>
-<div class="history" id="history"><div class="history-empty">محادثاتك هتظهر هنا</div></div>
+<div class="history-head"><span class="side-label">محادثاتك السابقة</span><span class="history-count" id="historyCount">LOCAL</span></div>
+<div class="history" id="history"><div class="history-empty">ابدأ محادثة جديدة وهتلاقيها هنا</div></div>
 <div class="sidebar-bottom">
-<div class="sidebar-status"><span></span><div><b>WINE CORE</b><small>جاهز لاستقبال طلبك</small></div></div>
+<div class="sidebar-status"><span></span><div><b>WINE CORE</b><small>جاهز لمساعدتك</small></div></div>
 <div class="user-box"><div class="avatar" id="avatar">G</div><div class="user-meta"><b id="userLabel">زائر</b><small id="userType">Guest access</small></div><button id="accountBtn" class="account-btn" title="إعدادات الحساب">⚙</button></div>
 </div>
 </aside>
 <main class="main">
 <header class="topbar">
-<div class="topbar-leading"><button class="mobile-menu" id="mobileMenu" aria-label="القائمة">☰</button><div class="top-brand">WINE <span>AI</span></div><span class="top-divider"></span><span class="top-context" id="activeTitle">مساحة المحادثة</span></div>
+<div class="topbar-leading"><button class="mobile-menu" id="mobileMenu" aria-label="القائمة">☰</button><div class="top-brand">WINE <span>AI</span></div><span class="top-divider"></span><span class="top-context" id="activeTitle">محادثة مع WINE</span></div>
 <div class="top-actions"><span class="model-chip"><i></i> WINE CORE</span><a class="studio-top-link" href="/studio">✧ Studio</a><button class="top-new-chat" id="newChatTop">＋ <span>محادثة جديدة</span></button></div>
 </header>
 <section class="workspace" id="workspace">
 <div class="welcome" id="welcome">
-<div class="welcome-kicker"><span class="kicker-line"></span> YOUR PERSONAL AI WORKSPACE <span class="kicker-dot"></span></div>
+<div class="welcome-kicker"><span class="kicker-line"></span> مساحتك الذكية، بإمكانيات أوسع <span class="kicker-dot"></span></div>
 <div class="welcome-emblem"><div class="emblem-ring ring-one"></div><div class="emblem-ring ring-two"></div><div class="emblem-core"><span>W</span><i></i></div></div>
-<h1>فكّر أبعد مع <em>WINE AI</em></h1>
-<p class="welcome-description">مساعدك في البرمجة والكتابة والتحليل. ابدأ بفكرة، وخلّي WINE يساعدك تحوّلها لنتيجة.</p>
-<div class="prompt-section"><div class="prompt-section-heading"><b>ابدأ من هنا</b><span>اختار مجال أو اكتب طلبك</span></div>
+<h1>حوّل أفكارك إلى <em>إنجازات</em></h1>
+<p class="welcome-description">من أول فكرة لحدّ النتيجة — اكتب، برمج، حلّل واطوّر مشاريعك مع مساعد ذكي يفهم احتياجك.</p>
+<div class="prompt-section"><div class="prompt-section-heading"><b>إيه اللي حابب تنجزه؟</b><span>اختار نقطة بداية أو اكتب طلبك مباشرة</span></div>
 <div class="quick-grid">
-<button class="quick-card" data-prompt="ساعدني في بناء مشروع ويب كامل باستخدام React، وابدأ بتخطيط الملفات والصفحات."><span class="quick-icon">⌘</span><span class="quick-copy"><b>بناء المشاريع</b><small>من الفكرة إلى التطبيق</small></span><span class="quick-arrow">↗</span></button>
-<button class="quick-card" data-prompt="راجع الكود الذي سأرسله، واكتشف الأخطاء وحسّن الأداء واشرح التعديلات."><span class="quick-icon">&lt;/&gt;</span><span class="quick-copy"><b>مساعد البرمجة</b><small>كتابة وتصحيح وتحسين</small></span><span class="quick-arrow">↗</span></button>
-<button class="quick-card" data-prompt="ساعدني في كتابة محتوى احترافي ومنظم، واسألني عن التفاصيل الناقصة عند الحاجة."><span class="quick-icon">✎</span><span class="quick-copy"><b>الكتابة وصناعة المحتوى</b><small>صياغة وأفكار وتحرير</small></span><span class="quick-arrow">↗</span></button>
-<button class="quick-card" data-prompt="حلّل المشكلة التي سأشرحها، وحدد السبب الجذري ثم أعطني خطوات عملية للحل."><span class="quick-icon">⌕</span><span class="quick-copy"><b>التحليل وحل المشكلات</b><small>فهم أعمق وخطوات واضحة</small></span><span class="quick-arrow">↗</span></button>
+<button class="quick-card" data-prompt="ساعدني في بناء مشروع ويب كامل باستخدام React، وابدأ بتخطيط الملفات والصفحات."><span class="quick-icon">⌘</span><span class="quick-copy"><b>طوّر مشروعك</b><small>خطّط وابنِ واطلق</small></span><span class="quick-arrow">↗</span></button>
+<button class="quick-card" data-prompt="راجع الكود الذي سأرسله، واكتشف الأخطاء وحسّن الأداء واشرح التعديلات."><span class="quick-icon">&lt;/&gt;</span><span class="quick-copy"><b>برمجة أذكى</b><small>اكتب كوداً أفضل وأصلح أخطاءه</small></span><span class="quick-arrow">↗</span></button>
+<button class="quick-card" data-prompt="ساعدني في كتابة محتوى احترافي ومنظم، واسألني عن التفاصيل الناقصة عند الحاجة."><span class="quick-icon">✎</span><span class="quick-copy"><b>اكتب باحتراف</b><small>أفكار وصياغة ومراجعة</small></span><span class="quick-arrow">↗</span></button>
+<button class="quick-card" data-prompt="حلّل المشكلة التي سأشرحها، وحدد السبب الجذري ثم أعطني خطوات عملية للحل."><span class="quick-icon">⌕</span><span class="quick-copy"><b>حلّل وتوصّل للحل</b><small>حلول عملية بخطوات واضحة</small></span><span class="quick-arrow">↗</span></button>
 </div></div>
-<div class="welcome-footer"><span class="footer-mark">W</span><span>PRIVATE BY DESIGN</span><i></i><span>BUILT TO THINK WITH YOU</span></div>
+<div class="welcome-footer"><span class="footer-mark">W</span><span>خصوصيتك أولويتنا</span><i></i><span>ذكاء يساعدك على الإنجاز</span></div>
 </div>
 <div class="messages" id="messages" aria-live="polite"></div>
 </section>
-<div class="composer-dock"><div class="composer-wrap"><div class="composer"><div class="composer-topline"><span class="composer-mode"><i></i> رسالة جديدة</span><span class="composer-shortcut">ENTER للإرسال</span></div><textarea id="prompt" rows="1" placeholder="اكتب فكرتك أو اسأل WINE AI..." maxlength="12000"></textarea><div class="composer-bottom"><span class="composer-hint">Shift + Enter لسطر جديد</span><div class="composer-actions"><button id="generateImage" class="image-btn" type="button" aria-label="إنشاء صورة"><span>✧</span> صورة</button><button id="send" class="send-btn" aria-label="إرسال الرسالة"><span>↑</span></button></div></div></div><div class="disclaimer"><span>◇</span> راجع المعلومات المهمة واختبر الأكواد قبل استخدامها.</div></div></div>
+<div class="composer-dock"><div class="composer-wrap"><div class="composer"><div class="composer-topline"><span class="composer-mode"><i></i> رسالة جديدة</span><span class="composer-shortcut">ENTER للإرسال</span></div><textarea id="prompt" rows="1" placeholder="اكتب سؤالك أو صف المهمة اللي عايز تنفذها..." maxlength="12000"></textarea><div class="composer-bottom"><span class="composer-hint">Shift + Enter لسطر جديد</span><div class="composer-actions"><button id="generateImage" class="image-btn" type="button" aria-label="إنشاء صورة"><span>✧</span> صورة</button><button id="send" class="send-btn" aria-label="إرسال الرسالة"><span>↑</span></button></div></div></div><div class="disclaimer"><span>◇</span> قد تحتاج بعض الإجابات إلى مراجعة قبل الاعتماد عليها.</div></div></div>
 </main></div>
-<div class="modal-backdrop" id="nameModal"><section class="modal name-modal"><div class="modal-logo">W</div><div class="eyebrow">WELCOME TO WINE AI</div><h2>أهلاً بك في مساحتك</h2><p class="modal-sub">اكتب اسمك وابدأ المحادثة فوراً كضيف.</p><form id="nameForm"><label>الاسم<input id="guestName" type="text" placeholder="اكتب اسمك هنا" minlength="2" maxlength="30" autocomplete="nickname" required></label><button class="primary-btn" type="submit">الدخول إلى مساحة العمل <span>←</span></button><div class="form-error" id="nameError"></div></form><div class="modal-note">يمكنك تغيير اسمك في أي وقت من إعدادات الحساب.</div></section></div>
+<div class="modal-backdrop" id="nameModal"><section class="modal name-modal"><div class="modal-logo">W</div><div class="eyebrow">WELCOME TO WINE AI</div><h2>أهلاً بك في WINE AI</h2><p class="modal-sub">عرّفنا باسمك وابدأ استخدام WINE AI مباشرة.</p><form id="nameForm"><label>الاسم<input id="guestName" type="text" placeholder="اسمك" minlength="2" maxlength="30" autocomplete="nickname" required></label><button class="primary-btn" type="submit">ابدأ الآن <span>←</span></button><div class="form-error" id="nameError"></div></form><div class="modal-note">تقدر تعدّل اسمك لاحقاً من إعدادات الحساب.</div></section></div>
 <div class="toast" id="toast"></div><script src="/app.js" defer></script>
 </body></html>`;
 
