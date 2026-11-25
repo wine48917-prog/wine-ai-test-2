@@ -35,6 +35,28 @@ async function refundImageQuota(keys) {
     try { await pool.query('UPDATE rate_limits SET cnt = GREATEST(0, cnt - 1) WHERE rk = ?', [key]); } catch {}
   }
 }
+async function generateWithCloudflare(prompt) {
+  const apiToken = process.env.CLOUDFLARE_API_TOKEN;
+  const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
+  if (!apiToken || !accountId) throw new Error('Cloudflare Workers AI is not configured.');
+  const model = process.env.CLOUDFLARE_IMAGE_MODEL || '@cf/black-forest-labs/flux-1-schnell';
+  const response = await fetch('https://api.cloudflare.com/client/v4/accounts/' + encodeURIComponent(accountId) + '/ai/run/' + encodeURIComponent(model), {
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + apiToken, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ prompt, num_steps: 4 }),
+    signal: AbortSignal.timeout(150000)
+  });
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok || payload?.success === false) {
+    const message = payload?.errors?.[0]?.message || 'Cloudflare Workers AI image request failed.';
+    const error = new Error(String(message));
+    error.status = response.status;
+    throw error;
+  }
+  const image = payload?.result?.image || payload?.result?.images?.[0];
+  if (typeof image !== 'string' || image.length < 100) throw new Error('Cloudflare Workers AI returned no valid image.');
+  return { image, mimeType: 'image/png', model, provider: 'cloudflare-workers-ai' };
+}
 async function generateWithGateway(prompt) {
   const { generateText } = await import('ai');
   const result = await generateText({ model: GATEWAY_IMAGE_MODEL, prompt, abortSignal: AbortSignal.timeout(150000) });
@@ -77,19 +99,24 @@ export default async function handler(req, res) {
     const message = quota.reason === 'ip' ? 'تم بلوغ حد إنشاء الصور اليومي لهذا الاتصال. حاول غداً.' : 'وصلت إلى الحد اليومي لإنشاء الصور (5 صور). حاول غداً.';
     return res.status(429).json({ success: false, error: message });
   }
-  let generated, gatewayError;
-  try { generated = await generateWithGateway(prompt); }
-  catch (error) { gatewayError = error; console.error('[AI Gateway image provider]', error.statusCode || error.status || error.name || 'Error', String(error.message || '').slice(0, 240)); }
+  let generated, cloudflareError, gatewayError;
+  try { generated = await generateWithCloudflare(prompt); }
+  catch (error) { cloudflareError = error; console.error('[Cloudflare Workers AI image provider]', error.status || error.name || 'Error', String(error.message || '').slice(0, 240)); }
+  if (!generated) {
+    try { generated = await generateWithGateway(prompt); }
+    catch (error) { gatewayError = error; console.error('[AI Gateway image provider]', error.statusCode || error.status || error.name || 'Error', String(error.message || '').slice(0, 240)); }
+  }
   if (!generated) {
     try { generated = await generateWithGemini(prompt); }
     catch (fallbackError) {
       await refundImageQuota(quota.keys);
       console.error('[Gemini image fallback]', fallbackError.status || fallbackError.name || 'Error', String(fallbackError.message || '').slice(0, 240));
+      if (!process.env.CLOUDFLARE_API_TOKEN || !process.env.CLOUDFLARE_ACCOUNT_ID) return res.status(503).json({ success: false, error: 'مولّد الصور المجاني غير مُعد بعد. أضف إعدادات Cloudflare Workers AI في Vercel.' });
       const gatewayStatus = Number(gatewayError?.statusCode || gatewayError?.status || 0);
-      if (gatewayStatus === 401 || gatewayStatus === 403) return res.status(503).json({ success: false, error: 'مزود الصور البديل غير متصل بحساب Vercel. تحقق من تفعيل AI Gateway وصلاحيات المشروع.' });
-      if (gatewayStatus === 402 || /credit|budget|payment/i.test(String(gatewayError?.message || ''))) return res.status(503).json({ success: false, error: 'انتهت أرصدة AI Gateway أيضاً. أضف رصيداً من لوحة Vercel AI Gateway ثم أعد المحاولة.' });
-      if (fallbackError.status === 429) return res.status(503).json({ success: false, error: 'حصة Gemini ممتلئة حالياً، ولم ينجح مزود الصور البديل. راجع أرصدة AI Gateway في Vercel.' });
-      return res.status(502).json({ success: false, error: 'تعذر إنشاء الصورة من مزودي الخدمة حالياً. حاول لاحقاً.' });
+      if (gatewayStatus === 401 || gatewayStatus === 403) return res.status(503).json({ success: false, error: 'تعذّر الاتصال بمزوّد الصور الاحتياطي في Vercel.' });
+      if (gatewayStatus === 402 || /credit|budget|payment/i.test(String(gatewayError?.message || ''))) return res.status(503).json({ success: false, error: 'رصيد مزوّد الصور الاحتياطي في Vercel غير كافٍ.' });
+      if (fallbackError.status === 429) return res.status(503).json({ success: false, error: 'حصة Gemini ممتلئة حالياً، ولم ينجح مزوّد الصور الاحتياطي.' });
+      return res.status(502).json({ success: false, error: 'تعذر إنشاء الصورة حالياً. حاول لاحقاً.' });
     }
   }
   res.setHeader('Cache-Control', 'no-store');
