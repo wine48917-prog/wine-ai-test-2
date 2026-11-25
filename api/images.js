@@ -65,7 +65,7 @@ async function generateWithGateway(prompt) {
   return { image: Buffer.from(file.uint8Array).toString('base64'), mimeType: file.mediaType || 'image/png', model: GATEWAY_IMAGE_MODEL, provider: 'vercel-ai-gateway' };
 }
 async function generateWithGemini(prompt) {
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = process.env.WINE_API_KEY || process.env.GEMINI_API_KEY;
   if (!apiKey || apiKey.length < 20) throw new Error('Gemini fallback is not configured.');
   const model = process.env.GEMINI_IMAGE_MODEL || 'gemini-3.1-flash-image';
   const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + encodeURIComponent(model) + ':generateContent', {
