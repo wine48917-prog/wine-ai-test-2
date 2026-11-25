@@ -183,3 +183,75 @@ html,body{background:var(--bg);color:var(--text)}
 .wine-workspace .modal{padding:30px;border-radius:22px;background:linear-gradient(145deg,#18242d,#0c1319);border-color:#40535f}.wine-workspace .modal-logo{width:52px;height:52px;border-radius:15px;font:800 25px Manrope}.wine-workspace .primary-btn{width:100%;display:flex;justify-content:space-between;align-items:center;padding:13px 16px;border-radius:12px;font:700 12px Cairo}.wine-workspace .modal-note{color:#71838e}
 @media(max-width:850px){.wine-workspace .sidebar{width:min(300px,86vw)}.wine-workspace .workspace{padding:26px 18px 20px}.wine-workspace .topbar{height:64px}.top-context,.top-divider{display:none}.top-new-chat span{display:none}.composer-dock{padding:8px 12px 12px}}
 @media(max-width:560px){.wine-workspace .workspace{padding:21px 14px 18px}.welcome-emblem{width:98px;height:98px;margin:16px auto}.emblem-core{width:58px;height:58px}.emblem-core span{font-size:27px}.wine-workspace .welcome h1{font-size:27px}.welcome-description{font-size:11px}.prompt-section{margin-top:26px}.wine-workspace .quick-grid{gap:8px}.wine-workspace .quick-card{min-height:73px;padding:10px 9px;gap:8px}.wine-workspace .quick-icon{width:32px;height:32px;flex-basis:32px;font-size:12px}.quick-copy b{font-size:10px}.quick-copy small{font-size:9px}.quick-arrow{display:none}.welcome-footer{font-size:7px;letter-spacing:1px;gap:7px}.wine-workspace .model-chip{font-size:9px;padding:7px 9px}.wine-workspace .top-actions{gap:6px}.wine-workspace .top-new-chat{width:34px;padding:0;font-size:17px}.wine-workspace .top-new-chat span{display:none}.wine-workspace .message{grid-template-columns:31px minmax(0,1fr);gap:9px}.wine-workspace .message-avatar{width:30px;height:30px;border-radius:10px}.wine-workspace .bubble{font-size:12px}.wine-workspace .composer-dock{padding-inline:9px}}
+
+
+/* WINE AI — Midnight Violet / Dry Sage identity */
+:root{
+ --bg:#120e17;--panel:#1b1521;--panel2:#261e2d;--line:#463b4d;
+ --text:#f0eee6;--muted:#b2ad9e;--silver:#e8e4d7;
+ --wine:#aea989;--wine2:#c7c1a0;--sage:#aea989;--violet:#261732;
+ --radius:18px;
+}
+html,body{background:#120e17;color:var(--text)}
+.app-shell{
+ background:
+ radial-gradient(ellipse at 12% 8%,#49335444,transparent 38%),
+ radial-gradient(ellipse at 88% 88%,#aea98912,transparent 34%),
+ linear-gradient(135deg,#120e17,#19131f 55%,#100d14);
+}
+.sidebar{background:linear-gradient(180deg,#1b1422,#130f18 75%);border-color:#4a3d50}
+.brand-mark{border-color:#aea989;background:linear-gradient(145deg,#d1cbae,#827f67 48%,#261732 100%);color:#261732;box-shadow:0 0 26px #aea98925,inset 0 1px #fff9}
+.brand b i,.top-brand span{color:#c6c0a0}
+.new-chat{border-color:#777256;background:linear-gradient(120deg,#3a2b43,#261732);color:#f3f0e6}
+.new-chat span{color:#d3cda9}
+.history-item:hover,.history-item.active{background:#aea98920;color:#fffdf4}
+.status span,.model-chip i,.eyebrow span{background:#c4bd96;box-shadow:0 0 10px #aea98988}
+.avatar{background:#302438;border-color:#62546a;color:#d8d1b1}
+.topbar{background:#17121de8;border-color:#ffffff12}
+.login-top,.top-new-chat{border-color:#55495a;background:#241b2b;color:#eeeadd}
+.orb-core{background:linear-gradient(145deg,#e6e0c8,#aea989 52%,#514b3e);color:#261732;box-shadow:0 0 46px #aea98938,inset 0 2px 3px #fff}
+.orbit{border-color:#aea98980}.o2{border-color:#ffffff20}.o3{border-color:#6e597a66}
+.welcome h1 em{color:#c5bf9e}
+.quick-card{background:linear-gradient(145deg,#2a2031,#1b1521);border-color:#4a3c50}
+.quick-card:hover{border-color:#aea989;background:#33283a;box-shadow:0 12px 28px #08050c66}
+.quick-icon{color:#c6c09e}
+.welcome-foot span{color:#c6c09e}
+.message-avatar{background:#2a2031;border-color:#62516a;color:#e5dfc9}
+.message.assistant .message-avatar{border-color:#9b936e;color:#d8d0aa;background:#302637}
+.user .bubble{background:#2b2231;border-color:#65556a}
+.bubble pre{background:#100c14;border-color:#51445a}
+.bubble code{color:#d2cba6}
+.composer{border-color:#5a4b60;background:linear-gradient(145deg,#211a29,#19141f);box-shadow:0 16px 45px #08050c66}
+.composer:focus-within{border-color:#aea989;box-shadow:0 0 0 3px #aea98920,0 16px 45px #08050c66}
+.composer textarea{color:#f3f0e7}.composer textarea::placeholder{color:#a29b8e}
+.send-btn{background:linear-gradient(135deg,#d1cba9,#9e9977);color:#261732;box-shadow:0 5px 18px #aea98930}
+.modal{background:linear-gradient(145deg,#261d2e,#17121d);border-color:#5a4b60}
+.modal-logo{background:linear-gradient(145deg,#d1cba9,#9e9977);color:#261732}
+.auth-tabs{background:#130f18}.auth-tabs button.active{background:#3b2c43;color:#f7f3e8}
+.modal input{background:#130f18;border-color:#51445a;color:#f3f0e7}
+.modal input:focus{border-color:#aea989}
+.primary-btn{background:linear-gradient(120deg,#d0c9a7,#a49e7b);color:#261732}
+.form-error{color:#efaaa9}
+.toast{background:#302438;border-color:#8b8060;color:#f5f0df}
+.sidebar-close{background:#2a2031;border-color:#62516a;color:#f0ecdf}
+.guest-chip{color:#d4cda9;border-color:#625844;background:#211a29}
+.name-modal input{border-color:#51445a;background:#130f18;color:#f3f0e7}
+.name-modal input:focus{border-color:#aea989}
+.code-card{border-color:#5b4d60;background:#100c14}
+.code-toolbar{background:#241b2b;border-color:#4b3d51;color:#d0c9a8}
+.copy-code{background:#34283b;border-color:#71664d;color:#eeeadd}
+.copy-code:hover{background:#403247;border-color:#aea989}
+.code-card pre{color:#e9e5d8}
+.code-card .tok-keyword{color:#c4a9dd}.code-card .tok-string{color:#c7c49a}
+.code-card .tok-comment{color:#958c9c}.code-card .tok-number{color:#d9bd86}
+.code-card .tok-function{color:#d0c69c}.code-card .tok-tag{color:#d5b7c5}
+.inline-code{background:#302438;color:#e2d9b8;border-color:#65566a}
+.md-heading{color:#e8e1c9}
+.disclaimer{color:#8d867d}
+@media(max-width:850px){.sidebar-scrim.show{background:#08050cdd}}
+/* soft paper-grain and restrained interaction polish */
+.app-shell:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.12;background-image:repeating-linear-gradient(0deg,#fff 0,#fff 1px,transparent 1px,transparent 4px);mix-blend-mode:soft-light}
+.sidebar,.main{position:relative}
+.quick-card,.send-btn,.new-chat,.primary-btn,.top-new-chat,.login-top{transition:transform .2s ease,border-color .2s ease,filter .2s ease}
+.quick-card:active,.send-btn:active,.new-chat:active,.primary-btn:active{transform:scale(.985)}
+::selection{background:#aea98966;color:#fff}
