@@ -120,7 +120,7 @@ export default async function handler(req, res) {
 
     const image = payload?.data?.[0]?.b64_json;
     if (typeof image !== 'string' || image.length < 100) {
-      await refundImageQuota(quota.key);
+      await refundImageQuota(quota.keys);
       return res.status(502).json({ success: false, error: 'لم يرجع مزود الصور ملفاً صالحاً.' });
     }
 
@@ -132,7 +132,7 @@ export default async function handler(req, res) {
       remaining: Math.max(0, DAILY_IMAGE_LIMIT - quota.count)
     });
   } catch (error) {
-    await refundImageQuota(quota.key);
+    await refundImageQuota(quota.keys);
     console.error('[image generation]', error.name || 'Error', String(error.message || '').slice(0, 200));
     const timeout = error.name === 'TimeoutError' || error.name === 'AbortError';
     return res.status(timeout ? 504 : 502).json({
