@@ -4,7 +4,7 @@ import https from 'node:https';
 const CONFIG = {
   UA: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36',
   UA_MOBILE: 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Mobile Safari/537.36',
-  TIMEOUT: Math.max(5000, Math.min(Number(process.env.REQUEST_TIMEOUT) || 35000, 45000)),
+  TIMEOUT: Math.max(5000, Math.min(Number(process.env.REQUEST_TIMEOUT) || 12000, 15000)),
   HOME: 'https://gemini.google.com/app',
   ENDPOINT: 'https://gemini.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate',
   BATCH: 'https://gemini.google.com/_/BardChatUi/data/batchexecute',
@@ -464,32 +464,45 @@ const SOURCES = [
 const gemini = {
   async chat(params = {}) {
     if (typeof params.prompt !== 'string' || !params.prompt.trim()) throw new Error('prompt مطلوب');
-    const prompt = params.prompt.trim();
-    const errors = [];
     const savedSession = params.sessionId ? unpack(params.sessionId) : null;
     const isMethod1Session = Boolean(savedSession?.resume && !savedSession?.provider);
     const isMethod2Session = Boolean(savedSession?.resumeArray);
     const isMethod3Session = savedSession?.provider === 'method3';
-    const hasInstruction = Boolean(params.instruction && params.instruction.trim());
+    const preferred = isMethod3Session ? SOURCES[2] : isMethod1Session ? SOURCES[0] : isMethod2Session ? SOURCES[1] : SOURCES[2];
+    const errors = [];
 
-    let ordered;
-    if (isMethod3Session) ordered = [SOURCES[2], SOURCES[0], SOURCES[1]];
-    else if (isMethod1Session) ordered = [SOURCES[0], SOURCES[1], SOURCES[2]];
-    else if (isMethod2Session || hasInstruction) ordered = [SOURCES[1], SOURCES[0], SOURCES[2]];
-    else ordered = SOURCES;
-
-    for (const source of ordered) {
+    if (!params.skipMethod3 || preferred !== SOURCES[2]) {
       try {
-        const result = await source.fn(prompt, { sessionId: params.sessionId, instruction: params.instruction });
+        const result = await preferred.fn(params.prompt.trim(), { sessionId: params.sessionId, instruction: params.instruction });
         if (result?.success && result.response) return result;
-        errors.push(`${source.name}: empty response`);
+        errors.push(preferred.name + ': empty response');
       } catch (error) {
-        const msg = String(error?.message || error).slice(0, 220);
-        errors.push(`${source.name}: ${msg}`);
-        console.error(`[Gemini fallback] ${source.name} failed: ${msg}`);
+        const msg = String(error?.message || error).slice(0, 180);
+        errors.push(preferred.name + ': ' + msg);
+        console.warn('[Gemini primary]', msg);
       }
     }
-    throw new Error(`All Gemini sources failed. ${errors.join(' | ')}`.slice(0, 900));
+
+    // Run remaining providers concurrently instead of waiting through three
+    // long serial timeouts. The first valid response wins.
+    const fallbacks = SOURCES.filter(source => source !== preferred && !(params.skipMethod3 && source === SOURCES[2]));
+    if (!fallbacks.length) throw new Error('محرك الذكاء الاصطناعي لم يستجب. حاول مرة أخرى.');
+    try {
+      return await Promise.any(fallbacks.map(async source => {
+        try {
+          const result = await source.fn(params.prompt.trim(), { sessionId: params.sessionId, instruction: params.instruction });
+          if (result?.success && result.response) return result;
+          throw new Error('empty response');
+        } catch (error) {
+          const msg = String(error?.message || error).slice(0, 180);
+          console.warn('[Gemini fallback]', source.name, msg);
+          throw new Error(source.name + ': ' + msg);
+        }
+      }));
+    } catch (error) {
+      const reasons = error?.errors?.map(item => item.message).filter(Boolean) || [];
+      throw new Error(('لم يتمكن محرك WINE AI من الرد بسرعة. ' + [...errors, ...reasons].join(' | ')).slice(0, 700));
+    }
   },
 
   async chatStream(params = {}, onChunk) {
@@ -507,7 +520,7 @@ const gemini = {
     } catch (err) {
       console.error('[stream] method3 failed:', err.message);
       if (chunksSent > 0) throw err;
-      const result = await this.chat(params);
+      const result = await this.chat({ ...params, skipMethod3: true });
       if (result.response) wrapped(result.response);
       return result;
     }
