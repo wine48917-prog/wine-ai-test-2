@@ -1,6 +1,7 @@
 const $=s=>document.querySelector(s);
 const state={token:localStorage.getItem('wine_token')||'',guest:localStorage.getItem('wine_guest')==='1',name:localStorage.getItem('wine_name')||'',email:'',mode:'guest',sessionId:null,threads:JSON.parse(localStorage.getItem('wine_threads')||'[]'),active:null,busy:false};
 const messages=$('#messages'),welcome=$('#welcome'),promptInput=$('#prompt');
+let studioObjectUrl=null;
 function toast(text){const t=$('#toast');t.textContent=text;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600)}
 function setIdentity(){const label=state.name||'زائر';$('#userLabel').textContent=label;$('#userType').textContent='Guest · زائر';$('#avatar').textContent=Array.from(label)[0]?.toUpperCase()||'ز';}
 function saveThreads(){
@@ -135,9 +136,55 @@ async function generateImage(){
  }
 }
 
+
+function showStudio(show){
+ const page=$('#studioPage'),workspace=$('#workspace'),dock=document.querySelector('.composer-dock');
+ page.hidden=!show;workspace.hidden=show;dock.hidden=show;
+ $('#activeTitle').textContent=show?'WINE STUDIO':'مساحة المحادثة';
+ $('#studioNav').classList.toggle('active',show);closeSidebar();
+}
+async function generateStudioImage(){
+ const imagePrompt=$('#studioPrompt').value.trim();
+ if(!imagePrompt||state.busy){toast('اكتب وصف الصورة أولاً');return;}
+ if(imagePrompt.length>4000){toast('الوصف أطول من الحد المسموح');return;}
+ state.busy=true;const button=$('#studioGenerate');button.disabled=true;button.textContent='جارٍ الإبداع...';
+ const result=$('#studioResult');result.innerHTML='<div class="studio-loading"><span class="studio-spinner"></span><b>WINE STUDIO يصنع صورتك</b><small>قد يستغرق ذلك بعض الوقت</small></div>';
+ try{
+  await ensureGuest();
+  const response=await fetch('/api/star-x-image',{method:'POST',headers:{'Content-Type':'application/json','X-User-Token':`Bearer ${state.token}`},body:JSON.stringify({prompt:imagePrompt})});
+  if(!response.ok){let err={};try{err=await response.json()}catch{}throw new Error(err.error||'تعذر توليد الصورة');}
+  const sourceBlob=await response.blob();
+  if(!sourceBlob.type.startsWith('image/'))throw new Error('لم تصل صورة صالحة من مزود الخدمة');
+  const bitmap=await createImageBitmap(sourceBlob);
+  const canvas=document.createElement('canvas');canvas.width=bitmap.width;canvas.height=bitmap.height;
+  const ctx=canvas.getContext('2d');ctx.drawImage(bitmap,0,0);
+  const scale=Math.max(1,Math.min(canvas.width,canvas.height)/900);
+  const fontSize=Math.max(11,Math.round(13*scale));
+  const label='WINE STUDIO AI';
+  ctx.save();ctx.font='600 '+fontSize+'px Manrope, Arial, sans-serif';ctx.textAlign='right';ctx.textBaseline='bottom';
+  const pad=Math.round(12*scale),boxW=ctx.measureText(label).width+pad*1.5,boxH=fontSize+pad;
+  const x=canvas.width-pad,y=canvas.height-pad;
+  ctx.fillStyle='rgba(8,10,16,.34)';ctx.fillRect(x-boxW,y-boxH,boxW,boxH);
+  ctx.fillStyle='rgba(255,255,255,.58)';ctx.fillText(label,x-pad*.65,y-pad*.45);ctx.restore();bitmap.close();
+  const finalBlob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));
+  if(!finalBlob)throw new Error('تعذر تجهيز الصورة النهائية');
+  if(studioObjectUrl)URL.revokeObjectURL(studioObjectUrl);
+  studioObjectUrl=URL.createObjectURL(finalBlob);
+  result.innerHTML='';
+  const card=document.createElement('div');card.className='studio-image-card';
+  const image=document.createElement('img');image.src=studioObjectUrl;image.alt='صورة من WINE STUDIO AI';
+  const actions=document.createElement('div');actions.className='studio-image-actions';
+  const download=document.createElement('a');download.href=studioObjectUrl;download.download='wine-studio-ai.png';download.textContent='↓ تحميل الصورة';
+  const caption=document.createElement('span');caption.textContent='WINE STUDIO AI · توقيع مدمج بالصورة';
+  actions.append(download,caption);card.append(image,actions);result.append(card);
+ }catch(error){result.innerHTML='<div class="studio-error">'+escapeHtml(error.message)+'</div>';}
+ finally{state.busy=false;button.disabled=false;button.textContent='✧ إنشاء الصورة';}
+}
+
 function openName(){ $('#nameModal').classList.add('show'); $('#guestName').value=state.name||''; }
 function closeName(){ $('#nameModal').classList.remove('show'); }
 function saveName(e){e.preventDefault();const name=$('#guestName').value.trim().replace(/\s+/g,' ');if(name.length<2||name.length>30){$('#nameError').textContent='اكتب اسماً من حرفين إلى 30 حرفاً';return;}state.name=name;state.guest=true;state.token='';localStorage.setItem('wine_name',name);localStorage.removeItem('wine_token');localStorage.setItem('wine_guest','1');setIdentity();closeName();toast('أهلاً بك يا '+name);}
+$('#studioNav').addEventListener('click',()=>showStudio(true));$('#studioTop').addEventListener('click',()=>showStudio(true));$('#studioBack').addEventListener('click',()=>showStudio(false));$('#studioGenerate').addEventListener('click',generateStudioImage);
 $('#send').addEventListener('click',()=>sendMessage(promptInput.value));$('#generateImage').addEventListener('click',generateImage);promptInput.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage(promptInput.value)}});promptInput.addEventListener('input',()=>{promptInput.style.height='auto';promptInput.style.height=Math.min(promptInput.scrollHeight,180)+'px'});
 document.querySelectorAll('[data-prompt]').forEach(b=>b.addEventListener('click',()=>sendMessage(b.dataset.prompt)));
 $('#newChat').addEventListener('click',newThread);$('#newChatTop').addEventListener('click',newThread);$('#history').addEventListener('click',e=>{const t=e.target.closest('[data-id]');if(t)openThread(t.dataset.id)});
