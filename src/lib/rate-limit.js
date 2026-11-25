@@ -10,7 +10,7 @@ const localBuckets = new Map();
 
 function keyFor(prefix, identifier) {
   const digest = crypto.createHash('sha256').update(String(identifier || 'unknown')).digest('hex');
-  return \`${prefix}:${digest}\`;
+  return `${prefix}:${digest}`;
 }
 
 function localIncrement(key, windowMs) {
