@@ -89,10 +89,56 @@ async function sendMessage(text){
   bubble.textContent=`تعذّر إكمال الطلب: ${e.message}`;thread.items.push({role:'assistant',text:`تعذّر إكمال الطلب: ${e.message}`});saveThreads();
  }finally{state.busy=false;$('#send').disabled=false;messages.scrollTop=messages.scrollHeight;promptInput.focus();}
 }
+
+async function generateImage(){
+ const imagePrompt=promptInput.value.trim();
+ if(!imagePrompt||state.busy)return;
+ if(imagePrompt.length>4000){toast('وصف الصورة يجب ألا يتجاوز 4000 حرف');return;}
+ state.busy=true;$('#send').disabled=true;$('#generateImage').disabled=true;
+ promptInput.value='';promptInput.style.height='auto';
+ const thread=currentThread();
+ if(thread.items.length===0)thread.title='إنشاء صورة: '+imagePrompt.slice(0,24);
+ thread.items.push({role:'user',text:'إنشاء صورة: '+imagePrompt});
+ addMessage('user','إنشاء صورة: '+imagePrompt);
+ const loading=addMessage('assistant','');
+ const bubble=loading.querySelector('.bubble');
+ bubble.innerHTML='<span class="typing">WINE AI بيصمّم الصورة...</span>';
+ saveThreads();
+ try{
+  await ensureGuest();
+  const response=await fetch('/api/star-x-image',{
+   method:'POST',
+   headers:{'Content-Type':'application/json','X-User-Token':`Bearer ${state.token}`},
+   body:JSON.stringify({prompt:imagePrompt})
+  });
+  if(!response.ok){let err={};try{err=await response.json()}catch{}throw new Error(err.error||'تعذر توليد الصورة');}
+  const blob=await response.blob();
+  if(!blob.type.startsWith('image/'))throw new Error('الاستجابة لم تحتوِ على صورة صالحة');
+  const imageUrl=URL.createObjectURL(blob);
+  bubble.textContent='';
+  const image=document.createElement('img');
+  image.className='generated-image';
+  image.alt='الصورة التي أنشأها WINE AI';
+  image.src=imageUrl;
+  image.loading='lazy';
+  bubble.appendChild(image);
+  const note='تم إنشاء صورة لهذا الوصف: '+imagePrompt;
+  thread.items.push({role:'assistant',text:note});
+  saveThreads();
+ }catch(error){
+  bubble.textContent='تعذّر إنشاء الصورة: '+error.message;
+  thread.items.push({role:'assistant',text:'تعذّر إنشاء الصورة: '+error.message});
+  saveThreads();
+ }finally{
+  state.busy=false;$('#send').disabled=false;$('#generateImage').disabled=false;
+  messages.scrollTop=messages.scrollHeight;promptInput.focus();
+ }
+}
+
 function openName(){ $('#nameModal').classList.add('show'); $('#guestName').value=state.name||''; }
 function closeName(){ $('#nameModal').classList.remove('show'); }
 function saveName(e){e.preventDefault();const name=$('#guestName').value.trim().replace(/\s+/g,' ');if(name.length<2||name.length>30){$('#nameError').textContent='اكتب اسماً من حرفين إلى 30 حرفاً';return;}state.name=name;state.guest=true;state.token='';localStorage.setItem('wine_name',name);localStorage.removeItem('wine_token');localStorage.setItem('wine_guest','1');setIdentity();closeName();toast('أهلاً بك يا '+name);}
-$('#send').addEventListener('click',()=>sendMessage(promptInput.value));promptInput.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage(promptInput.value)}});promptInput.addEventListener('input',()=>{promptInput.style.height='auto';promptInput.style.height=Math.min(promptInput.scrollHeight,180)+'px'});
+$('#send').addEventListener('click',()=>sendMessage(promptInput.value));$('#generateImage').addEventListener('click',generateImage);promptInput.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage(promptInput.value)}});promptInput.addEventListener('input',()=>{promptInput.style.height='auto';promptInput.style.height=Math.min(promptInput.scrollHeight,180)+'px'});
 document.querySelectorAll('[data-prompt]').forEach(b=>b.addEventListener('click',()=>sendMessage(b.dataset.prompt)));
 $('#newChat').addEventListener('click',newThread);$('#newChatTop').addEventListener('click',newThread);$('#history').addEventListener('click',e=>{const t=e.target.closest('[data-id]');if(t)openThread(t.dataset.id)});
 messages.addEventListener('click',async e=>{const replyBtn=e.target.closest('[data-copy-message]');if(replyBtn){const text=replyBtn.closest('.message')?.querySelector('.bubble')?.innerText||'';try{await navigator.clipboard.writeText(text);replyBtn.textContent='تم النسخ ✓';setTimeout(()=>replyBtn.textContent='نسخ الرد',1500)}catch{toast('تعذر النسخ تلقائياً')}return}const btn=e.target.closest('[data-copy]');if(!btn)return;const card=btn.closest('.code-card');const code=card?.querySelector('pre code')?.innerText||'';try{await navigator.clipboard.writeText(code);btn.textContent='تم النسخ ✓';setTimeout(()=>btn.textContent='نسخ الكود',1500)}catch{toast('تعذر النسخ تلقائياً؛ حدد الكود وانسخه')}});
