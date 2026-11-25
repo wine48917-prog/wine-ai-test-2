@@ -3,7 +3,23 @@ const state={token:localStorage.getItem('wine_token')||'',guest:localStorage.get
 const messages=$('#messages'),welcome=$('#welcome'),promptInput=$('#prompt');
 function toast(text){const t=$('#toast');t.textContent=text;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600)}
 function setIdentity(){const label=state.name||'زائر';$('#userLabel').textContent=label;$('#userType').textContent='Guest · زائر';$('#avatar').textContent=Array.from(label)[0]?.toUpperCase()||'ز';}
-function saveThreads(){localStorage.setItem('wine_threads',JSON.stringify(state.threads));renderHistory()}
+function saveThreads(){
+ const snapshot=JSON.parse(JSON.stringify(state.threads));
+ let keptImage=false;
+ for(let ti=snapshot.length-1;ti>=0;ti--){
+  const items=snapshot[ti].items||[];
+  for(let mi=items.length-1;mi>=0;mi--){
+   if(items[mi].image){if(!keptImage)keptImage=true;else delete items[mi].image;}
+  }
+ }
+ try{localStorage.setItem('wine_threads',JSON.stringify(snapshot));}
+ catch{
+  snapshot.forEach(t=>(t.items||[]).forEach(m=>{if(m.image)delete m.image;}));
+  try{localStorage.setItem('wine_threads',JSON.stringify(snapshot));}
+  catch{toast('تعذر حفظ سجل المحادثات على هذا الجهاز.');}
+ }
+ renderHistory();
+}
 function renderHistory(){const el=$('#history');if(!state.threads.length){el.innerHTML='<div class="history-empty">محادثاتك الجديدة هتظهر هنا</div>';return}el.innerHTML=state.threads.slice().reverse().map(t=>`<div class="history-item ${t.id===state.active?'active':''}" data-id="${t.id}">${escapeHtml(t.title||'محادثة جديدة')}</div>`).join('')}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function highlightCode(code,language='') {
@@ -39,12 +55,32 @@ function renderText(text){
     return '<section class="code-card"><div class="code-toolbar"><span>'+lang+'</span><button type="button" class="copy-code" data-copy="'+Number(i)+'">نسخ الكود</button></div><pre><code>'+code+'</code></pre></section>';
   });
 }
-function addMessage(role,text){welcome.style.display='none';messages.classList.add('active');const item=document.createElement('div');item.className=`message ${role}`;item.innerHTML=`<div class="message-avatar">${role==='user'?'YOU':'W'}</div><div class="bubble">${role==='assistant'?renderText(text):escapeHtml(text)}</div>`;messages.appendChild(item);messages.scrollTop=messages.scrollHeight;return item}
+function addMessage(role,text,imageUrl=null){
+ welcome.style.display='none';messages.classList.add('active');
+ const item=document.createElement('div');item.className=`message ${role}`;
+ const avatar=document.createElement('div');avatar.className='message-avatar';avatar.textContent=role==='user'?'YOU':'W';
+ const bubble=document.createElement('div');bubble.className='bubble';
+ if(role==='assistant')bubble.innerHTML=renderText(text);else bubble.textContent=text||'';
+ if(imageUrl){
+  const img=document.createElement('img');img.className='generated-image';img.src=imageUrl;img.alt='صورة أنشأها WINE AI';img.loading='lazy';
+  const actions=document.createElement('div');actions.className='image-actions';
+  const link=document.createElement('a');link.href=imageUrl;link.download='wine-ai-image.webp';link.textContent='تحميل الصورة';
+  actions.appendChild(link);bubble.append(img,actions);
+ }
+ item.append(avatar,bubble);messages.appendChild(item);messages.scrollTop=messages.scrollHeight;return item;
+}
 function newThread(){state.active=null;state.sessionId=null;messages.innerHTML='';messages.classList.remove('active');welcome.style.display='block';renderHistory();closeSidebar();promptInput.focus()}
 function currentThread(){let t=state.threads.find(x=>x.id===state.active);if(!t){t={id:crypto.randomUUID(),title:'محادثة جديدة',items:[]};state.threads.push(t);state.active=t.id}return t}
 function closeSidebar(){ $('#sidebar').classList.remove('open'); $('#sidebarScrim').classList.remove('show'); }
 function toggleSidebar(){const open=!$('#sidebar').classList.contains('open');$('#sidebar').classList.toggle('open',open);$('#sidebarScrim').classList.toggle('show',open)}
-function openThread(id){const t=state.threads.find(x=>x.id===id);if(!t)return;state.active=id;state.sessionId=t.sessionId||null;messages.innerHTML='';messages.classList.add('active');welcome.style.display='none';t.items.forEach(m=>addMessage(m.role,m.text));renderHistory();closeSidebar()}
+function openThread(id){const t=state.threads.find(x=>x.id===id);if(!t)return;state.active=id;state.sessionId=t.sessionId||null;messages.innerHTML='';messages.classList.add('active');welcome.style.display='none';t.items.forEach(m=>addMessage(m.role,m.text,m.image||null));renderHistory();closeSidebar()}
+function isImageGenerationRequest(text){
+ const value=String(text||'').trim();
+ if(/^(ازاي|كيف|اشرح|شرح|طريقة|ما هي|ماهو|what is|how to)\\b/i.test(value))return false;
+ return /(هات(?:لي)?|وريني|اعمل(?:ي)?|أنشئ|انشئ|اصنع|ارسم|صمم|ولّد|ولد|generate|create|draw|make)\\s*(?:لي|لنا)?\\s*(?:صورة|صوره|صور|image|picture)/i.test(value)
+  ||/(?:عايز|عاوز|ممكن)\\s+(?:لي\\s+)?(?:صورة|صوره|image|picture)/i.test(value)
+  ||/(?:صورة|صوره)\\s+(?:ل|عن|of)\\s*[^؟?!]+/i.test(value);
+}
 async function ensureGuest(){if(state.token)return true;const r=await fetch('/api/guest',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:state.name||'زائر'})});const d=await r.json();if(!r.ok||!d.token)throw new Error(d.error||'تعذر بدء جلسة الزائر');state.token=d.token;state.guest=true;state.name=d.name||state.name||'زائر';localStorage.setItem('wine_name',state.name);localStorage.setItem('wine_token',state.token);localStorage.setItem('wine_guest','1');setIdentity();return true}
 async function sendMessage(text){
  text=(text||'').trim();if(!text||state.busy)return;
@@ -55,6 +91,17 @@ async function sendMessage(text){
  bubble.innerHTML='<span class="typing">WINE AI بيجهّز الرد</span>';saveThreads();
  try{
   await ensureGuest();
+  if(isImageGenerationRequest(text)){
+   bubble.innerHTML='<span class="typing">WINE AI بينشئ الصورة الآن…</span>';
+   const imageResponse=await fetch('/api/images',{method:'POST',headers:{'Content-Type':'application/json','X-User-Token':`Bearer ${state.token}`},body:JSON.stringify({prompt:text})});
+   const imageResult=await imageResponse.json().catch(()=>({}));
+   if(!imageResponse.ok||!imageResult.image)throw new Error(imageResult.error||'تعذر إنشاء الصورة');
+   loading.remove();
+   thread.items.push({role:'assistant',text:'تم إنشاء الصورة بنجاح.',image:imageResult.image});
+   addMessage('assistant',`تم إنشاء الصورة بناءً على طلبك: ${text}`,imageResult.image);
+   saveThreads();
+   return;
+  }
   const history=thread.items.slice(-13,-1).map(m=>`${m.role==='user'?'المستخدم':'WINE AI'}: ${m.text}`).join('\n');
   const response=await fetch('/api/chat?stream=1',{method:'POST',headers:{'Content-Type':'application/json','Accept':'text/event-stream','X-User-Token':`Bearer ${state.token}`},body:JSON.stringify({prompt:text,history,sessionId:thread.sessionId||state.sessionId})});
   if(!response.ok){let err={};try{err=await response.json()}catch{}throw new Error(err.error||'تعذر الاتصال بمحرك الذكاء الاصطناعي');}
