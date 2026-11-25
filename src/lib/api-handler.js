@@ -51,12 +51,17 @@ function authorize(req, res) {
 
 async function guard(req, res) {
   const clientId = getClientId(req);
-  if (await isAuthBlocked(clientId)) {
+  const ipId = 'ip_' + (req.ip || req.socket?.remoteAddress || 'unknown');
+  const [blocked, clientAllowed, ipAllowed] = await Promise.all([
+    isAuthBlocked(clientId),
+    checkRateLimit(clientId),
+    ipId !== clientId ? checkRateLimit(ipId) : Promise.resolve(true),
+  ]);
+  if (blocked) {
     res.status(429).json({ success: false, error: 'تم حظرك مؤقتاً بسبب محاولات فاشلة متكررة' });
     return false;
   }
-  const ipId = 'ip_' + (req.ip || req.socket?.remoteAddress || 'unknown');
-  if (!(await checkRateLimit(clientId)) || (ipId !== clientId && !(await checkRateLimit(ipId)))) {
+  if (!clientAllowed || !ipAllowed) {
     res.status(429).json({ success: false, error: 'طلبات كثيرة جداً. يرجى التهدئة.' });
     return false;
   }
