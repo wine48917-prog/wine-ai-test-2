@@ -452,3 +452,52 @@ html,body{background:var(--bg);color:var(--text)}
 @keyframes wineSpin{to{transform:rotate(360deg)}}
 .wine-workspace .studio-back{display:block;margin:26px auto 0;border:1px solid #435462;border-radius:10px;background:#17232d;color:#cbd7df;padding:10px 16px;font:600 11px Cairo;cursor:pointer}
 @media(max-width:600px){.wine-workspace .studio-page{padding:28px 15px}.wine-workspace .studio-heading{align-items:flex-start}.wine-workspace .studio-symbol{width:48px;height:48px}.wine-workspace .studio-controls{align-items:flex-start;gap:10px}.wine-workspace .studio-image-actions{align-items:flex-start;flex-direction:column}}
+
+
+/* WINE AI — semantic accent palette: each important action has its own clear color */
+.wine-workspace{
+  --accent-primary:#e87991;   /* main actions */
+  --accent-gold:#e8bd75;      /* highlights and section labels */
+  --accent-blue:#75bce8;      /* Studio and tools */
+  --accent-violet:#b69aff;    /* creative / AI accents */
+  --accent-green:#72d6a0;     /* ready / success */
+  --accent-orange:#f0a66e;    /* notices */
+}
+.wine-workspace .welcome-kicker,.wine-workspace .prompt-section-heading b{color:var(--accent-gold)}
+.wine-workspace .kicker-line,.wine-workspace .quick-arrow,.wine-workspace .welcome-footer i{background:var(--accent-gold)}
+.wine-workspace .kicker-dot{background:var(--accent-violet);box-shadow:0 0 12px var(--accent-violet)}
+.wine-workspace .welcome h1 em{background:linear-gradient(100deg,var(--accent-primary),var(--accent-violet));color:transparent;background-clip:text}
+.wine-workspace .quick-card:nth-child(1) .quick-icon{color:var(--accent-blue);background:#75bce817;border-color:#75bce84d}
+.wine-workspace .quick-card:nth-child(2) .quick-icon{color:var(--accent-violet);background:#b69aff17;border-color:#b69aff4d}
+.wine-workspace .quick-card:nth-child(3) .quick-icon{color:var(--accent-gold);background:#e8bd7517;border-color:#e8bd754d}
+.wine-workspace .quick-card:nth-child(4) .quick-icon{color:var(--accent-green);background:#72d6a017;border-color:#72d6a04d}
+.wine-workspace .quick-card:nth-child(1):hover{border-color:var(--accent-blue)}
+.wine-workspace .quick-card:nth-child(2):hover{border-color:var(--accent-violet)}
+.wine-workspace .quick-card:nth-child(3):hover{border-color:var(--accent-gold)}
+.wine-workspace .quick-card:nth-child(4):hover{border-color:var(--accent-green)}
+.wine-workspace .new-chat,.wine-workspace .send-btn,.wine-workspace .primary-btn{background:linear-gradient(120deg,#f09aaa,#c94f70);border-color:#e87991;color:#240e17}
+.wine-workspace .new-chat span,.wine-workspace .send-btn span{color:#2a101a}
+.wine-workspace .studio-nav,.wine-workspace .studio-top-link{border-color:#397da5;background:linear-gradient(120deg,#17384d,#14232f);color:#a9dcfa}
+.wine-workspace .studio-nav span{color:var(--accent-blue)}
+.wine-workspace .studio-nav:hover,.wine-workspace .studio-top-link:hover{border-color:var(--accent-blue);background:#1b4058}
+.wine-workspace .model-chip i,.wine-workspace .composer-mode i,.wine-workspace .sidebar-status>span{background:var(--accent-green);box-shadow:0 0 10px #72d6a077}
+.wine-workspace .sidebar-status b{color:var(--accent-green)}
+.wine-workspace .image-btn{border-color:#8a70c8;background:#281d3a;color:#d4c4ff}
+.wine-workspace .image-btn span{color:var(--accent-violet)}
+.wine-workspace .image-btn:hover{border-color:var(--accent-violet)}
+.wine-workspace .composer:focus-within,.wine-workspace .name-modal input#guestName:focus{border-color:var(--accent-primary);box-shadow:0 0 0 3px #e8799124}
+.wine-workspace .message.assistant .message-avatar{background:linear-gradient(145deg,#e2d6ff,#9c83e8);border-color:#b69aff;color:#211632}
+.wine-workspace .message.user .message-avatar{background:linear-gradient(145deg,#c5e7fb,#68a9d5);border-color:#75bce8;color:#102332}
+.wine-workspace .message.user .bubble{border-color:#75bce866;background:linear-gradient(145deg,#1b2b39,#17212b)}
+.wine-workspace .bubble code,.wine-workspace .md-heading{color:var(--accent-gold)}
+.wine-workspace .copy-code{border-color:#75bce866;color:#b9e2fb}
+.wine-workspace .copy-code:hover{border-color:var(--accent-blue)}
+.wine-workspace .form-error,.wine-workspace .studio-error{color:#ffb0a0}
+.wine-workspace .disclaimer span{color:var(--accent-orange)}
+.wine-workspace .studio-heading h1 em,.wine-workspace .studio-kicker{color:var(--accent-blue)}
+.wine-workspace .studio-symbol{color:var(--accent-blue);border-color:#75bce866}
+.wine-workspace .studio-workbench textarea:focus{border-color:var(--accent-blue);box-shadow:0 0 0 3px #75bce822}
+.wine-workspace .studio-controls button{background:linear-gradient(120deg,#a9dcfa,#4b9bc9);color:#102331}
+.wine-workspace .studio-empty>span{color:var(--accent-blue)}
+.wine-workspace .studio-image-actions a{border-color:#75bce8;color:#b9e2fb}
+.wine-workspace .studio-spinner{border-top-color:var(--accent-blue)}
