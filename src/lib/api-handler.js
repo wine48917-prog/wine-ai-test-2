@@ -109,12 +109,13 @@ async function analyzeImage(imageBase64, userPrompt) {
   const time = Math.floor(Date.now() / 1000).toString();
   const sig = crypto.createHmac('sha256', LENS_SECRET).update(`${time}.${device}`).digest('hex');
 
-  const match = imageBase64.match(/^data:(image\\/(?:jpeg|png|webp));base64,([A-Za-z0-9+/=]+)$/i);
+  const match = imageBase64.match(/^data:([^;,]+);base64,([A-Za-z0-9+/=]+)$/i);
   const base64Data = match ? match[2] : imageBase64;
   if (!/^[A-Za-z0-9+/]+={0,2}$/.test(base64Data) || base64Data.length > MAX_IMAGE_BASE64_CHARS) throw new Error('Invalid or oversized image');
   const buffer = Buffer.from(base64Data, 'base64');
   if (!buffer.length || buffer.length > 6 * 1024 * 1024) throw new Error('Image exceeds 6 MB limit');
   const mime = match ? match[1].toLowerCase() : 'image/jpeg';
+  if (!['image/jpeg', 'image/png', 'image/webp'].includes(mime)) throw new Error('Unsupported image type');
   const signatureOk = (mime === 'image/jpeg' && buffer[0] === 0xff && buffer[1] === 0xd8) ||
     (mime === 'image/png' && buffer.subarray(0, 8).equals(Buffer.from([137,80,78,71,13,10,26,10]))) ||
     (mime === 'image/webp' && buffer.toString('ascii', 0, 4) === 'RIFF' && buffer.toString('ascii', 8, 12) === 'WEBP');
