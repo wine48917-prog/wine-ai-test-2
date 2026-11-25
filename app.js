@@ -76,10 +76,10 @@ function toggleSidebar(){const open=!$('#sidebar').classList.contains('open');$(
 function openThread(id){const t=state.threads.find(x=>x.id===id);if(!t)return;state.active=id;state.sessionId=t.sessionId||null;messages.innerHTML='';messages.classList.add('active');welcome.style.display='none';t.items.forEach(m=>addMessage(m.role,m.text,m.image||null));renderHistory();closeSidebar()}
 function isImageGenerationRequest(text){
  const value=String(text||'').trim();
- if(/^(ازاي|كيف|اشرح|شرح|طريقة|ما هي|ماهو|what is|how to)\\b/i.test(value))return false;
- return /(هات(?:لي)?|وريني|اعمل(?:ي)?|أنشئ|انشئ|اصنع|ارسم|صمم|ولّد|ولد|generate|create|draw|make)\\s*(?:لي|لنا)?\\s*(?:صورة|صوره|صور|image|picture)/i.test(value)
-  ||/(?:عايز|عاوز|ممكن)\\s+(?:لي\\s+)?(?:صورة|صوره|image|picture)/i.test(value)
-  ||/(?:صورة|صوره)\\s+(?:ل|عن|of)\\s*[^؟?!]+/i.test(value);
+ if(/^(ازاي|كيف|اشرح|شرح|طريقة|ما هي|ماهو|what is|how to)\b/i.test(value))return false;
+ return /(هات(?:لي)?|وريني|اعمل(?:ي)?|أنشئ|انشئ|اصنع|ارسم|صمم|ولّد|ولد|generate|create|draw|make)\s*(?:لي|لنا)?\s*(?:صورة|صوره|صور|image|picture)/i.test(value)
+  ||/(?:عايز|عاوز|ممكن)\s+(?:لي\s+)?(?:صورة|صوره|image|picture)/i.test(value)
+  ||/(?:صورة|صوره)\s+(?:ل|عن|of)\s*[^؟?!]+/i.test(value);
 }
 async function ensureGuest(){if(state.token)return true;const r=await fetch('/api/guest',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:state.name||'زائر'})});const d=await r.json();if(!r.ok||!d.token)throw new Error(d.error||'تعذر بدء جلسة الزائر');state.token=d.token;state.guest=true;state.name=d.name||state.name||'زائر';localStorage.setItem('wine_name',state.name);localStorage.setItem('wine_token',state.token);localStorage.setItem('wine_guest','1');setIdentity();return true}
 async function sendMessage(text){
