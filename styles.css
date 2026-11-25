@@ -419,3 +419,36 @@ html,body{background:var(--bg);color:var(--text)}
   .wine-workspace .image-btn{padding:0 10px;font-size:10px}
   .wine-workspace .generated-image{border-radius:12px;max-height:58vh}
 }
+
+/* WINE STUDIO — dedicated image creation workspace */
+.wine-workspace .studio-nav,.wine-workspace .studio-top-link{width:100%;border:1px solid #596d7d;background:linear-gradient(120deg,#1d2a35,#111922);color:#dce8ef;border-radius:12px;padding:12px 14px;text-align:right;font:700 12px Cairo,sans-serif;cursor:pointer;margin:10px 0;transition:.2s}
+.wine-workspace .studio-nav span{color:#d6b6a2;font-size:18px;margin-left:8px}
+.wine-workspace .studio-nav.active,.wine-workspace .studio-nav:hover,.wine-workspace .studio-top-link:hover{border-color:#c4a18e;background:#293844}
+.wine-workspace .studio-top-link{width:auto;margin:0;padding:8px 13px;text-align:center}
+.wine-workspace .studio-page{width:min(100%,1050px);margin:0 auto;padding:42px 32px 35px;flex:1}
+.wine-workspace .studio-page[hidden]{display:none}
+.wine-workspace .studio-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
+.wine-workspace .studio-kicker{font:700 9px Manrope;letter-spacing:2px;color:#b99b8b}
+.wine-workspace .studio-heading h1{font:900 clamp(30px,5vw,46px) Manrope;margin:8px 0;color:#f1f3f6;letter-spacing:2px}
+.wine-workspace .studio-heading h1 em{font-style:normal;color:#c8a995}
+.wine-workspace .studio-heading p{color:#9ca9b4;font-size:12px;margin:0}
+.wine-workspace .studio-symbol{width:66px;height:66px;border:1px solid #92796666;border-radius:20px;display:grid;place-items:center;color:#d5b69f;font-size:32px;background:linear-gradient(145deg,#283641,#121920);box-shadow:0 10px 30px #0005}
+.wine-workspace .studio-workbench{background:linear-gradient(145deg,#18232d,#10171e);border:1px solid #344654;border-radius:18px;padding:19px;box-shadow:0 16px 45px #0004}
+.wine-workspace .studio-workbench label{display:block;color:#e4eaf0;font-size:12px;font-weight:700;margin-bottom:10px}
+.wine-workspace .studio-workbench textarea{display:block;width:100%;resize:vertical;min-height:115px;background:#0a1118;border:1px solid #344653;border-radius:12px;padding:14px;color:#f2f5f7;font:13px/1.9 Cairo,sans-serif;outline:none}
+.wine-workspace .studio-workbench textarea:focus{border-color:#b99b8b;box-shadow:0 0 0 3px #b99b8b20}
+.wine-workspace .studio-controls{display:flex;align-items:center;justify-content:space-between;margin-top:13px;color:#81909c;font-size:10px}
+.wine-workspace .studio-controls button{border:0;border-radius:11px;padding:11px 18px;background:linear-gradient(120deg,#e2c8b4,#9e7e6c);color:#1a1716;font:800 12px Cairo;cursor:pointer}
+.wine-workspace .studio-controls button:disabled{opacity:.5;cursor:wait}
+.wine-workspace .studio-result{margin-top:24px;min-height:190px}
+.wine-workspace .studio-empty,.wine-workspace .studio-loading{min-height:210px;border:1px dashed #435462;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;color:#a8b5bf;text-align:center;padding:20px}
+.wine-workspace .studio-empty>span{font-size:34px;color:#c9a88f}.wine-workspace .studio-empty b,.wine-workspace .studio-loading b{color:#e3eaf0;font-size:14px}.wine-workspace .studio-empty small,.wine-workspace .studio-loading small{font-size:10px;color:#8795a0}
+.wine-workspace .studio-image-card{max-width:760px;margin:0 auto;border:1px solid #526675;border-radius:17px;overflow:hidden;background:#0c1218;box-shadow:0 18px 55px #0007}
+.wine-workspace .studio-image-card img{display:block;width:100%;height:auto;max-height:72vh;object-fit:contain}
+.wine-workspace .studio-image-actions{display:flex;justify-content:space-between;align-items:center;padding:12px 15px;gap:10px;color:#8595a2;font-size:9px}
+.wine-workspace .studio-image-actions a{color:#ead2c0;text-decoration:none;border:1px solid #796454;border-radius:9px;padding:8px 12px;font-size:11px}
+.wine-workspace .studio-error{padding:18px;border:1px solid #804a56;border-radius:13px;color:#f0a6ae;background:#26171e}
+.wine-workspace .studio-spinner{width:28px;height:28px;border:2px solid #536978;border-top-color:#dfc2ad;border-radius:50%;animation:wineSpin .8s linear infinite}
+@keyframes wineSpin{to{transform:rotate(360deg)}}
+.wine-workspace .studio-back{display:block;margin:26px auto 0;border:1px solid #435462;border-radius:10px;background:#17232d;color:#cbd7df;padding:10px 16px;font:600 11px Cairo;cursor:pointer}
+@media(max-width:600px){.wine-workspace .studio-page{padding:28px 15px}.wine-workspace .studio-heading{align-items:flex-start}.wine-workspace .studio-symbol{width:48px;height:48px}.wine-workspace .studio-controls{align-items:flex-start;gap:10px}.wine-workspace .studio-image-actions{align-items:flex-start;flex-direction:column}}
