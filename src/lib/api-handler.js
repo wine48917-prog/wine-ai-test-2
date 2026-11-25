@@ -55,7 +55,8 @@ async function guard(req, res) {
     res.status(429).json({ success: false, error: 'تم حظرك مؤقتاً بسبب محاولات فاشلة متكررة' });
     return false;
   }
-  if (!(await checkRateLimit(clientId))) {
+  const ipId = 'ip_' + (req.ip || req.socket?.remoteAddress || 'unknown');
+  if (!(await checkRateLimit(clientId)) || (ipId !== clientId && !(await checkRateLimit(ipId)))) {
     res.status(429).json({ success: false, error: 'طلبات كثيرة جداً. يرجى التهدئة.' });
     return false;
   }
