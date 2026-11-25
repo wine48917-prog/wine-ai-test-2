@@ -2,6 +2,7 @@ import crypto from 'node:crypto';
 import pool, { ensureDatabase } from '../db.js';
 import { signToken } from '../src/lib/jwt.js';
 import { applyCORS, isOriginAllowed } from '../src/lib/cors.js';
+import { checkRateLimit, recordAuthFail, isAuthBlocked } from '../src/lib/rate-limit.js';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PBKDF2_ITERATIONS = 150_000;
@@ -34,6 +35,8 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(204).end();
   if (!isOriginAllowed(req)) return res.status(403).json({ success: false, error: 'Origin not allowed' });
   if (req.method !== 'POST') return res.status(405).json({ success: false, error: 'Method not allowed' });
+  const clientIp = req.ip || req.socket?.remoteAddress || 'unknown';
+  if (!(await checkRateLimit('auth:' + clientIp))) return res.status(429).json({ success: false, error: 'محاولات كثيرة. حاول بعد دقيقة.' });
 
   let body;
   try { body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body; }
@@ -65,6 +68,8 @@ export default async function handler(req, res) {
     }
 
     if (action === 'login') {
+      const authKey = 'login:' + clientIp + ':' + normalizedEmail;
+      if (await isAuthBlocked(authKey)) return res.status(429).json({ success: false, error: 'تم إيقاف محاولات الدخول مؤقتاً. حاول بعد 10 دقائق.' });
       if (!EMAIL_RE.test(normalizedEmail) || typeof password !== 'string' || !password) {
         return res.status(400).json({ success: false, error: 'أدخل البريد الإلكتروني وكلمة المرور' });
       }
@@ -74,6 +79,7 @@ export default async function handler(req, res) {
       );
       const user = rows[0];
       if (!user || !user.password_hash || !verifyPassword(password, user.password_hash)) {
+        await recordAuthFail(authKey);
         return res.status(401).json({ success: false, error: 'البريد الإلكتروني أو كلمة المرور غير صحيحة' });
       }
       const token = signToken({ uid: user.uuid, email: user.email });
