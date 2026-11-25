@@ -4,7 +4,7 @@ import https from 'node:https';
 const CONFIG = {
   UA: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36',
   UA_MOBILE: 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Mobile Safari/537.36',
-  TIMEOUT: Math.max(5000, Math.min(Number(process.env.REQUEST_TIMEOUT) || 9000, 12000)),
+  TIMEOUT: Math.max(8000, Math.min(Number(process.env.REQUEST_TIMEOUT) || 20000, 25000)),
   HOME: 'https://gemini.google.com/app',
   ENDPOINT: 'https://gemini.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate',
   BATCH: 'https://gemini.google.com/_/BardChatUi/data/batchexecute',
@@ -482,7 +482,7 @@ async function officialGeminiRequest(message, onChunk) {
       contents: [{ role: 'user', parts: [{ text: message }] }],
       generationConfig: { temperature: 0.7, maxOutputTokens: 2048 },
     }),
-    signal: AbortSignal.timeout(20000),
+    signal: AbortSignal.timeout(45000),
   });
 
   if (!response.ok) {
