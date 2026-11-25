@@ -111,11 +111,11 @@ export default async function handler(req, res) {
     catch (fallbackError) {
       await refundImageQuota(quota.keys);
       console.error('[Gemini image fallback]', fallbackError.status || fallbackError.name || 'Error', String(fallbackError.message || '').slice(0, 240));
-      if (!process.env.CLOUDFLARE_API_TOKEN || !process.env.CLOUDFLARE_ACCOUNT_ID) return res.status(503).json({ success: false, error: 'مولّد الصور المجاني غير مُعد بعد. أضف إعدادات Cloudflare Workers AI في Vercel.' });
+      if (fallbackError.status === 429) return res.status(503).json({ success: false, error: 'حصة Gemini الحالية مستنفدة (429). انتظر إعادة ضبط الحصة المجانية أو استخدم مفتاحاً من مشروع Google لديه حصة متاحة.' });
+      if (!process.env.CLOUDFLARE_API_TOKEN || !process.env.CLOUDFLARE_ACCOUNT_ID) return res.status(503).json({ success: false, error: 'Gemini غير متاح حالياً، ومزوّد Cloudflare الاحتياطي غير مُعد في Vercel.' });
       const gatewayStatus = Number(gatewayError?.statusCode || gatewayError?.status || 0);
       if (gatewayStatus === 401 || gatewayStatus === 403) return res.status(503).json({ success: false, error: 'تعذّر الاتصال بمزوّد الصور الاحتياطي في Vercel.' });
       if (gatewayStatus === 402 || /credit|budget|payment/i.test(String(gatewayError?.message || ''))) return res.status(503).json({ success: false, error: 'رصيد مزوّد الصور الاحتياطي في Vercel غير كافٍ.' });
-      if (fallbackError.status === 429) return res.status(503).json({ success: false, error: 'حصة Gemini ممتلئة حالياً، ولم ينجح مزوّد الصور الاحتياطي.' });
       return res.status(502).json({ success: false, error: 'تعذر إنشاء الصورة حالياً. حاول لاحقاً.' });
     }
   }
