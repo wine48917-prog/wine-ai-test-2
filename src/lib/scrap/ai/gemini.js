@@ -279,7 +279,7 @@ class GeminiClient {
     this.deviceId = opts.deviceId || crypto.randomUUID();
     this.hl = opts.hl || 'id';
     this._reqid = Math.floor(Math.random() * 10000000);
-    this._sessionId = crypto.randomBytes(16).toString('hex');
+    this._sessionId = opts.sessionToken || crypto.randomBytes(16).toString('hex');
   }
 
   _headers(extra = {}) {
@@ -438,6 +438,7 @@ async function geminiMethod3(message, options = {}) {
     atToken: saved?.atToken || boot?.snlM0e || generateAtToken(),
     tokenBlob: saved?.tokenBlob || boot?.tokenBlob,
     deviceId: saved?.deviceId,
+    sessionToken: saved?.sessionToken,
     hl: saved?.hl || 'id',
   });
   const result = await client.sendMessage(message, options.onChunk, saved?.resume || null);
@@ -446,7 +447,7 @@ async function geminiMethod3(message, options = {}) {
     resume: [result.conversationId, result.responseId, result.replyId],
     cookie: client.cookie, bl: client.bl, fSid: client.fSid,
     atToken: client.atToken, tokenBlob: client.tokenBlob,
-    deviceId: client.deviceId, hl: client.hl,
+    deviceId: client.deviceId, sessionToken: client._sessionId, hl: client.hl,
   });
   return {
     success: true, response: cleanText(result.text), sessionId,
