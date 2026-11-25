@@ -396,3 +396,26 @@ html,body{background:var(--bg);color:var(--text)}
 @media(max-width:480px){
   .wine-workspace .name-modal input#guestName{height:54px;font-size:13px}
 }
+
+
+/* Star X image generation controls and output */
+.wine-workspace .composer-actions{display:flex;align-items:center;gap:9px}
+.wine-workspace .image-btn{
+  min-height:37px;padding:0 13px;display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  border:1px solid #805064;border-radius:12px;background:linear-gradient(135deg,#2b1924,#171018);
+  color:#f0c9bc;font:700 11px Cairo,sans-serif;cursor:pointer;
+  transition:transform .2s,border-color .2s,box-shadow .2s,filter .2s;
+}
+.wine-workspace .image-btn span{font-size:17px;line-height:1;color:#e7b2ad}
+.wine-workspace .image-btn:hover{border-color:#d87983;box-shadow:0 5px 18px #a43c5833;transform:translateY(-1px)}
+.wine-workspace .image-btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.wine-workspace .generated-image{
+  display:block;width:min(100%,640px);height:auto;max-height:70vh;object-fit:contain;
+  border:1px solid #805064;border-radius:16px;background:#100b10;
+  box-shadow:0 14px 38px #0007;
+}
+.wine-workspace .message.assistant .bubble:has(.generated-image){background:transparent;border:0;padding:0;box-shadow:none;max-width:min(100%,680px)}
+@media(max-width:560px){
+  .wine-workspace .image-btn{padding:0 10px;font-size:10px}
+  .wine-workspace .generated-image{border-radius:12px;max-height:58vh}
+}
