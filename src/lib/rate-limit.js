@@ -5,10 +5,25 @@ const WINDOW_MS = 60_000;
 const MAX_REQUESTS = 30;
 const AUTH_FAIL_WINDOW_MS = 10 * 60_000;
 const MAX_AUTH_FAILS = 10;
+// Best-effort fallback for brief database outages; database limits remain primary.
+const localBuckets = new Map();
 
 function keyFor(prefix, identifier) {
   const digest = crypto.createHash('sha256').update(String(identifier || 'unknown')).digest('hex');
-  return `${prefix}:${digest}`;
+  return \`${prefix}:${digest}\`;
+}
+
+function localIncrement(key, windowMs) {
+  const now = Date.now();
+  let entry = localBuckets.get(key);
+  if (!entry || entry.resetAt <= now) entry = { count: 0, resetAt: now + windowMs };
+  entry.count += 1;
+  localBuckets.set(key, entry);
+  if (localBuckets.size > 5000) {
+    for (const [k, v] of localBuckets) if (v.resetAt <= now) localBuckets.delete(k);
+    if (localBuckets.size > 5000) localBuckets.delete(localBuckets.keys().next().value);
+  }
+  return entry;
 }
 
 async function increment(key, windowMs) {
@@ -24,36 +39,33 @@ async function increment(key, windowMs) {
 }
 
 export async function checkRateLimit(identifier) {
-  try {
-    const result = await increment(keyFor('rl', identifier), WINDOW_MS);
-    return result.count <= MAX_REQUESTS;
-  } catch (error) {
-    console.error('[rate-limit] storage unavailable:', error.message);
-    return false;
+  const key = keyFor('rl', identifier);
+  try { return (await increment(key, WINDOW_MS)).count <= MAX_REQUESTS; }
+  catch (error) {
+    console.error('[rate-limit] database unavailable; using temporary local limit:', error.message);
+    return localIncrement(key, WINDOW_MS).count <= MAX_REQUESTS;
   }
 }
 
 export async function recordAuthFail(identifier) {
-  try {
-    const result = await increment(keyFor('af', identifier), AUTH_FAIL_WINDOW_MS);
-    return result.count;
-  } catch (error) {
-    console.error('[auth-rate-limit] storage unavailable:', error.message);
-    return MAX_AUTH_FAILS + 1;
+  const key = keyFor('af', identifier);
+  try { return (await increment(key, AUTH_FAIL_WINDOW_MS)).count; }
+  catch (error) {
+    console.error('[auth-rate-limit] database unavailable; using temporary local limit:', error.message);
+    return localIncrement(key, AUTH_FAIL_WINDOW_MS).count;
   }
 }
 
 export async function isAuthBlocked(identifier) {
+  const key = keyFor('af', identifier);
   try {
     await ensureDatabase();
-    const [rows] = await pool.query(
-      'SELECT cnt, reset_at FROM rate_limits WHERE rk = ? LIMIT 1',
-      [keyFor('af', identifier)]
-    );
+    const [rows] = await pool.query('SELECT cnt, reset_at FROM rate_limits WHERE rk = ? LIMIT 1', [key]);
     const row = rows[0];
     return Boolean(row && Number(row.reset_at) > Date.now() && Number(row.cnt) >= MAX_AUTH_FAILS);
   } catch (error) {
-    console.error('[auth-rate-limit] storage unavailable:', error.message);
-    return true;
+    console.error('[auth-rate-limit] database unavailable; using temporary local check:', error.message);
+    const row = localBuckets.get(key);
+    return Boolean(row && row.resetAt > Date.now() && row.count >= MAX_AUTH_FAILS);
   }
 }
