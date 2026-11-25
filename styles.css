@@ -363,3 +363,36 @@ html,body{background:var(--bg);color:var(--text)}
   .wine-workspace .topbar{background:#100b10f2}
   .wine-workspace .composer-dock{background:linear-gradient(180deg,#100b10e8,#100b10 28%)}
 }
+
+
+/* WINE AI — premium guest name field */
+.wine-workspace .name-modal form{margin-top:22px}
+.wine-workspace .name-modal label{
+  display:block;padding:0;margin:0 0 16px;color:#f0d9d2;
+  font-size:12px;font-weight:700;letter-spacing:.2px;
+}
+.wine-workspace .name-modal input#guestName{
+  display:block;width:100%;height:58px;margin-top:10px;padding:0 17px;
+  border:1px solid #805064;border-radius:15px;
+  background:linear-gradient(135deg,#21131c,#100b10 72%);
+  color:#fff4ef;font:600 14px Cairo,sans-serif;
+  direction:rtl;text-align:right;outline:none;caret-color:#f0c9bc;
+  box-shadow:inset 0 2px 12px #0005,0 5px 18px #0002;
+  transition:border-color .22s,box-shadow .22s,background .22s,transform .22s;
+}
+.wine-workspace .name-modal input#guestName::placeholder{color:#a98d96;font-weight:400}
+.wine-workspace .name-modal input#guestName:hover{
+  border-color:#b97888;background:linear-gradient(135deg,#2a1823,#140d14 72%);
+}
+.wine-workspace .name-modal input#guestName:focus{
+  border-color:#e3a0a8;background:linear-gradient(135deg,#2c1924,#120c12 72%);
+  box-shadow:0 0 0 4px #d8798325,0 0 28px #d8798320,inset 0 2px 12px #0005;
+  transform:translateY(-1px);
+}
+.wine-workspace .name-modal input#guestName::selection{background:#a43c58;color:#fff}
+.wine-workspace .name-modal .primary-btn{
+  min-height:49px;border-radius:13px;box-shadow:0 9px 24px #a43c5838;
+}
+@media(max-width:480px){
+  .wine-workspace .name-modal input#guestName{height:54px;font-size:13px}
+}
