@@ -8,7 +8,7 @@
 - وضع زائر بتوكن جلسة موقّع من الخادم.
 - تسجيل حساب/دخول بالبريد وكلمة المرور عبر MySQL.
 - محرك Gemini scraper موجود داخل `src/lib/scrap/ai/gemini.js` ومربوط بمسار `/api/chat`.
-- إنشاء صور من وصف المستخدم عبر OpenAI Images API في مسار مستقل `/api/images`، مع إبقاء المفتاح على الخادم فقط.
+- إنشاء صور من وصف المستخدم عبر Gemini Image API في مسار مستقل `/api/images`، مع إبقاء المفتاح على الخادم فقط.
 - حماية أساسية لمعدل الطلبات والتحقق من جلسات JWT.
 - أيقونة المشروع `icon.png` في جذر المشروع.
 
@@ -65,8 +65,9 @@ npm start
 - `api/guest.js`: جلسات الزوار.
 - `api/images.js`: إنشاء الصور مع التحقق من الجلسة وحد يومي قدره 5 صور.
 
-## إعداد إنشاء الصور
-أضف `OPENAI_API_KEY` كمتغير بيئة مشفّر في Vercel (Production وPreview عند الحاجة). لا تضع المفتاح في `app.js` أو HTML أو أي ملف عام. يستخدم المسار `gpt-image-2.5-flare` افتراضياً ويمكن تغييره عبر `OPENAI_IMAGE_MODEL`. إنشاء الصور غير متاح حتى تضيف مفتاح OpenAI صالحاً إلى إعدادات المشروع. راجع [توثيق OpenAI Images API](https://developers.openai.com/api/reference/resources/images/methods/generate).
+## إعداد إنشاء الصور عبر Gemini
+أنشئ مفتاح Gemini API من [Google AI Studio](https://aistudio.google.com/apikey)، ثم أضف `GEMINI_API_KEY` كمتغير بيئة مشفّر في Vercel (Production وPreview عند الحاجة). لا تضع المفتاح في `app.js` أو HTML أو أي ملف عام. يستخدم المسار `gemini-3.1-flash-image` افتراضياً ويمكن تغييره عبر `GEMINI_IMAGE_MODEL`. لا تحتاج إلى `OPENAI_API_KEY` لإنشاء الصور. بعد إضافة المفتاح أعد نشر المشروع، ثم افحص `/api/health` للتأكد من أن `features.imageGeneration` أصبحت `true`. يعتمد المسار على Gemini `generateContent` مع `responseModalities: ["TEXT", "IMAGE"]`.
+
 - `api/auth.js`: تسجيل الحسابات والدخول.
 - `api/health.js`: فحص الخدمة.
 - `src/lib/scrap/ai/gemini.js`: محرك Gemini scraper المرفق.
