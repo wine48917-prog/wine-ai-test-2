@@ -160,7 +160,7 @@ async function generateStudioImage(){
   const ctx=canvas.getContext('2d');ctx.drawImage(bitmap,0,0);
   const scale=Math.max(1,Math.min(canvas.width,canvas.height)/900);
   const fontSize=Math.max(11,Math.round(13*scale));
-  const label='WINE STUDIO AI';
+  const label='WINE STUDIO AI © 2026 WINE Organization';
   ctx.save();ctx.font='600 '+fontSize+'px Manrope, Arial, sans-serif';ctx.textAlign='right';ctx.textBaseline='bottom';
   const pad=Math.round(12*scale),boxW=ctx.measureText(label).width+pad*1.5,boxH=fontSize+pad;
   const x=canvas.width-pad,y=canvas.height-pad;
@@ -175,7 +175,7 @@ async function generateStudioImage(){
   const image=document.createElement('img');image.src=studioObjectUrl;image.alt='صورة من WINE STUDIO AI';
   const actions=document.createElement('div');actions.className='studio-image-actions';
   const download=document.createElement('a');download.href=studioObjectUrl;download.download='wine-studio-ai.png';download.textContent='↓ تحميل الصورة';
-  const caption=document.createElement('span');caption.textContent='WINE STUDIO AI · توقيع مدمج بالصورة';
+  const caption=document.createElement('span');caption.textContent='© 2026 WINE Organization · WINE STUDIO AI';
   actions.append(download,caption);card.append(image,actions);result.append(card);
  }catch(error){result.innerHTML='<div class="studio-error">'+escapeHtml(error.message)+'</div>';}
  finally{state.busy=false;button.disabled=false;button.textContent='✧ إنشاء الصورة';}
