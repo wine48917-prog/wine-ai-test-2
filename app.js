@@ -1,7 +1,6 @@
 const $=s=>document.querySelector(s);
 const state={token:localStorage.getItem('wine_token')||'',guest:localStorage.getItem('wine_guest')==='1',name:localStorage.getItem('wine_name')||'',email:'',mode:'guest',sessionId:null,threads:JSON.parse(localStorage.getItem('wine_threads')||'[]'),active:null,busy:false};
 const messages=$('#messages'),welcome=$('#welcome'),promptInput=$('#prompt');
-let studioObjectUrl=null;
 function toast(text){const t=$('#toast');t.textContent=text;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600)}
 function setIdentity(){const label=state.name||'زائر';$('#userLabel').textContent=label;$('#userType').textContent='Guest · زائر';$('#avatar').textContent=Array.from(label)[0]?.toUpperCase()||'ز';}
 function saveThreads(){
@@ -184,7 +183,6 @@ async function generateStudioImage(){
 function openName(){ $('#nameModal').classList.add('show'); $('#guestName').value=state.name||''; }
 function closeName(){ $('#nameModal').classList.remove('show'); }
 function saveName(e){e.preventDefault();const name=$('#guestName').value.trim().replace(/\s+/g,' ');if(name.length<2||name.length>30){$('#nameError').textContent='اكتب اسماً من حرفين إلى 30 حرفاً';return;}state.name=name;state.guest=true;state.token='';localStorage.setItem('wine_name',name);localStorage.removeItem('wine_token');localStorage.setItem('wine_guest','1');setIdentity();closeName();toast('أهلاً بك يا '+name);}
-$('#studioNav').addEventListener('click',()=>showStudio(true));$('#studioTop').addEventListener('click',()=>showStudio(true));$('#studioBack').addEventListener('click',()=>showStudio(false));$('#studioGenerate').addEventListener('click',generateStudioImage);
 $('#send').addEventListener('click',()=>sendMessage(promptInput.value));$('#generateImage').addEventListener('click',generateImage);promptInput.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage(promptInput.value)}});promptInput.addEventListener('input',()=>{promptInput.style.height='auto';promptInput.style.height=Math.min(promptInput.scrollHeight,180)+'px'});
 document.querySelectorAll('[data-prompt]').forEach(b=>b.addEventListener('click',()=>sendMessage(b.dataset.prompt)));
 $('#newChat').addEventListener('click',newThread);$('#newChatTop').addEventListener('click',newThread);$('#history').addEventListener('click',e=>{const t=e.target.closest('[data-id]');if(t)openThread(t.dataset.id)});
