@@ -18,7 +18,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 if (process.env.TRUST_PROXY === 'true') app.set('trust proxy', 1);
 app.disable('x-powered-by');
 app.use(express.json({ limit: '8mb' }));
-app.use(async (req,res,next)=>{if(req.path==='/developer'||req.path==='/api/owner'||req.path==='/api/control'||req.path==='/api/health'||req.path==='/health'||req.path.startsWith('/api/'))return next();if(await maintenanceGuard(req,res))return;return next();});
+app.use(async (req,res,next)=>{if(req.path==='/developer'||req.path==='/api/owner'||req.path==='/api/control'||req.path==='/api/health'||req.path==='/health')return next();if(await maintenanceGuard(req,res))return;return next();});
 
 // Static assets are served directly with short-lived caching; HTML stays fresh.
 app.get('/chat', workspaceHandler);
