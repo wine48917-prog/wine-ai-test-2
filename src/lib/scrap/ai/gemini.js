@@ -62,7 +62,7 @@ async function bootstrap(force = false) {
       headers: { 'user-agent': CONFIG.UA, 'accept-language': 'en-US,en;q=0.9' },
       signal: AbortSignal.timeout(CONFIG.TIMEOUT),
     });
-    if (!res.ok) throw new Error(`Gemini bootstrap HTTP ${res.status}`);
+    if (!res.ok) throw new Error(`AI service bootstrap HTTP ${res.status}`);
 
     const setCookie = res.headers.getSetCookie ? res.headers.getSetCookie() : [];
     const cookie = setCookie.map(c => c.split(';')[0]).join('; ');
@@ -76,7 +76,7 @@ async function bootstrap(force = false) {
       atToken: generateAtToken(),
       tokenBlob: generateTokenBlob(),
     };
-    if (!data.bl || !data.fsid) throw new Error('Gemini bootstrap tokens were not found.');
+    if (!data.bl || !data.fsid) throw new Error('AI service bootstrap tokens were not found.');
     bootCache = { data, exp: Date.now() + 5 * 60_000 };
     return data;
   })();
@@ -465,7 +465,7 @@ const SOURCES = [
 async function officialGeminiRequest(message, onChunk) {
   const apiKey = process.env.WINE_API_KEY || process.env.GEMINI_API_KEY;
   if (!apiKey) {
-    const error = new Error('Gemini API key is not configured (WINE_API_KEY or GEMINI_API_KEY).');
+    const error = new Error('لم يتم ضبط مفتاح خدمة الذكاء الاصطناعي في إعدادات الموقع.');
     error.code = 'NO_API_KEY';
     throw error;
   }
@@ -493,8 +493,8 @@ async function officialGeminiRequest(message, onChunk) {
     } catch {}
     const error = new Error(
       response.status === 429
-        ? 'Gemini API quota exceeded or rate limit reached. Check Google AI Studio usage and limits.'
-        : `Gemini API HTTP ${response.status}${detail ? ': ' + detail.slice(0, 240) : ''}`
+        ? 'وصلت خدمة الذكاء الاصطناعي إلى حد الاستخدام حالياً. حاول لاحقاً.'
+        : `AI service HTTP ${response.status}${detail ? ': ' + detail.slice(0, 240) : ''}`
     );
     error.status = response.status;
     throw error;
@@ -506,12 +506,12 @@ async function officialGeminiRequest(message, onChunk) {
       .map(part => typeof part.text === 'string' ? part.text : '')
       .join('')
       .trim();
-    if (!text) throw new Error('Gemini API returned an empty response.');
+    if (!text) throw new Error('لم تصل إجابة من خدمة الذكاء الاصطناعي.');
     return { success: true, response: cleanText(text), sessionId: null, method: 'gemini-api' };
   }
 
   const reader = response.body?.getReader();
-  if (!reader) throw new Error('Gemini API streaming response is unavailable.');
+  if (!reader) throw new Error('البث المباشر للرد غير متاح حالياً.');
   const decoder = new TextDecoder();
   let buffer = '';
   let fullText = '';
@@ -546,7 +546,7 @@ async function officialGeminiRequest(message, onChunk) {
       if (piece) { fullText += piece; try { onChunk(piece); } catch {} }
     } catch {}
   }
-  if (!fullText.trim()) throw new Error('Gemini API returned an empty stream.');
+  if (!fullText.trim()) throw new Error('لم يصل رد من خدمة الذكاء الاصطناعي.');
   return { success: true, response: cleanText(fullText), sessionId: null, method: 'gemini-api' };
 }
 
@@ -556,7 +556,7 @@ const gemini = {
     try {
       return await officialGeminiRequest(params.prompt.trim());
     } catch (error) {
-      console.warn('[Gemini official API]', String(error?.message || error).slice(0, 220));
+      console.warn('[WINE AI provider]', String(error?.message || error).slice(0, 220));
       if (error?.status === 429 || error?.status === 403 || error?.code === 'NO_API_KEY') throw error;
     }
 
@@ -575,7 +575,7 @@ const gemini = {
       } catch (error) {
         const msg = String(error?.message || error).slice(0, 180);
         errors.push(preferred.name + ': ' + msg);
-        console.warn('[Gemini primary]', msg);
+        console.warn('[WINE AI primary]', msg);
       }
     }
 
@@ -598,7 +598,7 @@ const gemini = {
     try {
       return await officialGeminiRequest(params.prompt.trim(), onChunk || (() => {}));
     } catch (error) {
-      console.warn('[Gemini official stream]', String(error?.message || error).slice(0, 220));
+      console.warn('[WINE AI stream]', String(error?.message || error).slice(0, 220));
       if (error?.status === 429 || error?.status === 403 || error?.code === 'NO_API_KEY') throw error;
       const result = await this.chat({ ...params, skipMethod3: true });
       if (result.response) { try { onChunk?.(result.response); } catch {} }
@@ -611,4 +611,4 @@ export default gemini;
 
 
 // WINE_BOOTSTRAP_WARMUP: warm the provider session while the serverless instance starts.
-void bootstrap().catch(error => console.warn('[Gemini warmup]', String(error?.message || error).slice(0, 160)));
+void bootstrap().catch(error => console.warn('[WINE AI warmup]', String(error?.message || error).slice(0, 160)));
