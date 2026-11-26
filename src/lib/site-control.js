@@ -63,11 +63,6 @@ function blocked(req,res,message){
  }
  return res.status(503).json({success:false,disabled:true,error:message||'هذا القسم متوقف مؤقتاً.'});
 }
-export async function sectionGuard(req,res,section){
- let s;try{s=await getSiteSettings();}catch(e){console.error('[site-control]',e.message);return false;}
- if(s.maintenance)return blocked(req,res,s.maintenanceMessage);
- const item=s.sections?.[section];
- if(item&&item.enabled===false)return blocked(req,res,item.message);
- return false;
-}
-export async function maintenanceGuard(req,res){return sectionGuard(req,res,'home')&& (req.path==='/'||req.path==='/')?true:false;}
+async function settingsOrPass(){try{return await getSiteSettings();}catch(e){console.error('[site-control]',e.message);return null;}}
+export async function maintenanceGuard(req,res){const s=await settingsOrPass();if(!s)return false;if(s.maintenance)return blocked(req,res,s.maintenanceMessage);return false;}
+export async function sectionGuard(req,res,section){const s=await settingsOrPass();if(!s)return false;if(s.maintenance)return blocked(req,res,s.maintenanceMessage);const item=s.sections?.[section];if(item&&item.enabled===false)return blocked(req,res,item.message);return false;}
