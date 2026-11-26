@@ -8,6 +8,7 @@ import healthHandler from '../api/health.js';
 import ownerHandler from '../api/owner.js';
 import studioHandler from '../api/studio.js';
 import starXImageHandler from '../api/star-x-image.js';
+import workspaceHandler from '../api/workspace.js';
 
 const app = express();
 const port = Number(process.env.PORT || 3000);
@@ -17,7 +18,7 @@ app.disable('x-powered-by');
 app.use(express.json({ limit: '8mb' }));
 
 // Static assets are served directly with short-lived caching; HTML stays fresh.
-app.get('/chat', (_req, res) => res.sendFile(path.join(root, 'api/workspace.js')));\napp.get('/', (_req, res) => res.sendFile(path.join(root, 'index.html'), {
+app.get('/chat', workspaceHandler);\napp.get('/', (_req, res) => res.sendFile(path.join(root, 'index.html'), {
   headers: { 'Cache-Control': 'no-cache' }
 }));
 app.get('/guide', (_req, res) => res.sendFile(path.join(root, 'pages/guide.html'), { headers: { 'Cache-Control': 'no-cache' } }));
