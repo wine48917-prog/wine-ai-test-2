@@ -30,10 +30,10 @@ function highlightCode(code,language='') {
 }
 function cleanAssistantText(text){
   return String(text||'')
-    .replace(/!?\\[[^\\]]*\\]\\(\\s*https?:\\/\\/(?:[a-z0-9-]+\\.)*googleusercontent\\.com\\/[^)\\s]*\\)/gi,'')
-    .replace(/https?:\\/\\/(?:[a-z0-9-]+\\.)*googleusercontent\\.com\\/[^\\s)<>\\]]+/gi,'')
-    .replace(/[ \\t]{2,}/g,' ')
-    .replace(/\\n{3,}/g,'\\n\\n')
+    .replace(/!?\[[^\]]*\]\(\s*https?:\/\/(?:[a-z0-9-]+\.)*googleusercontent\.com\/[^)\s]*\)/gi,'')
+    .replace(/https?:\/\/(?:[a-z0-9-]+\.)*googleusercontent\.com\/[^\s)<>]+/gi,'')
+    .replace(/[ \t]{2,}/g,' ')
+    .replace(/\n{3,}/g,'\n\n')
     .trim();
 }
 function renderText(text){
