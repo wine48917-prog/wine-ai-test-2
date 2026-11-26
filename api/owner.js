@@ -55,7 +55,7 @@ export const APP_HTML = `<!doctype html>
 <div class="toast" id="toast"></div><script>(async()=>{try{const r=await fetch("/api/control?public=1",{cache:"no-store"});const d=await r.json();const n=document.getElementById("chatOwnerNotice");const m=d.sections?.chat?.message;if(m){n.textContent=m;n.style.display="block"}}catch{}})();</script><script src="/app.js" defer></script>
 </body></html>`;
 
-const DASHBOARD_HTML = \`<!doctype html>
+const DASHBOARD_HTML = `<!doctype html>
 <html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#09090c"><title>OWENR — WINE AI</title><link rel="icon" href="/icon.png"><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box} :root{--bg:#09090c;--panel:#151016;--line:#382630;--muted:#aa9fa7;--accent:#bd4565;--soft:#211720}
@@ -111,7 +111,7 @@ $('saveBtn').addEventListener('click',async()=>{$('saveBtn').disabled=true;$('sa
 $('maintenanceSave').addEventListener('click',async()=>{$('maintenanceSave').disabled=true;$('maintenanceState').textContent='جارٍ الحفظ…';try{await request('/api/control',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'save',notice:$('notice').value,noticeEnabled:$('noticeEnabled').checked,maintenance:$('maintenance').checked,maintenanceMessage:$('maintenanceMessage').value})});$('maintenanceState').textContent='تم حفظ إعدادات الصيانة.'}catch(x){$('maintenanceState').textContent=x.message}finally{$('maintenanceSave').disabled=false}});
 $('analyticsRefresh').addEventListener('click',refreshAnalytics);$('overviewRefresh').addEventListener('click',refreshHealth);$('refreshBtn').addEventListener('click',refreshHealth);
 $('logoutBtn').addEventListener('click',async()=>{try{await request('/api/owner',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'logout'})})}catch{}showLogin('تم تسجيل الخروج.')});
-request('/api/control').then(showDashboard).catch(()=>showLogin());setInterval(()=>{if(authenticated){refreshHealth();refreshAnalytics()}},60000)})();</script></body></html>\`;
+request('/api/control').then(showDashboard).catch(()=>showLogin());setInterval(()=>{if(authenticated){refreshHealth();refreshAnalytics()}},60000)})();</script></body></html>`;
 
 import {hasOwnerSession,setOwnerCookie,clearOwnerCookie} from '../src/lib/owner-auth.js';
 import {checkRateLimit,recordAuthFail,isAuthBlocked} from '../src/lib/rate-limit.js';
