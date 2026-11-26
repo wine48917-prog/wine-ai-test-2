@@ -32,6 +32,7 @@ export const APP_HTML = `<!doctype html>
 <div class="top-actions"><span class="model-chip"><i></i> WINE CORE</span><a class="studio-top-link" href="/studio">✧ Studio</a><button class="top-new-chat" id="newChatTop">＋ <span>محادثة جديدة</span></button></div>
 </header>
 <section class="workspace" id="workspace">
+<div id="chatOwnerNotice" style="display:none;margin:0 20px 14px;padding:12px 16px;border:1px solid #754052;border-radius:12px;background:#32131f;color:#f5eaf0;font:12px/1.8 Cairo"></div>
 <div class="welcome" id="welcome">
 <div class="welcome-kicker"><span class="kicker-line"></span> مساحتك الذكية، بإمكانيات أوسع <span class="kicker-dot"></span></div>
 <div class="welcome-emblem"><div class="emblem-ring ring-one"></div><div class="emblem-ring ring-two"></div><div class="emblem-core"><span>W</span><i></i></div></div>
@@ -51,7 +52,7 @@ export const APP_HTML = `<!doctype html>
 <div class="composer-dock"><div class="composer-wrap"><div class="composer"><div class="composer-topline"><span class="composer-mode"><i></i> رسالة جديدة</span><span class="composer-shortcut">ENTER للإرسال</span></div><textarea id="prompt" rows="1" placeholder="اكتب سؤالك أو صف المهمة اللي عايز تنفذها..." maxlength="12000"></textarea><div class="composer-bottom"><span class="composer-hint">Shift + Enter لسطر جديد</span><div class="composer-actions"><button id="generateImage" class="image-btn" type="button" aria-label="إنشاء صورة"><span>✧</span> صورة</button><button id="send" class="send-btn" aria-label="إرسال الرسالة"><span>↑</span></button></div></div></div><div class="disclaimer"><span>◇</span> قد تحتاج بعض الإجابات إلى مراجعة قبل الاعتماد عليها.</div></div></div>
 </main></div>
 <div class="modal-backdrop" id="nameModal"><section class="modal name-modal"><div class="modal-logo">W</div><div class="eyebrow">WELCOME TO WINE AI</div><h2>أهلاً بك في WINE AI</h2><p class="modal-sub">عرّفنا باسمك وابدأ استخدام WINE AI مباشرة.</p><form id="nameForm"><label>الاسم<input id="guestName" type="text" placeholder="اسمك" minlength="2" maxlength="30" autocomplete="nickname" required></label><button class="primary-btn" type="submit">ابدأ الآن <span>←</span></button><div class="form-error" id="nameError"></div></form><div class="modal-note">تقدر تعدّل اسمك لاحقاً من إعدادات الحساب.</div></section></div>
-<div class="toast" id="toast"></div><script src="/app.js" defer></script>
+<div class="toast" id="toast"></div><script>(async()=>{try{const r=await fetch("/api/control?public=1",{cache:"no-store"});const d=await r.json();const n=document.getElementById("chatOwnerNotice");const m=d.sections?.chat?.message;if(m){n.textContent=m;n.style.display="block"}}catch{}})();</script><script src="/app.js" defer></script>
 </body></html>`;
 
 const DASHBOARD_HTML = `<!doctype html>
