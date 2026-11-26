@@ -18,7 +18,8 @@ app.disable('x-powered-by');
 app.use(express.json({ limit: '8mb' }));
 
 // Static assets are served directly with short-lived caching; HTML stays fresh.
-app.get('/chat', workspaceHandler);\napp.get('/', (_req, res) => res.sendFile(path.join(root, 'index.html'), {
+app.get('/chat', workspaceHandler);
+app.get('/', (_req, res) => res.sendFile(path.join(root, 'index.html'), {
   headers: { 'Cache-Control': 'no-cache' }
 }));
 app.get('/guide', (_req, res) => res.sendFile(path.join(root, 'pages/guide.html'), { headers: { 'Cache-Control': 'no-cache' } }));
