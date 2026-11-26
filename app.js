@@ -51,7 +51,7 @@ function addMessage(role,text){
  if(role==='assistant')bubble.innerHTML=renderText(text);else bubble.textContent=text||'';
  item.append(avatar,bubble);messages.appendChild(item);if(role==='assistant'){const actions=document.createElement('div');actions.className='message-actions';actions.innerHTML='<button type="button" data-copy-message>نسخ الرد</button><span>WINE AI</span>';item.appendChild(actions)}messages.scrollTop=messages.scrollHeight;return item;
 }
-function newThread(){state.active=null;state.sessionId=null;messages.innerHTML='';messages.classList.remove('active');welcome.style.display='block';$('#activeTitle').textContent='مساحة المحادثة';renderHistory();closeSidebar();promptInput.focus()}
+function newThread(){state.active=null;state.sessionId=null;messages.innerHTML='';messages.classList.remove('active');welcome.style.display='block';$('#activeTitle').textContent='مساحة المحادثة';renderHistory();closeSidebar()}
 function currentThread(){let t=state.threads.find(x=>x.id===state.active);if(!t){t={id:crypto.randomUUID(),title:'محادثة جديدة',items:[]};state.threads.push(t);state.active=t.id}return t}
 function closeSidebar(){ $('#sidebar').classList.remove('open'); $('#sidebarScrim').classList.remove('show'); }
 function toggleSidebar(){const open=!$('#sidebar').classList.contains('open');$('#sidebar').classList.toggle('open',open);$('#sidebarScrim').classList.toggle('show',open)}
@@ -87,7 +87,7 @@ async function sendMessage(text){
   bubble.innerHTML=renderText(answer);thread.items.push({role:'assistant',text:answer});saveThreads();
  }catch(e){
   bubble.textContent=`تعذّر إكمال الطلب: ${e.message}`;thread.items.push({role:'assistant',text:`تعذّر إكمال الطلب: ${e.message}`});saveThreads();
- }finally{state.busy=false;$('#send').disabled=false;messages.scrollTop=messages.scrollHeight;promptInput.focus();}
+ }finally{state.busy=false;$('#send').disabled=false;messages.scrollTop=messages.scrollHeight;}
 }
 
 async function generateImage(){
@@ -131,7 +131,7 @@ async function generateImage(){
   saveThreads();
  }finally{
   state.busy=false;$('#send').disabled=false;$('#generateImage').disabled=false;
-  messages.scrollTop=messages.scrollHeight;promptInput.focus();
+  messages.scrollTop=messages.scrollHeight;
  }
 }
 
