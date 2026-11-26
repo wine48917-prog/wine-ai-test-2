@@ -1,4 +1,4 @@
-import { maintenanceGuard } from '../src/lib/site-control.js';
+import { sectionGuard } from '../src/lib/site-control.js';
 const STUDIO_HTML = `<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
@@ -28,7 +28,7 @@ const STUDIO_HTML = `<!doctype html>
 
 export default async function handler(req,res){
  if(req.method!=='GET'){res.setHeader('Allow','GET');return res.status(405).end();}
-  if (await maintenanceGuard(req, res)) return;
+  if (await sectionGuard(req, res, 'studio')) return;
  res.setHeader('Content-Type','text/html; charset=utf-8');
  res.setHeader('Cache-Control','no-store');
  return res.status(200).send(STUDIO_HTML);
