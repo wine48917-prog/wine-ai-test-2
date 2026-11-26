@@ -139,7 +139,7 @@ footer{margin-top:30px;padding-top:14px}
  footer{margin-top:24px}
 }
 @media(max-width:390px){.page{padding-inline:14px}.art-panel{min-height:200px}}
-#siteNotice{display:none;margin:20px 0 0;padding:13px 17px;border:1px solid #754052;border-radius:13px;background:linear-gradient(110deg,#32131f,#171016);color:#f5eaf0;font-size:12px;line-height:1.9;box-shadow:0 10px 28px #0005}#siteNotice.show{display:block}#siteNotice b{color:#d86a89;margin-left:7px}\n.owner-link{display:inline-flex;align-items:center;justify-content:center;padding:9px 15px;border:1px solid #a52b48;border-radius:10px;background:linear-gradient(120deg,#a52b48,#68182f);color:#fff;font:800 10px Manrope;letter-spacing:1.5px;box-shadow:0 6px 20px #8c1d3b33;transition:transform .2s,filter .2s}.owner-link:hover{transform:translateY(-2px);filter:brightness(1.15)}@media(max-width:760px){.header-right{gap:8px}.owner-link{padding:8px 10px;font-size:9px}.live{font-size:9px}}\n</style>
+#siteNotice{display:none;margin:20px 0 0;padding:13px 17px;border:1px solid #754052;border-radius:13px;background:linear-gradient(110deg,#32131f,#171016);color:#f5eaf0;font-size:12px;line-height:1.9;box-shadow:0 10px 28px #0005}#siteNotice.show{display:block}#siteNotice b{color:#d86a89;margin-left:7px}\n.owner-link{display:inline-flex;align-items:center;justify-content:center;padding:9px 15px;border:1px solid #a52b48;border-radius:10px;background:linear-gradient(120deg,#a52b48,#68182f);color:#fff;font:800 10px Manrope;letter-spacing:1.5px;box-shadow:0 6px 20px #8c1d3b33;transition:transform .2s,filter .2s}.owner-link:hover{transform:translateY(-2px);filter:brightness(1.15)}@media(max-width:760px){.header-right{gap:8px}.owner-link{padding:8px 10px;font-size:9px}.live{font-size:9px}}\n .section-state{display:none!important}.destination.is-disabled{opacity:.48;filter:grayscale(.65);cursor:not-allowed}.destination.is-disabled .dest-arrow{opacity:.5}\n</style>
 </head>
 <body>
 <div class="page">
@@ -151,9 +151,9 @@ footer{margin-top:30px;padding-top:14px}
 <section class="hero">
 <div>
 <div class="kicker">WELCOME TO WINE AI</div>
-<h1><em>WINE</em> FOR<br>MORE THING’S</h1>
-<p class="lead">مساحة واحدة تجمع قوة الذكاء الاصطناعي وأدوات الإبداع. اسأل، اكتب، حلّل، واصنع أفكارك — بطريقتك ومن غير تعقيد.</p>
-<div class="hero-foot"><a class="primary-link" href="/chat">ابدأ تجربتك الآن <b>←</b></a><span class="hero-note">مجاني للجميع<br>من غير تسجيل حساب</span></div>
+<h1 id="homeTitle"><em>WINE</em> FOR<br>MORE THING’S</h1>
+<p class="lead" id="homeSubtitle">مساحة واحدة تجمع قوة الذكاء الاصطناعي وأدوات الإبداع. اسأل، اكتب، حلّل، واصنع أفكارك — بطريقتك ومن غير تعقيد.</p>
+<div class="hero-foot"><a class="primary-link" id="heroChatLink" href="/chat">ابدأ تجربتك الآن <b>←</b></a><span class="hero-note">مجاني للجميع<br>من غير تسجيل حساب</span></div>
 </div>
 <div class="art-panel" aria-label="WINE AI creative identity">
 <div class="panel-top"><span class="panel-label">WINE INTELLIGENCE</span><span class="panel-index">01 / 02</span></div>
@@ -162,12 +162,12 @@ footer{margin-top:30px;padding-top:14px}
 </div>
 </section>
 <section class="destinations" aria-label="اختار وجهتك">
-<a class="destination" href="/chat"><span class="dest-number">01</span><span class="dest-copy"><small>INTELLIGENT ASSISTANT</small><strong>WINE AI</strong><p>محادثة ذكية للكتابة والتحليل والبرمجة والإجابة عن أسئلتك.</p></span><span class="dest-arrow">←</span></a>
-<a class="destination" href="/studio"><span class="dest-number">02</span><span class="dest-copy"><small>CREATIVE WORKSPACE</small><strong>WINE STUDIO</strong><p>حوّل خيالك إلى صور وتصميمات وابدأ تنفيذ أفكارك.</p></span><span class="dest-arrow">←</span></a>
+<a class="destination" id="chatDestination" href="/chat"><span class="dest-number">01</span><span class="dest-copy"><small>INTELLIGENT ASSISTANT</small><strong>WINE AI</strong><p>محادثة ذكية للكتابة والتحليل والبرمجة والإجابة عن أسئلتك.</p><p class="section-state" id="chatSectionMessage"></p></span><span class="dest-arrow">←</span></a>
+<a class="destination" id="studioDestination" href="/studio"><span class="dest-number">02</span><span class="dest-copy"><small>CREATIVE WORKSPACE</small><strong>WINE STUDIO</strong><p>حوّل خيالك إلى صور وتصميمات وابدأ تنفيذ أفكارك.</p><p class="section-state" id="studioSectionMessage"></p></span><span class="dest-arrow">←</span></a>
 </section>
 <div class="trust-row"><span><strong>WINE AI</strong> — ذكاء وإبداع في مكان واحد</span><span>واجهة عربية · متوافقة مع الهاتف · دخول مباشر</span></div>
 </main>
 <footer><div class="footer-brand"><span class="footer-wine">DEV BY VELOR</span><span class="footer-bmg">BMG</span></div><span class="footer-copy">© 2026 · WINE ORGANIZATION</span></footer>
 </div>
-<script>(async()=>{try{const r=await fetch('/api/control?public=1',{cache:'no-store'});if(!r.ok)return;const d=await r.json();if(d.noticeEnabled&&d.notice){document.getElementById('siteNoticeText').textContent=d.notice;document.getElementById('siteNotice').classList.add('show')}}catch{}})();</script></body>
+<script>(async()=>{try{const r=await fetch('/api/control?public=1',{cache:'no-store'});if(!r.ok)return;const d=await r.json();const $=id=>document.getElementById(id);if(d.noticeEnabled&&d.notice){$('siteNoticeText').textContent=d.notice;$('siteNotice').classList.add('show')}if(d.copy?.homeTitle)$('homeTitle').textContent=d.copy.homeTitle;if(d.copy?.homeSubtitle)$('homeSubtitle').textContent=d.copy.homeSubtitle;for(const key of ['chat','studio']){const item=d.sections?.[key];const link=$(key+'Destination');const note=$(key+'SectionMessage');if(item?.enabled===false){link.classList.add('is-disabled');link.href='#';link.setAttribute('aria-disabled','true');note.textContent=item.message||'هذا القسم متوقف مؤقتاً.';note.style.cssText='display:block!important;color:#d86a89;font-size:11px;margin-top:8px';link.addEventListener('click',e=>e.preventDefault());if(key==='chat')$('heroChatLink').style.display='none'}else if(item?.message){note.textContent=item.message;note.style.cssText='display:block!important;color:#c04a68;font-size:11px;margin-top:8px'}}}catch{}})();</script></body>
 </html>
