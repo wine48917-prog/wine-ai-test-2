@@ -1,6 +1,6 @@
 import crypto from 'node:crypto';
 
-const APP_HTML = `<!doctype html>
+export const APP_HTML = `<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
