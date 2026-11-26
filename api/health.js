@@ -11,8 +11,8 @@ export default async function handler(req, res) {
       success: true,
       service: 'WINE AI',
       database: 'connected',
-      providers: ['gemini'],
-      features: { chat: true, imageGeneration: Boolean(process.env.GEMINI_API_KEY) },
+      providers: ['Gemini Chat', 'Star X Images'],
+      features: { chat: true, imageGeneration: Boolean(process.env.NOX_API_KEY), imageProvider: process.env.NOX_API_KEY ? 'Star X' : null },
       timestamp: new Date().toISOString()
     });
   } catch (error) {
