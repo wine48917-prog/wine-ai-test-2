@@ -26,7 +26,7 @@ const STUDIO_HTML = `<!doctype html>
 <section class="result" id="result"><div class="empty"><span>✧</span><b>مساحتك الإبداعية</b>الصورة التي تنشئها ستظهر هنا</div></section>
 <footer class="foot">© 2026 WINE ORGANIZATION</footer></main><script src="/studio.js" defer></script></body></html>`;
 
-export default function handler(req,res){
+export default async function handler(req,res){
  if(req.method!=='GET'){res.setHeader('Allow','GET');return res.status(405).end();}
   if (await maintenanceGuard(req, res)) return;
  res.setHeader('Content-Type','text/html; charset=utf-8');
