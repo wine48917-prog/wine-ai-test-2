@@ -4,11 +4,5 @@
     "api/*.js": {
       "maxDuration": 300
     }
-  },
-  "rewrites": [
-    {
-      "source": "/chat",
-      "destination": "/api/workspace"
-    }
-  ]
+  }
 }
