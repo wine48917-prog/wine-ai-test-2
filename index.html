@@ -3,95 +3,104 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#09090c">
-<meta name="description" content="WINE AI — بوابتك إلى الذكاء والإبداع. متاح للجميع.">
-<title>WINE AI — بوابة الدخول</title>
+<meta name="theme-color" content="#f2f0eb">
+<meta name="description" content="WINE AI — الذكاء والإبداع في مساحة واحدة.">
+<title>WINE AI — فكّر بشكل مختلف</title>
 <link rel="icon" type="image/png" href="/icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{color-scheme:dark;--bg:#09090c;--panel:#111116;--line:#29252d;--text:#f5f3f5;--muted:#aaa4ae;--wine:#a72d50;--wine2:#d36b86;--silver:#e2e1e5}
-*{box-sizing:border-box}html{min-height:100%;background:var(--bg)}body{margin:0;min-height:100vh;min-height:100svh;display:grid;place-items:center;overflow-x:hidden;background:radial-gradient(ellipse at 50% 0%,#7f203b38,transparent 42%),radial-gradient(ellipse at 100% 90%,#ffffff08,transparent 35%),var(--bg);color:var(--text);font-family:Cairo,system-ui,sans-serif}
-a{color:inherit;text-decoration:none}.page{width:min(980px,100%);padding:30px 24px 24px;position:relative}.top{display:flex;align-items:center;justify-content:space-between;gap:14px}.brand{display:flex;align-items:center;gap:12px}.mark{width:46px;height:46px;border:1px solid #d9c3ca88;border-radius:15px 15px 15px 5px;display:grid;place-items:center;background:linear-gradient(145deg,#f0e8eb,#a8a1a9 55%,#5d2638);color:#191116;font:900 25px Manrope;box-shadow:0 8px 28px #0008,inset 0 1px #fff}.brand b{font:800 18px Manrope;letter-spacing:2px}.brand b span{color:#d98ba0}.brand small{display:block;margin-top:3px;color:#817b85;font:700 8px Manrope;letter-spacing:2.2px}.status{display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid #ffffff18;border-radius:30px;color:#c9c4cb;font-size:10px}.status i{width:7px;height:7px;border-radius:50%;background:#79c79a;box-shadow:0 0 12px #79c79a}
-.hero{text-align:center;padding:clamp(58px,10vh,100px) 0 34px}.eyebrow{display:inline-flex;align-items:center;gap:9px;color:#c9b9c0;font:800 9px Manrope;letter-spacing:3px}.eyebrow:before,.eyebrow:after{content:"";width:24px;height:1px;background:linear-gradient(90deg,transparent,#b84b69)}h1{font-size:clamp(43px,8vw,76px);line-height:1.18;letter-spacing:-1.8px;margin:20px 0 13px;font-weight:900}h1 span{display:block;background:linear-gradient(95deg,#f0edf0 10%,#d5a4b2 54%,#a9a6af 90%);-webkit-background-clip:text;background-clip:text;color:transparent}.intro{max-width:540px;margin:0 auto;color:var(--muted);font-size:14px;line-height:2}
-.gates{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;width:min(740px,100%);margin:28px auto 0}.gate{position:relative;display:flex;flex-direction:column;align-items:flex-start;min-height:205px;padding:24px;border:1px solid var(--line);border-radius:20px 20px 7px 20px;background:linear-gradient(145deg,#19161d,#101014 75%);overflow:hidden;transition:transform .25s,border-color .25s,box-shadow .25s}.gate:before{content:"";position:absolute;inset:0 0 auto;height:2px;background:linear-gradient(90deg,transparent,#b84b69,#d8cbd0,transparent);opacity:.8}.gate:hover{transform:translateY(-5px);border-color:#98516a;box-shadow:0 22px 55px #0008,0 0 36px #a72d5018}.gate-icon{width:46px;height:46px;display:grid;place-items:center;border:1px solid #86506488;border-radius:14px 14px 14px 4px;background:#a72d501c;color:#e6b4c2;font:700 21px Manrope}.gate h2{font-size:19px;margin:16px 0 4px}.gate p{font-size:11px;line-height:1.9;color:#a8a1ab;margin:0 0 18px}.enter{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;margin-top:auto;padding-top:13px;border-top:1px solid #ffffff13;color:#e6cbd3;font-size:12px;font-weight:800}.enter span{width:28px;height:28px;display:grid;place-items:center;border-radius:9px;background:#a72d5030;color:#f1c3d0;font:700 17px Manrope}
-.note{display:flex;justify-content:center;align-items:center;gap:9px;margin:24px auto 0;color:#928b96;font-size:10px}.note b{color:#d7cbd1;font-weight:700}.note i{width:3px;height:3px;border-radius:50%;background:#8d5266}
-footer{display:flex;justify-content:space-between;gap:12px;margin-top:clamp(48px,8vh,80px);padding-top:16px;border-top:1px solid #ffffff12;color:#706b75;font:700 8px Manrope;letter-spacing:1.8px}
-@media(max-width:620px){.page{padding:18px 15px 20px}.mark{width:41px;height:41px}.brand b{font-size:16px}.status{font-size:9px;padding:7px 9px}.hero{padding:60px 0 24px}h1{font-size:clamp(40px,12vw,58px)}.intro{font-size:12px}.gates{grid-template-columns:1fr;gap:12px;margin-top:23px}.gate{min-height:175px;padding:20px}.gate h2{margin-top:12px}.note{flex-wrap:wrap;text-align:center;line-height:1.8}footer{margin-top:46px;font-size:7px}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important}}
-
-/* Premium entrance refinement */
-body{background:radial-gradient(ellipse at 50% -12%,#9d315344,transparent 48%),radial-gradient(ellipse at 4% 58%,#7e29401c,transparent 32%),radial-gradient(ellipse at 100% 88%,#c7c1cb0d,transparent 30%),#08080b}
-body:before{content:"";position:fixed;inset:18px;border:1px solid #ffffff0b;border-radius:26px;pointer-events:none}
-.page{width:min(1040px,100%);padding:34px 28px 26px}
-.mark{width:50px;height:50px;border-radius:17px 17px 17px 6px;background:linear-gradient(145deg,#fff8fa 0%,#c9b9c0 42%,#762b43 100%);box-shadow:0 10px 34px #0009,0 0 28px #b94e6d25,inset 0 1px #fff}
-.brand b{font-size:19px;letter-spacing:2.6px}.brand b span{color:#e4a1b3}
-.status{background:#ffffff08;border-color:#ffffff20;backdrop-filter:blur(14px);padding:9px 14px}
-.hero{padding:clamp(64px,11vh,108px) 0 36px;position:relative}
-.eyebrow{padding:9px 16px;border:1px solid #b56b803d;border-radius:30px;background:linear-gradient(100deg,#ffffff08,#a72d5018);letter-spacing:3.4px}
-.eyebrow:before,.eyebrow:after{width:16px}
-h1{font-size:clamp(48px,8.5vw,84px);letter-spacing:-2.5px;margin:25px 0 17px;text-shadow:0 10px 45px #000}
-h1 span{background:linear-gradient(100deg,#fff 5%,#e6cbd3 40%,#bd6b83 72%,#e5e0e5 100%);-webkit-background-clip:text;background-clip:text}
-.intro{max-width:570px;font-size:14px;color:#b9b1bc;line-height:2.15}
-.gates{width:min(780px,100%);gap:18px;margin-top:36px}
-.gate{min-height:222px;padding:27px;border-radius:24px 24px 8px 24px;background:linear-gradient(145deg,#211820d9 0%,#151218f2 54%,#0e0e12 100%);border-color:#ffffff1c;box-shadow:0 18px 50px #0005,inset 0 1px #ffffff0b;backdrop-filter:blur(18px)}
-.gate:before{height:1px;background:linear-gradient(90deg,transparent,#e6cbd3,#a72d50,transparent);opacity:.9}
-.gate:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;right:-90px;top:-100px;background:#a72d5017;filter:blur(28px);pointer-events:none}
-.gate:hover{transform:translateY(-7px);border-color:#c17b91a6;box-shadow:0 25px 65px #0009,0 0 40px #a72d5020}
-.gate-icon{width:50px;height:50px;border-radius:16px 16px 16px 5px;background:linear-gradient(145deg,#b94d6b35,#ffffff08);border-color:#c17b9159;color:#f0c5d1;box-shadow:inset 0 1px #ffffff18}
-.gate h2{font-size:20px;letter-spacing:.5px;margin:18px 0 5px}
-.gate p{font-size:12px;line-height:2;color:#b5aeb8}
-.enter{font-size:12px;color:#f0dce2;border-color:#ffffff17}
-.enter span{width:32px;height:32px;border-radius:11px;background:linear-gradient(145deg,#a72d50,#642237);color:#fff;box-shadow:0 5px 16px #a72d5038}
-.note{margin-top:28px;color:#a39ba6;font-size:11px}
-.note b{color:#e4cbd3}
-footer{margin-top:clamp(52px,9vh,88px);border-color:#ffffff18;color:#8d8490;letter-spacing:2px}
-@media(max-width:620px){body:before{inset:8px;border-radius:18px}.page{padding:19px 17px 22px}.mark{width:44px;height:44px}.brand b{font-size:17px}.hero{padding:65px 0 28px}h1{font-size:clamp(43px,12vw,62px);letter-spacing:-1.5px}.gates{gap:13px;margin-top:28px}.gate{min-height:190px;padding:22px}.gate h2{font-size:19px}.intro{font-size:12px}.note{font-size:10px}}
-
-
-/* New signature layout */
-.hero{padding-top:clamp(55px,9vh,88px)}
-.eyebrow{color:#e2c3ce}
-h1{max-width:820px;margin-inline:auto}
-.gates{width:min(820px,100%);gap:20px}
-.gate{min-height:235px;padding:30px 29px;border-radius:26px 26px 9px 26px}
-.gate-icon{width:54px;height:54px;font-size:23px}
-.gate h2{font-size:21px}
-.gate p{max-width:280px}
-.brand-footer{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;margin-top:clamp(42px,7vh,68px);padding-top:22px;border-top:1px solid #ffffff17;letter-spacing:0}
-.footer-wine{font:900 20px Manrope;letter-spacing:5px;color:#eee8ec}
-.footer-bmg{font:800 11px Manrope;letter-spacing:6px;color:#d27b94;text-shadow:0 0 18px #a72d5066;padding-left:6px}
-.footer-copy{font:700 8px Manrope;letter-spacing:1.8px;color:#746c77;margin-top:10px}
-@media(max-width:620px){.hero{padding-top:55px}.gates{gap:14px}.gate{min-height:205px;padding:24px}.gate-icon{width:49px;height:49px}.brand-footer{margin-top:40px;padding-top:19px}}
-
+:root{color-scheme:light;--paper:#f2f0eb;--ink:#171719;--muted:#77746f;--line:#d9d6cf;--accent:#a52b48;--white:#fff}
+*{box-sizing:border-box}
+html{min-height:100%;background:var(--paper);scroll-behavior:smooth}
+body{margin:0;min-height:100vh;background:var(--paper);color:var(--ink);font-family:Cairo,Arial,sans-serif}
+a{color:inherit;text-decoration:none}
+.page{width:min(1240px,100%);margin:auto;padding:28px 42px 22px}
+header{height:62px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:18px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-mark{width:42px;height:42px;background:var(--ink);color:var(--paper);display:grid;place-items:center;font:800 21px Manrope;border-radius:50%}
+.brand-name{font:800 18px Manrope;letter-spacing:2.4px}.brand-name span{color:var(--accent)}
+.brand-caption{font:700 8px Manrope;letter-spacing:2px;color:#8b8780;margin-top:3px}
+.header-right{display:flex;align-items:center;gap:22px}
+.live{display:flex;align-items:center;gap:8px;color:#68645f;font-size:11px;font-weight:700}
+.live:before{content:"";width:7px;height:7px;background:#4e9668;border-radius:50%;box-shadow:0 0 0 4px #4e96681a}
+.header-link{font-size:11px;font-weight:800;border-bottom:1px solid var(--ink);padding-bottom:3px}
+main{padding-top:58px}
+.hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);gap:54px;align-items:center;min-height:480px}
+.kicker{display:flex;align-items:center;gap:12px;color:var(--accent);font:800 10px Manrope;letter-spacing:2.8px}
+.kicker:before{content:"";width:34px;height:2px;background:var(--accent)}
+h1{font-size:clamp(54px,7.2vw,94px);line-height:1.12;letter-spacing:-3px;margin:23px 0 18px;font-weight:900;max-width:720px}
+h1 em{font-style:normal;color:var(--accent)}
+.lead{max-width:550px;color:#6e6a64;font-size:15px;line-height:2.15;margin:0}
+.hero-foot{display:flex;align-items:center;gap:16px;margin-top:34px}
+.primary-link{display:inline-flex;align-items:center;gap:26px;background:var(--ink);color:white;padding:15px 20px 15px 15px;font-size:12px;font-weight:800;transition:background .2s,transform .2s}
+.primary-link:hover{background:var(--accent);transform:translateY(-2px)}
+.primary-link b{display:grid;place-items:center;width:28px;height:28px;background:#ffffff1b;font:700 17px Manrope}
+.hero-note{font-size:10px;color:#8b8780;line-height:1.8}
+.art-panel{position:relative;min-height:380px;background:#1b1b1d;color:white;overflow:hidden;padding:30px;display:flex;flex-direction:column;justify-content:space-between}
+.art-panel:before{content:"";position:absolute;width:360px;height:360px;border:1px solid #ffffff24;border-radius:50%;left:-100px;top:18px}
+.art-panel:after{content:"";position:absolute;width:250px;height:250px;border:1px solid #ffffff24;border-radius:50%;left:-45px;top:73px}
+.panel-top,.panel-bottom{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center}
+.panel-label{font:700 9px Manrope;letter-spacing:2px;color:#bcb8b2}
+.panel-index{font:700 10px Manrope;color:#aaa5a0}
+.glyph{position:absolute;left:50%;top:48%;transform:translate(-50%,-50%);font:900 clamp(110px,18vw,210px) Manrope;color:#f2f0eb;line-height:1;text-shadow:13px 13px 0 var(--accent)}
+.panel-bottom{align-items:end}
+.panel-bottom strong{font-size:19px;line-height:1.4}
+.panel-bottom span{font:700 9px Manrope;letter-spacing:2px;color:#bcb8b2}
+.destinations{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:54px}
+.destination{display:grid;grid-template-columns:58px 1fr auto;gap:18px;align-items:center;padding:23px 20px;transition:background .2s}
+.destination+ .destination{border-right:1px solid var(--line)}
+.destination:hover{background:#e8e5de}
+.dest-number{font:700 11px Manrope;color:var(--accent)}
+.dest-copy small{display:block;font:700 9px Manrope;letter-spacing:2px;color:#8b8780;margin-bottom:5px}
+.dest-copy strong{font-size:19px;font-weight:900}
+.dest-copy p{margin:3px 0 0;color:#77736d;font-size:10px;line-height:1.8}
+.dest-arrow{width:36px;height:36px;border:1px solid #c8c4bc;border-radius:50%;display:grid;place-items:center;font:700 17px Manrope;transition:all .2s}
+.destination:hover .dest-arrow{background:var(--accent);color:white;border-color:var(--accent)}
+.trust-row{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:20px 0 8px;color:#817d76;font-size:10px}
+.trust-row strong{color:#343235}
+footer{display:flex;align-items:end;justify-content:space-between;border-top:1px solid var(--line);margin-top:50px;padding-top:19px}
+.footer-brand{display:flex;align-items:baseline;gap:12px}
+.footer-wine{font:900 24px Manrope;letter-spacing:4px}
+.footer-bmg{font:800 10px Manrope;letter-spacing:4px;color:var(--accent)}
+.footer-copy{font:700 8px Manrope;letter-spacing:1.5px;color:#8c8881}
+@media(max-width:760px){
+.page{padding:18px 20px 20px}header{height:56px;padding-bottom:13px}.brand-mark{width:38px;height:38px}.brand-name{font-size:16px}.header-right{gap:12px}.header-link{display:none}
+main{padding-top:38px}.hero{grid-template-columns:1fr;gap:30px;min-height:0}h1{font-size:clamp(48px,13vw,76px);letter-spacing:-2px;margin:18px 0 14px}.lead{font-size:13px}.hero-foot{margin-top:25px}.art-panel{min-height:260px;padding:22px}.art-panel:before{width:270px;height:270px;left:-65px}.art-panel:after{width:190px;height:190px;left:-25px}.glyph{font-size:145px}.panel-bottom strong{font-size:16px}
+.destinations{grid-template-columns:1fr;margin-top:30px}.destination{padding:19px 8px;grid-template-columns:40px 1fr auto;gap:12px}.destination+.destination{border-right:0;border-top:1px solid var(--line)}.dest-copy strong{font-size:17px}.trust-row{font-size:9px;flex-wrap:wrap;line-height:1.8}footer{margin-top:35px}.footer-wine{font-size:21px}
+}
+@media(max-width:390px){.page{padding-inline:15px}.live{font-size:9px}.hero-foot{align-items:flex-start;flex-direction:column}.destination{grid-template-columns:30px 1fr 32px}.dest-copy p{font-size:9px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
 </style>
 </head>
 <body>
-<main class="page">
-<header class="top">
-<a class="brand" href="/" aria-label="WINE AI"><span class="mark">W</span><span><b>WINE <span>AI</span></b><small>INTELLIGENCE · CREATIVE STUDIO</small></span></a>
-<div class="status"><i></i> متاح للجميع الآن</div>
+<div class="page">
+<header>
+<a class="brand" href="/" aria-label="WINE AI"><span class="brand-mark">W</span><span><span class="brand-name">WINE <span>AI</span></span><span class="brand-caption">THINK BEYOND LIMITS</span></span></a>
+<div class="header-right"><span class="live">متاح للجميع</span><a class="header-link" href="/chat">ابدأ الاستخدام</a></div>
 </header>
+<main>
 <section class="hero">
-<div class="eyebrow">THE WINE EXPERIENCE</div>
-<h1>فكرتك تستحق <span>تجربة استثنائية.</span></h1>
-<p class="intro">اكتشف مساحة تجمع الذكاء والإبداع في تجربة واحدة. اختر وجهتك وابدأ فورًا — ببساطة، وبلا خطوات معقدة.</p>
-<div class="gates">
-<a class="gate" href="/chat">
-<span class="gate-icon">W</span><h2>WINE AI</h2>
-<p>ابدأ محادثة ذكية، اسأل، اكتب، حلّل، وبرمج بمساعدة WINE AI.</p>
-<div class="enter">الدخول إلى WINE AI <span>←</span></div>
-</a>
-<a class="gate" href="/studio">
-<span class="gate-icon">✧</span><h2>WINE STUDIO</h2>
-<p>حوّل وصفك إلى صورة، واستكشف مساحة الإبداع والتصميم.</p>
-<div class="enter">الدخول إلى WINE STUDIO <span>←</span></div>
-</a>
+<div>
+<div class="kicker">WELCOME TO WINE AI</div>
+<h1>مش مجرد<br>ذكاء... <em>إبداع.</em></h1>
+<p class="lead">مساحة واحدة تجمع قوة الذكاء الاصطناعي وأدوات الإبداع. اسأل، اكتب، حلّل، واصنع أفكارك — بطريقتك ومن غير تعقيد.</p>
+<div class="hero-foot"><a class="primary-link" href="/chat">ابدأ تجربتك الآن <b>←</b></a><span class="hero-note">مجاني للجميع<br>من غير تسجيل حساب</span></div>
 </div>
-<div class="note"><b>دخول مجاني للزوار</b><i></i><span>لا يلزم تسجيل حساب</span><i></i><span>واجهة عربية ومتوافقة مع الهاتف</span></div>
+<div class="art-panel" aria-label="WINE AI creative identity">
+<div class="panel-top"><span class="panel-label">WINE INTELLIGENCE</span><span class="panel-index">01 / 02</span></div>
+<div class="glyph">W</div>
+<div class="panel-bottom"><strong>فكّر أبعد.<br>اصنع أكثر.</strong><span>AI × CREATIVITY</span></div>
+</div>
 </section>
-<footer class="brand-footer"><span class="footer-wine">WINE</span><span class="footer-bmg">BMG</span><span class="footer-copy">© 2026 · WINE ORGANIZATION</span></footer>
+<section class="destinations" aria-label="اختار وجهتك">
+<a class="destination" href="/chat"><span class="dest-number">01</span><span class="dest-copy"><small>INTELLIGENT ASSISTANT</small><strong>WINE AI</strong><p>محادثة ذكية للكتابة والتحليل والبرمجة والإجابة عن أسئلتك.</p></span><span class="dest-arrow">←</span></a>
+<a class="destination" href="/studio"><span class="dest-number">02</span><span class="dest-copy"><small>CREATIVE WORKSPACE</small><strong>WINE STUDIO</strong><p>حوّل خيالك إلى صور وتصميمات وابدأ تنفيذ أفكارك.</p></span><span class="dest-arrow">←</span></a>
+</section>
+<div class="trust-row"><span><strong>WINE AI</strong> — ذكاء وإبداع في مكان واحد</span><span>واجهة عربية · متوافقة مع الهاتف · دخول مباشر</span></div>
 </main>
+<footer><div class="footer-brand"><span class="footer-wine">WINE</span><span class="footer-bmg">BMG</span></div><span class="footer-copy">© 2026 · WINE ORGANIZATION</span></footer>
+</div>
 </body>
 </html>
