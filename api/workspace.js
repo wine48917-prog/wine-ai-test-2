@@ -1,8 +1,8 @@
-import { maintenanceGuard } from '../src/lib/site-control.js';
+import { sectionGuard } from '../src/lib/site-control.js';
 import { APP_HTML } from './owner.js';
 
 export default async function handler(req, res) {
-  if (await maintenanceGuard(req, res)) return;
+  if (await sectionGuard(req, res, 'chat')) return;
   if (req.method !== 'GET') {
     res.setHeader('Allow', 'GET');
     return res.status(405).end();
