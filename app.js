@@ -28,9 +28,17 @@ function highlightCode(code,language='') {
   masked=masked.replace(/\u0000(\d+)\u0000/g,(_,i)=>{const x=tokens[Number(i)];return x?'<span class="tok-'+x.t+'">'+x.v+'</span>':''});
   return masked;
 }
+function cleanAssistantText(text){
+  return String(text||'')
+    .replace(/!?\\[[^\\]]*\\]\\(\\s*https?:\\/\\/(?:[a-z0-9-]+\\.)*googleusercontent\\.com\\/[^)\\s]*\\)/gi,'')
+    .replace(/https?:\\/\\/(?:[a-z0-9-]+\\.)*googleusercontent\\.com\\/[^\\s)<>\\]]+/gi,'')
+    .replace(/[ \\t]{2,}/g,' ')
+    .replace(/\\n{3,}/g,'\\n\\n')
+    .trim();
+}
 function renderText(text){
   const blocks=[];
-  let html=escapeHtml(String(text||'')).replace(/```([\w+#.-]*)\n?([\s\S]*?)```/g,(_,lang,code)=>{
+  let html=escapeHtml(cleanAssistantText(text)).replace(/```([\w+#.-]*)\n?([\s\S]*?)```/g,(_,lang,code)=>{
     const id=blocks.length;blocks.push({lang,code:code.replace(/\n$/,'')});
     return '\u0001CODE'+id+'\u0001';
   });
@@ -76,7 +84,7 @@ async function sendMessage(text){
    for(const line of lines){if(line.startsWith('event:'))event=line.slice(6).trim();else if(line.startsWith('data:'))data+=line.slice(5).trim();}
    if(!data)return;
    let payload={};try{payload=JSON.parse(data)}catch{return}
-   if(event==='chunk'&&payload.text){answer+=payload.text;bubble.textContent=answer;messages.scrollTop=messages.scrollHeight;}
+   if(event==='chunk'&&payload.text){answer+=payload.text;bubble.textContent=cleanAssistantText(answer);messages.scrollTop=messages.scrollHeight;}
    if(event==='error')streamError=payload.error||'فشل توليد الرد';
    if(event==='done'&&payload.sessionId){state.sessionId=payload.sessionId;thread.sessionId=payload.sessionId;saveThreads();}
   };
@@ -84,7 +92,7 @@ async function sendMessage(text){
   if(buffer.trim())handleEvent(buffer);
   if(streamError)throw new Error(streamError);
   if(!answer.trim())throw new Error('لم يصل رد من محرك الذكاء الاصطناعي');
-  bubble.innerHTML=renderText(answer);thread.items.push({role:'assistant',text:answer});saveThreads();
+  bubble.innerHTML=renderText(answer);answer=cleanAssistantText(answer);thread.items.push({role:'assistant',text:answer});saveThreads();
  }catch(e){
   bubble.textContent=`تعذّر إكمال الطلب: ${e.message}`;thread.items.push({role:'assistant',text:`تعذّر إكمال الطلب: ${e.message}`});saveThreads();
  }finally{state.busy=false;$('#send').disabled=false;messages.scrollTop=messages.scrollHeight;}
