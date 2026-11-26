@@ -10,7 +10,7 @@ import studioHandler from '../api/studio.js';
 import starXImageHandler from '../api/star-x-image.js';
 import workspaceHandler from '../api/workspace.js';
 import controlHandler from '../api/control.js';
-import { maintenanceGuard } from './lib/site-control.js';
+import { maintenanceGuard, sectionGuard } from './lib/site-control.js';
 import { recordSiteVisit } from '../db.js';
 import analyticsHandler from '../api/analytics.js';
 
@@ -20,7 +20,16 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 if (process.env.TRUST_PROXY === 'true') app.set('trust proxy', 1);
 app.disable('x-powered-by');
 app.use(express.json({ limit: '8mb' }));
-app.use(async (req,res,next)=>{if(req.path==='/developer'||req.path==='/api/owner'||req.path==='/api/control'||req.path==='/api/health'||req.path==='/health'||req.path==='/api/analytics')return next();if(await maintenanceGuard(req,res))return;return next();});
+app.use(async (req,res,next)=>{
+ if(['/developer','/api/owner','/api/control','/api/health','/health','/api/analytics'].includes(req.path))return next();
+ if(await maintenanceGuard(req,res))return;
+ let section=null;
+ if(['/','/'].includes(req.path))section='home';
+ else if(['/chat','/api/chat','/v1/chat','/v1/chat/stream','/api/guest','/api/auth','/api/workspace'].includes(req.path))section='chat';
+ else if(['/studio','/api/studio','/api/star-x-image'].includes(req.path))section='studio';
+ if(section&&await sectionGuard(req,res,section))return;
+ return next();
+});
 app.use(async (req,res,next)=>{if(req.method==='GET'&&['/','/chat','/studio'].includes(req.path)){try{await recordSiteVisit(req,res)}catch(e){console.error('[analytics visit]',e.message)}}next();});
 
 // Static assets are served directly with short-lived caching; HTML stays fresh.
