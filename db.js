@@ -60,7 +60,7 @@ export default pool;
 export async function recordSiteVisit(req, res) {
   await ensureDatabase();
   const cookies = String(req.headers.cookie || '');
-  const match = cookies.match(/(?:^|;\\s*)wine_vid=([a-f0-9-]{36})(?:;|$)/i);
+  const match = cookies.match(/(?:^|;\s*)wine_vid=([a-f0-9-]{36})(?:;|$)/i);
   const visitorId = match ? match[1] : crypto.randomUUID();
   if (!match) {
     const secure = process.env.NODE_ENV === 'production' ? '; Secure' : '';
