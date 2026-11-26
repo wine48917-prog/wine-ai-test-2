@@ -1,3 +1,4 @@
+import { maintenanceGuard } from '../src/lib/site-control.js';
 import crypto from 'node:crypto';
 import pool, { ensureDatabase } from '../db.js';
 import { signToken } from '../src/lib/jwt.js';
@@ -33,6 +34,7 @@ function verifyPassword(password, stored) {
 export default async function handler(req, res) {
   applyCORS(req, res);
   if (req.method === 'OPTIONS') return res.status(204).end();
+  if (await maintenanceGuard(req, res)) return;
   if (!isOriginAllowed(req)) return res.status(403).json({ success: false, error: 'Origin not allowed' });
   if (req.method !== 'POST') return res.status(405).json({ success: false, error: 'Method not allowed' });
   const clientIp = req.ip || req.socket?.remoteAddress || 'unknown';

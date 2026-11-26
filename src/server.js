@@ -9,6 +9,8 @@ import ownerHandler from '../api/owner.js';
 import studioHandler from '../api/studio.js';
 import starXImageHandler from '../api/star-x-image.js';
 import workspaceHandler from '../api/workspace.js';
+import controlHandler from '../api/control.js';
+import { maintenanceGuard } from './lib/site-control.js';
 
 const app = express();
 const port = Number(process.env.PORT || 3000);
@@ -16,9 +18,11 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 if (process.env.TRUST_PROXY === 'true') app.set('trust proxy', 1);
 app.disable('x-powered-by');
 app.use(express.json({ limit: '8mb' }));
+app.use(async (req,res,next)=>{if(req.path==='/developer'||req.path==='/api/owner'||req.path==='/api/control'||req.path==='/api/health'||req.path==='/health'||req.path.startsWith('/api/'))return next();if(await maintenanceGuard(req,res))return;return next();});
 
 // Static assets are served directly with short-lived caching; HTML stays fresh.
 app.get('/chat', workspaceHandler);
+app.get('/developer', ownerHandler);
 app.get('/', (_req, res) => res.sendFile(path.join(root, 'index.html'), {
   headers: { 'Cache-Control': 'no-cache' }
 }));
@@ -42,6 +46,7 @@ app.get('/icon.png', (_req, res) => res.sendFile(path.join(root, 'icon.png')));
 // Keep the creative studio and owner workspace on the same Express runtime.
 app.get(['/studio', '/api/studio'], studioHandler);
 app.route('/api/owner').get(ownerHandler).post(ownerHandler);
+app.route('/api/control').get(controlHandler).post(controlHandler);
 app.get('/health', healthHandler);
 app.get('/api/health', healthHandler);
 app.post('/api/guest', guestHandler);

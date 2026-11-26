@@ -1,7 +1,9 @@
+import { maintenanceGuard } from '../src/lib/site-control.js';
 import { APP_HTML } from './owner.js';
 
 export default function handler(req, res) {
   if (req.method !== 'GET') {
+  if (await maintenanceGuard(req, res)) return;
     res.setHeader('Allow', 'GET');
     return res.status(405).end();
   }

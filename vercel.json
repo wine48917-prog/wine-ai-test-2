@@ -4,5 +4,11 @@
     "api/*.js": {
       "maxDuration": 300
     }
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/developer",
+      "destination": "/api/owner"
+    }
+  ]
 }

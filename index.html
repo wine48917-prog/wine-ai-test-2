@@ -139,14 +139,14 @@ footer{margin-top:30px;padding-top:14px}
  footer{margin-top:24px}
 }
 @media(max-width:390px){.page{padding-inline:14px}.art-panel{min-height:200px}}
-</style>
+#siteNotice{display:none;margin:20px 0 0;padding:13px 17px;border:1px solid #754052;border-radius:13px;background:linear-gradient(110deg,#32131f,#171016);color:#f5eaf0;font-size:12px;line-height:1.9;box-shadow:0 10px 28px #0005}#siteNotice.show{display:block}#siteNotice b{color:#d86a89;margin-left:7px}</style>
 </head>
 <body>
 <div class="page">
 <header>
 <a class="brand" href="/" aria-label="WINE AI"><span class="brand-mark">W</span><span><span class="brand-name">WINE <span>AI</span></span><span class="brand-caption">THINK BEYOND LIMITS</span></span></a>
 <div class="header-right"><span class="live">متاح للجميع</span><a class="header-link" href="/chat">ابدأ الاستخدام</a></div>
-</header>
+</header><div id="siteNotice" role="status" aria-live="polite"><b>WINE AI</b><span id="siteNoticeText"></span></div>
 <main>
 <section class="hero">
 <div>
@@ -169,5 +169,5 @@ footer{margin-top:30px;padding-top:14px}
 </main>
 <footer><div class="footer-brand"><span class="footer-wine">DEV BY VELOR</span><span class="footer-bmg">BMG</span></div><span class="footer-copy">© 2026 · WINE ORGANIZATION</span></footer>
 </div>
-</body>
+<script>(async()=>{try{const r=await fetch('/api/control?public=1',{cache:'no-store'});if(!r.ok)return;const d=await r.json();if(d.noticeEnabled&&d.notice){document.getElementById('siteNoticeText').textContent=d.notice;document.getElementById('siteNotice').classList.add('show')}}catch{}})();</script></body>
 </html>

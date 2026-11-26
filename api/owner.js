@@ -54,43 +54,48 @@ export const APP_HTML = `<!doctype html>
 <div class="toast" id="toast"></div><script src="/app.js" defer></script>
 </body></html>`;
 
-function expectedCookie(secret) {
-  return crypto.createHmac('sha256', secret).update('wine-ai-owner-access-v1').digest('hex');
-}
-function safeEqual(a, b) {
-  const left = Buffer.from(String(a || ''));
-  const right = Buffer.from(String(b || ''));
-  return left.length === right.length && crypto.timingSafeEqual(left, right);
-}
-function hasOwnerCookie(req, secret) {
-  const cookies = String(req.headers.cookie || '').split(';').map(v => v.trim());
-  const entry = cookies.find(v => v.startsWith('wine_owner='));
-  return !!entry && safeEqual(decodeURIComponent(entry.slice('wine_owner='.length)), expectedCookie(secret));
-}
+const DASHBOARD_HTML = `<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#09090c"><title>VELOR DEVELOPER — WINE AI</title><link rel="icon" href="/icon.png"><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 80% 0,#66182e44,transparent 38%),#09090c;color:#f3edf1;font-family:Cairo,Arial,sans-serif}.wrap{width:min(1120px,100%);margin:auto;padding:24px 22px 50px}.top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #382630;padding-bottom:18px}.brand{display:flex;gap:12px;align-items:center;font:900 17px Manrope;letter-spacing:2px}.mark{width:42px;height:42px;display:grid;place-items:center;background:linear-gradient(145deg,#b43a59,#67172e);border-radius:14px;font-size:22px}.brand small{display:block;color:#a99da6;font:700 9px Manrope;letter-spacing:2px;margin-top:4px}.pill{border:1px solid #553044;border-radius:30px;padding:8px 13px;color:#c04a68;font-size:11px;font-weight:800}.hero{margin:36px 0 24px}.eyebrow{font:800 10px Manrope;letter-spacing:3px;color:#c04a68}.hero h1{font-size:clamp(30px,5vw,48px);margin:9px 0}.hero p{margin:0;color:#aa9fa7;font-size:13px;line-height:2}.panel{background:linear-gradient(145deg,#171118,#100d12);border:1px solid #3e2b37;border-radius:20px;padding:22px;margin-top:16px}.login{width:min(430px,100%);margin:11vh auto}.login h1{font-size:28px;margin:0 0 8px}.login p{color:#aa9fa7;font-size:12px;line-height:1.9}.field{display:block;margin:18px 0 10px;color:#c8bbc4;font-size:12px}.field input,.field textarea{display:block;width:100%;margin-top:8px;padding:13px 14px;border-radius:12px;border:1px solid #4a3341;background:#0b090d;color:#fff;font:14px Cairo;outline:none}.field textarea{min-height:100px;resize:vertical}.field input:focus,.field textarea:focus{border-color:#b33b5a;box-shadow:0 0 0 3px #a52b4822}button{border:0;border-radius:12px;padding:12px 17px;background:linear-gradient(120deg,#b83d5d,#701a35);color:#fff;font:800 12px Cairo;cursor:pointer}button:disabled{opacity:.55;cursor:wait}.wide{width:100%}.error{min-height:22px;color:#ff8a9f;font-size:11px;margin-top:8px}.hidden{display:none!important}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.metric{padding:18px;border:1px solid #3d2a36;border-radius:16px;background:#120e13}.metric small{color:#a99da6;font-size:10px}.metric strong{display:block;font:800 21px Manrope;margin-top:8px}.ok{color:#65c98a}.bad{color:#ff718b}.muted{color:#a99da6}.section-title{font-size:16px;margin:0 0 5px}.section-desc{font-size:11px;color:#a99da6;margin:0 0 14px;line-height:1.8}.row{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}.switch{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:800}.switch input{width:19px;height:19px;accent-color:#a52b48}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.secondary{background:#211720;border:1px solid #553044;color:#e8dce4}.hint{font-size:10px;color:#938690;line-height:1.8;margin-top:8px}.statusline{display:flex;align-items:center;gap:8px;font-size:11px;color:#c4b8c0}.dot{width:8px;height:8px;border-radius:50%;background:#65c98a;box-shadow:0 0 0 4px #65c98a1c}.dot.bad{background:#ff718b;box-shadow:0 0 0 4px #ff718b1c}.foot{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:22px;padding-top:16px;border-top:1px solid #382630;color:#847983;font:700 9px Manrope;letter-spacing:1.5px}@media(max-width:700px){.wrap{padding:17px 14px 35px}.grid{grid-template-columns:1fr}.panel{padding:16px}.hero{margin-top:27px}.top .pill{font-size:9px;padding:7px 9px}}
+</style></head><body><main class="wrap"><header class="top"><div class="brand"><span class="mark">V</span><span>VELOR <span style="color:#c04a68">DEVELOPER</span><small>WINE AI CONTROL CENTER</small></span></div><span class="pill">PRIVATE ACCESS</span></header>
+<section id="login" class="panel login"><div class="eyebrow">OWNER AUTHENTICATION</div><h1>دخول المطوّر</h1><p>لوحة التحكم الخاصة بـ WINE AI. الدخول مخصص للمطوّر فقط.</p><form id="loginForm"><label class="field">كلمة المرور<input id="password" type="password" autocomplete="current-password" placeholder="أدخل كلمة مرور المطوّر" required></label><button class="wide" id="loginBtn">دخول آمن ←</button><div id="loginError" class="error"></div></form></section>
+<section id="dashboard" class="hidden"><div class="hero"><div class="eyebrow">SYSTEM OVERVIEW</div><h1>مركز تحكم WINE AI</h1><p>تابع حالة المحرك والخدمات، وانشر رسائل للمستخدمين أو فعّل وضع الصيانة من غير تعديل ملفات الموقع.</p></div>
+<div class="grid"><article class="metric"><small>WINE AI CORE / API</small><strong id="coreStatus">جارٍ الفحص…</strong><div class="statusline"><i class="dot" id="coreDot"></i><span id="coreDetail">فحص الاتصال</span></div></article><article class="metric"><small>DATABASE</small><strong id="dbStatus">—</strong><div class="statusline"><i class="dot" id="dbDot"></i><span id="dbDetail">حالة قاعدة البيانات</span></div></article><article class="metric"><small>IMAGE GENERATION</small><strong id="imageStatus">—</strong><div class="statusline"><i class="dot" id="imageDot"></i><span id="imageDetail">إعداد مزود الصور</span></div></article></div>
+<div class="panel"><h2 class="section-title">رسالة تظهر للجميع</h2><p class="section-desc">اكتب إعلاناً أو تنبيهاً يظهر في الصفحة الرئيسية لكل الزوار. تقدر تعدله أو تخفيه في أي وقت.</p><label class="field">نص الرسالة<textarea id="notice" maxlength="500" placeholder="مثال: WINE AI تحت التحديث — هنرجع قريباً بأدوات جديدة."></textarea></label><div class="row"><label class="switch"><input id="noticeEnabled" type="checkbox"> نشر الرسالة على الصفحة الرئيسية</label><span class="muted" id="noticeCount">0 / 500</span></div></div>
+<div class="panel"><h2 class="section-title">التحكم في إتاحة الموقع</h2><p class="section-desc">عند تفعيل الصيانة، ستتوقف الصفحة الرئيسية والمحادثة والاستوديو وواجهات الاستخدام العامة. لوحة المطوّر ستظل متاحة لك لإعادة فتح الموقع.</p><label class="field">رسالة الصيانة للزوار<textarea id="maintenanceMessage" maxlength="500" placeholder="الموقع متوقف مؤقتاً للصيانة. سنعود قريباً."></textarea></label><label class="switch"><input id="maintenance" type="checkbox"> تفعيل وضع الصيانة وإغلاق الموقع للجميع</label><div class="actions"><button id="saveBtn">حفظ التغييرات</button><button id="refreshBtn" class="secondary">تحديث حالة الذكاء</button><button id="logoutBtn" class="secondary">تسجيل الخروج</button></div><div id="saveState" class="hint">التغييرات تُحفظ مباشرة في قاعدة البيانات وتظهر للزوار بدون تعديل ملفات.</div></div>
+<div class="panel"><div class="row"><div><h2 class="section-title">حالة النظام</h2><p class="section-desc">قراءة تشغيلية من واجهة الفحص، وليست عرضاً للتفكير الداخلي أو المحادثات الخاصة.</p></div><span class="muted" id="lastCheck">—</span></div><div class="statusline" id="providerInfo">المزوّد: —</div></div></section><footer class="foot"><span>DEV BY VELOR · BMG</span><span>WINE ORGANIZATION · PRIVATE</span></footer></main>
+<script>(function(){const $=id=>document.getElementById(id);let authenticated=false;
+async function request(url,options){const r=await fetch(url,Object.assign({credentials:'same-origin',cache:'no-store'},options||{}));let d={};try{d=await r.json()}catch{}if(!r.ok)throw new Error(d.error||'تعذر إكمال الطلب');return d}
+function showLogin(msg){authenticated=false;$('dashboard').classList.add('hidden');$('login').classList.remove('hidden');if(msg)$('loginError').textContent=msg}
+function showDashboard(){authenticated=true;$('login').classList.add('hidden');$('dashboard').classList.remove('hidden');loadSettings();refreshHealth()}
+$('loginForm').addEventListener('submit',async e=>{e.preventDefault();$('loginBtn').disabled=true;$('loginError').textContent='';try{await request('/api/owner',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'login',password:$('password').value})});$('password').value='';showDashboard()}catch(x){$('loginError').textContent=x.message}finally{$('loginBtn').disabled=false}});
+async function loadSettings(){try{const d=await request('/api/control');$('notice').value=d.notice||'';$('noticeEnabled').checked=!!d.noticeEnabled;$('maintenance').checked=!!d.maintenance;$('maintenanceMessage').value=d.maintenanceMessage||'';count()}catch(x){showLogin(x.message)}}
+async function refreshHealth(){try{const d=await request('/api/health');$('coreStatus').textContent=d.success?'ONLINE':'OFFLINE';$('coreStatus').className=d.success?'ok':'bad';$('coreDot').className='dot'+(d.success?'':' bad');$('coreDetail').textContent=d.success?'واجهة الفحص تستجيب':'فشل فحص الخدمة';$('dbStatus').textContent=d.database==='connected'?'CONNECTED':'DISCONNECTED';$('dbStatus').className=d.database==='connected'?'ok':'bad';$('dbDot').className='dot'+(d.database==='connected'?'':' bad');$('dbDetail').textContent='اتصال قاعدة البيانات';const im=!!d.features?.imageGeneration;$('imageStatus').textContent=im?'CONFIGURED':'NOT CONFIGURED';$('imageStatus').className=im?'ok':'bad';$('imageDot').className='dot'+(im?'':' bad');$('imageDetail').textContent=im?'مفتاح مزود الصور موجود':'مفتاح مزود الصور غير مضبوط';$('providerInfo').textContent='الخدمات المعلنة: '+(d.providers||[]).join(' · ');$('lastCheck').textContent='آخر فحص: '+new Date(d.timestamp||Date.now()).toLocaleTimeString('ar-EG')}catch(x){$('coreStatus').textContent='OFFLINE';$('coreStatus').className='bad';$('coreDot').className='dot bad';$('coreDetail').textContent=x.message}}
+function count(){$('noticeCount').textContent=$('notice').value.length+' / 500'}$('notice').addEventListener('input',count);
+$('saveBtn').addEventListener('click',async()=>{$('saveBtn').disabled=true;$('saveState').textContent='جارٍ الحفظ…';try{await request('/api/control',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'save',notice:$('notice').value,noticeEnabled:$('noticeEnabled').checked,maintenance:$('maintenance').checked,maintenanceMessage:$('maintenanceMessage').value})});$('saveState').textContent='تم الحفظ بنجاح. الإعدادات أصبحت فعّالة.'}catch(x){$('saveState').textContent=x.message}finally{$('saveBtn').disabled=false}});
+$('refreshBtn').addEventListener('click',refreshHealth);$('logoutBtn').addEventListener('click',async()=>{try{await request('/api/owner',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'logout'})})}catch{}showLogin('تم تسجيل الخروج.')});
+request('/api/control').then(showDashboard).catch(()=>showLogin());setInterval(()=>{if(authenticated)refreshHealth()},30000)})();</script></body></html>`;
 
-export default function handler(req, res) {
-  const secret = process.env.WINE_MAINTENANCE_PASSWORD;
-  if (!secret || secret.length < 20) {
-    return res.status(503).json({ success: false, error: 'Owner access is not configured. Set WINE_MAINTENANCE_PASSWORD in Vercel.' });
-  }
-
-  if (req.method === 'POST') {
-    const supplied = typeof req.body?.password === 'string' ? req.body.password : '';
-    if (!safeEqual(supplied, secret)) {
-      return res.status(401).json({ success: false, error: 'كلمة المرور غير صحيحة.' });
-    }
-    res.setHeader('Set-Cookie', 'wine_owner=' + expectedCookie(secret) + '; HttpOnly; Secure; SameSite=Strict; Path=/api/owner; Max-Age=28800');
-    res.setHeader('Cache-Control', 'no-store');
-    return res.status(200).json({ success: true });
-  }
-
-  if (req.method === 'GET') {
-    if (!hasOwnerCookie(req, secret)) return res.status(404).send('Not found');
-    res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    res.setHeader('Cache-Control', 'private, no-store, max-age=0');
-    return res.status(200).send(APP_HTML);
-  }
-
-  res.setHeader('Allow', 'GET, POST');
-  return res.status(405).end();
+import {hasOwnerSession,setOwnerCookie,clearOwnerCookie} from '../src/lib/owner-auth.js';
+import {checkRateLimit,recordAuthFail,isAuthBlocked} from '../src/lib/rate-limit.js';
+function safeEqual(a,b){const x=Buffer.from(String(a||'')),y=Buffer.from(String(b||''));return x.length===y.length&&crypto.timingSafeEqual(x,y);}
+export default async function handler(req,res){
+ const secret=process.env.WINE_MAINTENANCE_PASSWORD;
+ if(!secret||secret.length<8){if(req.method==='GET')return res.status(503).send('Owner access is not configured.');return res.status(503).json({success:false,error:'كلمة مرور المطوّر غير مضبوطة في Vercel.'});}
+ res.setHeader('Cache-Control','no-store');
+ if(req.method==='GET'){res.setHeader('Content-Type','text/html; charset=utf-8');return res.status(200).send(DASHBOARD_HTML);}
+ if(req.method!=='POST'){res.setHeader('Allow','GET, POST');return res.status(405).end();}
+ const b=typeof req.body==='string'?(()=>{try{return JSON.parse(req.body)}catch{return {}}})():(req.body||{});
+ if(b.action==='logout'){clearOwnerCookie(res);return res.status(200).json({success:true});}
+ if(b.action==='login'||!b.action){
+  const ip=req.ip||req.socket?.remoteAddress||'unknown',key='wine-owner:'+ip;
+  if(await isAuthBlocked(key))return res.status(429).json({success:false,error:'محاولات كثيرة. انتظر 10 دقائق ثم حاول مجدداً.'});
+  if(!(await checkRateLimit(key)))return res.status(429).json({success:false,error:'طلبات كثيرة. حاول بعد دقيقة.'});
+  const supplied=typeof b.password==='string'?b.password:'';
+  if(!safeEqual(supplied,secret)){await recordAuthFail(key);return res.status(401).json({success:false,error:'كلمة المرور غير صحيحة.'});}
+  setOwnerCookie(res);return res.status(200).json({success:true});
+ }
+ if(!hasOwnerSession(req))return res.status(401).json({success:false,error:'يجب تسجيل دخول المطوّر أولاً.'});
+ return res.status(400).json({success:false,error:'طلب غير معروف.'});
 }
