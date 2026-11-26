@@ -11,8 +11,6 @@ import starXImageHandler from '../api/star-x-image.js';
 import workspaceHandler from '../api/workspace.js';
 import controlHandler from '../api/control.js';
 import { maintenanceGuard, sectionGuard } from './lib/site-control.js';
-import { recordSiteVisit } from '../db.js';
-import analyticsHandler from '../api/analytics.js';
 
 const app = express();
 const port = Number(process.env.PORT || 3000);
@@ -21,7 +19,7 @@ if (process.env.TRUST_PROXY === 'true') app.set('trust proxy', 1);
 app.disable('x-powered-by');
 app.use(express.json({ limit: '8mb' }));
 app.use(async (req,res,next)=>{
- if(['/developer','/api/owner','/api/control','/api/health','/health','/api/analytics'].includes(req.path))return next();
+ if(['/developer','/api/owner','/api/control','/api/health','/health'].includes(req.path))return next();
  if(await maintenanceGuard(req,res))return;
  let section=null;
  if(['/','/'].includes(req.path))section='home';
@@ -30,7 +28,6 @@ app.use(async (req,res,next)=>{
  if(section&&await sectionGuard(req,res,section))return;
  return next();
 });
-app.use(async (req,res,next)=>{if(req.method==='GET'&&['/','/chat','/studio'].includes(req.path)){try{await recordSiteVisit(req,res)}catch(e){console.error('[analytics visit]',e.message)}}next();});
 
 // Static assets are served directly with short-lived caching; HTML stays fresh.
 app.get('/chat', workspaceHandler);
@@ -59,7 +56,6 @@ app.get('/icon.png', (_req, res) => res.sendFile(path.join(root, 'icon.png')));
 app.get(['/studio', '/api/studio'], studioHandler);
 app.route('/api/owner').get(ownerHandler).post(ownerHandler);
 app.route('/api/control').get(controlHandler).post(controlHandler);
-app.get('/api/analytics', analyticsHandler);
 app.get('/health', healthHandler);
 app.get('/api/health', healthHandler);
 app.post('/api/guest', guestHandler);
