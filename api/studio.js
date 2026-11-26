@@ -21,11 +21,11 @@ const STUDIO_HTML = `<!doctype html>
 </style></head>
 <body><main class="shell">
 <header class="top"><a class="brand" href="/"><span class="mark">W</span><span><b>WINE STUDIO</b><small>CREATIVE IMAGE LAB</small></span></a><a class="back" href="/">← العودة إلى WINE AI</a></header>
-<div id="studioOwnerNotice" style="display:none;margin:18px 0 0;padding:12px 16px;border:1px solid #d9c29a66;border-radius:12px;background:#d9c29a12;color:#f5f3ef;font:12px/1.8 Cairo"></div>
+
 <section class="hero"><div><span class="kicker">WINE CREATIVE LAB</span><h1>اصنع خيالك مع <em>WINE STUDIO</em></h1><p class="desc">مساحة مستقلة لإنشاء الصور وتحميلها بتوقيع WINE.</p></div><div class="spark">✧</div></section>
 <section class="workbench"><div class="english-notice" role="note"><span class="notice-icon">!</span><div><b>Important</b><p>Please describe your image in English before generating it.</p></div></div><label for="prompt">وصف الصورة</label><textarea id="prompt" maxlength="4000" placeholder="Describe your image in English..."></textarea><div class="controls"><span class="hint">حتى 4000 حرف</span><button id="generate">✧ إنشاء الصورة</button></div></section>
 <section class="result" id="result"><div class="empty"><span>✧</span><b>مساحتك الإبداعية</b>الصورة التي تنشئها ستظهر هنا</div></section>
-<footer class="foot">© 2026 WINE ORGANIZATION</footer></main><script>(async()=>{try{const r=await fetch("/api/control?public=1",{cache:"no-store"});const d=await r.json();const n=document.getElementById("studioOwnerNotice");const m=d.sections?.studio?.message;if(m){n.textContent=m;n.style.display="block"}}catch{}})();</script><script src="/studio.js" defer></script></body></html>`;
+<footer class="foot">© 2026 WINE ORGANIZATION</footer></main><script src="/studio.js" defer></script></body></html>`;
 
 export default async function handler(req,res){
  if(req.method!=='GET'){res.setHeader('Allow','GET');return res.status(405).end();}
