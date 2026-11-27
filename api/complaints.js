@@ -54,6 +54,60 @@ input:focus,textarea:focus,select:focus{border-color:#16866e!important;box-shado
 .sidebar .nav button.active{background:#e9f4ef!important;color:#126b56!important}
 .pill{background:#e9f4ef!important;color:#126b56!important;border-color:#b9d9ca!important}
 ::selection{background:#16866e;color:#fff}
+
+
+/* WINE AI — Navy Blue & Beige identity */
+:root{
+ color-scheme:dark;
+ --bg:#202943;--panel:#293550;--panel2:#34415d;--line:#48536b;
+ --text:#eee2cf;--muted:#c7bcae;--silver:#e8dcc9;
+ --wine:#d9c6a8;--wine2:#eee2cf;--rose:#d9c6a8;--pink:#d9c6a8;--accent:#d9c6a8;
+}
+html{background:#202943!important;color-scheme:dark}
+body{background:#202943!important;color:#eee2cf!important}
+body:before{opacity:.12}
+header,footer,.top,.sidebar{border-color:#48536b!important}
+.brand-name,.brand strong,.brand-caption,.nav a,.hero h1,.hero h2,h1,h2,h3,h4,
+.section-title h2,.card h3,.panel-head h2,.entry-title{color:#eee2cf}
+.brand-name i,.brand strong i,.eyebrow,.section-title small,.hero h1 span,.hero h2 span,
+.hero-accent,.section-tag{color:#d9c6a8!important}
+.brand-caption,.brand small,.muted,.hero-copy>p,.hero p,.card p,.desc,.section-title p,
+.footer-copy,.hint,.note,.intro{color:#c7bcae!important}
+.brand-mark,.mark,.core,.modal-logo{
+ background:linear-gradient(145deg,#f2e8d9,#d9c6a8 55%,#8d806e)!important;
+ color:#202943!important;border-color:#d9c6a8!important;box-shadow:0 8px 24px #080d1a55!important
+}
+.eyebrow,.hero .hint{background:#34415d!important;border-color:#8d806e!important;color:#eee2cf!important}
+.eyebrow:before,.composer-mode i,.dot{background:#d9c6a8!important;box-shadow:0 0 0 4px #d9c6a822!important}
+button,.btn,.cta,.primary,.submit,.primary-btn,.send-btn,.action.primary,.image-btn,.generate{
+ background:linear-gradient(120deg,#d9c6a8,#bca98d)!important;color:#202943!important;border:1px solid #e8dcc9!important
+}
+button:hover,.btn:hover,.action:hover{filter:brightness(1.07)}
+.action.secondary,.btn.secondary,.secondary,.header-actions a,.header-actions button,.quick-nav a{
+ background:#293550!important;color:#eee2cf!important;border:1px solid #59647a!important
+}
+.card,.feature-card,.panel,.block,.entry-link,.metric,.complaint-card,.gallery-card,.list-item,
+.owner-locked-link,.tool-card,.category,.sidebar,.login,.modal,.composer,.welcome-card{
+ background:#293550!important;color:#eee2cf!important;border:1px solid #48536b!important;
+ box-shadow:0 8px 28px #080d1a30!important
+}
+.card:nth-child(3n),.metric:nth-child(3n){background:#121a2b!important;color:#eee2cf!important;border-color:#48536b!important}
+.card:nth-child(3n) h3,.card:nth-child(3n) p,.metric:nth-child(3n) strong,.metric:nth-child(3n) small{color:#eee2cf!important}
+input,textarea,select,.field input,.field textarea,.output,.tool-output{
+ background:#202943!important;color:#eee2cf!important;border:1px solid #59647a!important
+}
+input::placeholder,textarea::placeholder{color:#a9a99f!important}
+input:focus,textarea:focus,select:focus{border-color:#d9c6a8!important;box-shadow:0 0 0 3px #d9c6a822!important}
+.nav a,.nav button{color:#eee2cf!important}
+.nav a:hover,.nav a.active,.nav button:hover,.nav button.active{background:#3a4560!important;border-color:#d9c6a8!important;color:#fff1dc!important}
+.entry-link:hover,.card:hover,.tool-card:hover,.category.active{border-color:#d9c6a8!important}
+.halo{border-color:#d9c6a866!important;box-shadow:0 0 0 18px #d9c6a80c,0 0 0 38px #d9c6a808,0 0 60px #d9c6a822!important}
+.halo:before,.halo:after{border-color:#d9c6a855!important}
+.float-tag{background:#293550!important;color:#eee2cf!important;border-color:#48536b!important}
+#siteNotice{background:#34415d!important;color:#eee2cf!important;border-color:#d9c6a8!important}
+.sidebar .nav button.active,.pill{background:#3a4560!important;color:#fff1dc!important;border-color:#d9c6a8!important}
+::selection{background:#d9c6a8;color:#202943}
+
 </style></head><body><main><div class="brand">WINE AI</div><div class="eyebrow">USER FEEDBACK</div><h1>واجهت مشكلة؟</h1><p class="intro">رأيك يساعدنا نطوّر WINE AI. اكتب المشكلة بالتفصيل، وفريق التطوير هيقدر يراجعها من لوحة OWENR.</p>
 <form id="complaintForm"><label for="category">نوع المشكلة</label><select id="category" required><option value="مشكلة في الواجهة">مشكلة في الواجهة</option><option value="مشكلة في WINE AI">مشكلة في WINE AI</option><option value="مشكلة في WINE STUDIO">مشكلة في WINE STUDIO</option><option value="مشكلة في الدخول">مشكلة في الدخول</option><option value="اقتراح أو شيء آخر">اقتراح أو شيء آخر</option></select><label for="message">اشرح المشكلة</label><textarea id="message" minlength="10" maxlength="2000" placeholder="اكتب إيه اللي حصل، والخطوات اللي عملتها قبل ظهور المشكلة..." required></textarea><div class="note">لا تكتب كلمات مرور أو بيانات شخصية حساسة. الشكوى ستظهر لفريق WINE داخل لوحة OWENR.</div><button id="sendBtn" type="submit">إرسال الشكوى</button><div id="state" role="status" aria-live="polite"></div></form><a class="back" href="/">← العودة إلى WINE AI</a></main>
 <script>
