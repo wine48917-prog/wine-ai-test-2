@@ -28,6 +28,7 @@ jobs:
           if permission not in s:
               s = s.replace('<application', permission + '\n    <application', 1)
           p.write_text(s)
+          Path('test/widget_test.dart').unlink(missing_ok=True)
           PY
       - name: Install dependencies
         working-directory: mobile
