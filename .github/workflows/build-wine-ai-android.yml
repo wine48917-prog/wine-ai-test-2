@@ -1,0 +1,26 @@
+name: Build WINE AI Android APK
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "mobile/**"
+      - ".github/workflows/build-wine-ai-android.yml"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - name: Install dependencies
+        working-directory: mobile
+        run: flutter pub get
+      - name: Build release APK
+        working-directory: mobile
+        run: flutter build apk --release
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: wine-ai-android-apk
+          path: mobile/build/app/outputs/flutter-apk/app-release.apk
