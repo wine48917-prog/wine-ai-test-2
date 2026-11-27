@@ -265,6 +265,18 @@ a:hover *,button:hover *,.btn:hover *,.nav a.active *,.nav button.active *{color
 @keyframes winePulse{50%{opacity:.35;transform:scale(.8)}}
 @media(max-width:560px){.wine-skeleton-hero{grid-template-columns:1fr;padding:18px}.wine-skeleton-circle{width:92px;height:92px;grid-row:1}.wine-skeleton-grid{grid-template-columns:repeat(2,1fr)}.wine-skeleton-card{height:88px}.wine-skeleton-card:last-child{display:none}}
 @media(prefers-reduced-motion:reduce){#wine-skeleton .shine:after,#wine-skeleton .wine-skeleton-status:before{animation:none!important}#wine-skeleton{transition:none}}
+
+/* External-data skeleton for WINE STUDIO */
+.wine-data-skeleton{display:grid;gap:14px;width:100%;padding:18px;border:1px solid #e9dccb55;border-radius:16px;background:#202943;color:#e9dccb}
+.wine-data-skeleton[aria-busy="true"]{min-height:150px}
+.wine-data-skeleton .skel-row{display:flex;align-items:center;gap:12px}
+.wine-data-skeleton .skel-shape{display:block;position:relative;overflow:hidden;background:#e9dccb18;border:1px solid #e9dccb25;border-radius:8px}
+.wine-data-skeleton .skel-shape:after{content:"";position:absolute;inset:0;transform:translateX(-120%);background:linear-gradient(100deg,transparent,#e9dccb28,transparent);animation:wineDataSweep 1.6s ease-in-out infinite}
+.wine-data-skeleton .skel-avatar{width:42px;height:42px;flex:0 0 42px;border-radius:50%}.wine-data-skeleton .skel-line{height:11px;width:100%}.wine-data-skeleton .skel-title{height:17px;width:54%}.wine-data-skeleton .skel-medium{width:76%}.wine-data-skeleton .skel-short{width:43%}.wine-data-skeleton .skel-media{width:100%;aspect-ratio:16/7;border-radius:12px}
+.wine-data-skeleton .skel-card{display:grid;gap:11px;padding:14px;border:1px solid #e9dccb28;border-radius:12px}.wine-data-skeleton .skel-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.wine-data-skeleton .skel-caption{font-size:10px;line-height:1.7;color:#e9dccb;opacity:.8}
+@keyframes wineDataSweep{to{transform:translateX(120%)}}
+@media(max-width:560px){.wine-data-skeleton{padding:13px;gap:11px}.wine-data-skeleton .skel-media{aspect-ratio:16/9}}
+@media(prefers-reduced-motion:reduce){.wine-data-skeleton .skel-shape:after{animation:none!important;transform:none;background:transparent}}
 </style>
 </head>
 <body>
