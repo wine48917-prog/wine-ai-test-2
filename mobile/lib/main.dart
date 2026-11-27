@@ -253,7 +253,7 @@ class _ChatPageState extends State<ChatPage> {
   Future<void> _generateImage() async {
     final prompt = input.text.trim();
     if (prompt.isEmpty || busy) return;
-    if (activeId == null) activeId = newId();
+    activeId ??= newId();
     input.clear();
     setState(() { messages.add({'role':'user','text':'أنشئ صورة: $prompt'}); busy = true; });
     _scrollDown();
