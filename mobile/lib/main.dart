@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter/services.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
@@ -161,7 +162,7 @@ class _ChatPageState extends State<ChatPage> {
 
   Future<void> _saveConversation() async {
     if (activeId == null) return;
-    final safe = messages.where((m) => m['text'] is String).map((m) => {'role':m['role'], 'text':m['text']}).toList();
+    final safe = messages.where((m) => m['text'] is String).map((m) => {'role':m['role'], 'text':m['text']}).toList().reversed.take(100).toList().reversed.toList();
     try {
       await http.post(Uri.parse('$apiBase/api/conversations'), headers: headers, body: jsonEncode({
         'id': activeId, 'title': _title, 'sessionId': sessionId, 'messages': safe,
@@ -196,6 +197,11 @@ class _ChatPageState extends State<ChatPage> {
       if (mounted) scaffoldKey.currentState?.closeDrawer();
       _scrollDown();
     } catch (e) { _snack(e.toString().replaceFirst('Exception: ', '')); }
+  }
+
+  void _openWeb(String path, String title) {
+    scaffoldKey.currentState?.closeDrawer();
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) => WineWebPage(path: path, title: title)));
   }
 
   Future<void> _deleteConversation(String id) async {
@@ -316,6 +322,10 @@ class _ChatPageState extends State<ChatPage> {
         ])),
         const Divider(color: Colors.white12),
         ListTile(leading: const Icon(Icons.add_comment_outlined), title: const Text('محادثة جديدة'), onTap: _newChat),
+        ListTile(leading: const Icon(Icons.grid_view_rounded), title: const Text('مركز الأدوات'), subtitle: const Text('CODE · WRITE · LIBRARY · GALLERY'), onTap: () => _openWeb('/features', 'مركز الأدوات')),
+        ListTile(leading: const Icon(Icons.public), title: const Text('موقع WINE AI'), onTap: () => _openWeb('/', 'موقع WINE AI')),
+        ListTile(leading: const Icon(Icons.info_outline), title: const Text('عن WINE AI'), onTap: () => _openWeb('/about.html', 'عن WINE AI')),
+        ListTile(leading: const Icon(Icons.support_agent), title: const Text('الشكاوى والمقترحات'), onTap: () => _openWeb('/complaints', 'الشكاوى والمقترحات')),
         const Padding(padding: EdgeInsets.fromLTRB(18, 14, 18, 8), child: Align(alignment: Alignment.centerRight, child: Text('محادثاتك المحفوظة', style: TextStyle(color: Colors.white54, fontSize: 12)))),
         Expanded(child: loadingHistory ? const Center(child: CircularProgressIndicator()) : conversations.isEmpty
           ? const Center(child: Text('لا توجد محادثات محفوظة بعد', style: TextStyle(color: Colors.white38)))
@@ -367,3 +377,31 @@ class _ChatPageState extends State<ChatPage> {
   Widget _suggest(String label, String prompt) => ActionChip(label: Text(label), onPressed: () { input.text = prompt; _send(); });
 }
 
+
+class WineWebPage extends StatefulWidget {
+  final String path;
+  final String title;
+  const WineWebPage({super.key, required this.path, required this.title});
+  @override State<WineWebPage> createState() => _WineWebPageState();
+}
+class _WineWebPageState extends State<WineWebPage> {
+  late final WebViewController controller;
+  bool loading = true;
+  @override void initState() {
+    super.initState();
+    controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(NavigationDelegate(
+        onPageFinished: (_) { if (mounted) setState(() => loading = false); },
+        onWebResourceError: (_) { if (mounted) setState(() => loading = false); },
+      ))
+      ..loadRequest(Uri.parse('$apiBase${widget.path}'));
+  }
+  @override Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(title: Text(widget.title)),
+    body: Stack(children: [
+      WebViewWidget(controller: controller),
+      if (loading) const LinearProgressIndicator(),
+    ]),
+  );
+}
