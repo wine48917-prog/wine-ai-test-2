@@ -119,6 +119,28 @@ body{background-color:#071311;background-image:linear-gradient(#d8fff008 1px,tra
 .spark-a{left:22%;top:34px}.spark-b{right:20%;bottom:27px;font-size:30px}
 @media(max-width:600px){.hero-sculpture{height:155px;margin:8px 0 0}.ring-a{width:260px;height:88px}.ring-b{width:205px;height:130px}.ring-c{width:150px;height:150px}.sculpture-orb{width:88px;height:88px;border-radius:26px}.wine-mark{width:78%;height:72%}.spark-a{left:14%;top:20px}.spark-b{right:13%;bottom:15px}}
 
+
+/* WINE unified visual identity · deep emerald / jade / warm silver */
+:root{color-scheme:dark;--bg:#081310;--panel:#101e1a;--panel2:#162923;--line:#29483e;--text:#edf5f1;--muted:#a0b5ab;--silver:#dce9e2;--wine:#16866e;--wine2:#45b99a;--rose:#8bd7bd;--pink:#8bd7bd}
+html{background:#081310}
+body{background-color:#081310!important;color:#edf5f1}
+a{transition:color .2s,border-color .2s,background .2s}
+button,input,textarea,select{accent-color:#45b99a}
+::selection{background:#287e68;color:#f4fff9}
+
+:root{--bg:#081310;--surface:#101e1a;--surface2:#162923;--line:#29483e;--muted:#a0b5ab;--silver:#dce9e2;--wine:#16866e;--wine2:#45b99a}
+body{background-color:#081310!important;background-image:linear-gradient(#d8fff006 1px,transparent 1px),linear-gradient(90deg,#d8fff006 1px,transparent 1px),radial-gradient(ellipse at 78% 8%,#1b8b6a35,transparent 36%),linear-gradient(150deg,#081310,#0c1b16 60%,#081310)!important}
+.hero h1 span,.eyebrow,.step-label{color:#8bd7bd!important}
+.top-actions a,.panel,.prompt,.chip,.select-wrap select,.result,.empty .glyph{border-color:#31584a!important}
+.panel{background:linear-gradient(145deg,#14251f,#0d1915)!important}
+.prompt,.select-wrap select{background:#091712!important}
+.chip{background:#14251f!important;color:#d4e9df!important}
+.chip:hover,.chip.active{background:#164b3a!important;border-color:#45b99a!important}
+.generate{background:linear-gradient(105deg,#e7f5ed,#a7d7c3 55%,#d9eee3)!important;color:#0c2118!important;border-color:#bdebd7!important}
+.tip{background:linear-gradient(110deg,#12372b,#10211a)!important;border-color:#367a60!important}
+.result{background:radial-gradient(ellipse at 50% 40%,#5dc9a512,transparent 56%),linear-gradient(145deg,#071411,#0a1b17)!important}
+.sculpture-orb{border-color:#b8f4e077!important}
+
 </style>
 </head>
 <body>
