@@ -44,6 +44,7 @@ export function ensureDatabase() {
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
       await pool.query(`CREATE TABLE IF NOT EXISTS site_settings (setting_key VARCHAR(80) NOT NULL PRIMARY KEY, setting_value TEXT NOT NULL, updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
       await pool.query(`CREATE TABLE IF NOT EXISTS site_visits (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, visitor_id CHAR(36) NOT NULL, visited_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, INDEX idx_site_visits_date (visited_at), INDEX idx_site_visits_visitor_date (visitor_id, visited_at)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+      await pool.query(`CREATE TABLE IF NOT EXISTS complaints (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, category VARCHAR(40) NOT NULL, message TEXT NOT NULL, created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, INDEX idx_complaints_created_at (created_at)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
       await pool.execute("INSERT IGNORE INTO site_settings (setting_key, setting_value) VALUES ('analytics_started_at', NOW())");
       await pool.query('SELECT 1');
       return true;
