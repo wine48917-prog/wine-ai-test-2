@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
+// ignore: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter/services.dart';
@@ -225,7 +226,7 @@ class _ChatPageState extends State<ChatPage> {
   Future<void> _send() async {
     final prompt = input.text.trim();
     if (prompt.isEmpty || busy) return;
-    if (activeId == null) activeId = newId();
+    activeId ??= newId();
     input.clear();
     setState(() { messages.add({'role':'user','text':prompt}); busy = true; });
     _scrollDown();
@@ -332,7 +333,7 @@ class _ChatPageState extends State<ChatPage> {
             final c = conversations[i];
             final id = c['id'].toString();
             return ListTile(
-              selected: id == activeId, selectedTileColor: wineRed.withOpacity(.18),
+              selected: id == activeId, selectedTileColor: wineRed.withValues(alpha: .18),
               leading: const Icon(Icons.chat_bubble_outline, size: 19),
               title: Text(c['title']?.toString() ?? 'محادثة', maxLines: 1, overflow: TextOverflow.ellipsis),
               trailing: IconButton(icon: const Icon(Icons.delete_outline, size: 19, color: Colors.white54), onPressed: () => _deleteConversation(id)),
