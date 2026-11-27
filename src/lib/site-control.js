@@ -9,7 +9,7 @@ const defaults={
   studio:{enabled:true,message:''},
   features:{enabled:true,message:''},library:{enabled:true,message:''},code:{enabled:true,message:''},profile:{enabled:true,message:''},write:{enabled:true,message:''},gallery:{enabled:true,message:''},voice:{enabled:true,message:''},notifications:{enabled:true,message:''}
  },
- copy:{homeTitle:'WINE FOR MORE THING’S',homeSubtitle:'مساحة واحدة تجمع قوة الذكاء الاصطناعي وأدوات الإبداع. اسأل، اكتب، حلّل، واصنع أفكارك — بطريقتك ومن غير تعقيد.'}
+ copy:{homeTitle:'WINE FOR MORE THING’S',homeSubtitle:'مساحة واحدة تجمع قوة الذكاء الاصطناعي وأدوات الإبداع. اسأل، اكتب، حلّل، واصنع أفكارك — بطريقتك ومن غير تعقيد.',tools:{"eyebrow":"THE WINE AI WORKSPACE","title":"كل أدواتك، في مساحة واحدة.","description":"من الكتابة والبرمجة إلى الصوت وحفظ أعمالك — أدوات WINE AI في تجربة واحدة متناسقة، مصممة لتكون سهلة على الهاتف والكمبيوتر.","sectionLabel":"YOUR TOOLKIT","sectionTitle":"مركز الأدوات","sectionHint":"اختار الأداة وابدأ مباشرة","libraryTitle":"مكتبة المحادثات","libraryDesc":"ابحث في محادثاتك المحفوظة وصدّرها.","codeTitle":"WINE CODE","codeDesc":"اكتب الأكواد، افهمها، واكتشف الأخطاء.","profileTitle":"حساب المستخدم","profileDesc":"سجّل الدخول أو أنشئ حساباً وراجع بياناتك.","writeTitle":"WINE WRITE","writeDesc":"كتابة وتلخيص وإعادة صياغة المحتوى.","galleryTitle":"معرض الإبداعات","galleryDesc":"احفظ صورك واعرضها من جهازك.","voiceTitle":"WINE VOICE","voiceDesc":"تحدث بصوتك واستمع إلى الردود.","notificationsTitle":"مركز الإشعارات","notificationsDesc":"تابع إعلانات وتحديثات المنصة."}}
 };
 const keys={
  maintenance_enabled:'maintenance',maintenance_message:'maintenanceMessage',
@@ -31,6 +31,7 @@ export async function getSiteSettings(force=false){
  }
  s.copy.homeTitle=v.copy_home_title||defaults.copy.homeTitle;
  s.copy.homeSubtitle=v.copy_home_subtitle||defaults.copy.homeSubtitle;
+ s.copy.tools={...defaults.copy.tools};for(const key of Object.keys(defaults.copy.tools))s.copy.tools[key]=v['copy_tools_'+key]||defaults.copy.tools[key];
  cached=s;cachedAt=Date.now();return structuredClone(s);
 }
 export async function saveSiteSettings(values){
@@ -43,7 +44,8 @@ export async function saveSiteSettings(values){
   notice_enabled:s.noticeEnabled?'1':'0',
   notice_message:String(s.notice||'').slice(0,500),
   copy_home_title:String(s.copy.homeTitle||defaults.copy.homeTitle).slice(0,120),
-  copy_home_subtitle:String(s.copy.homeSubtitle||defaults.copy.homeSubtitle).slice(0,500)
+  copy_home_subtitle:String(s.copy.homeSubtitle||defaults.copy.homeSubtitle).slice(0,500),
+  ...Object.fromEntries(Object.keys(defaults.copy.tools).map(key=>['copy_tools_'+key,String(s.copy.tools?.[key]||defaults.copy.tools[key]).slice(0,500)]))
  };
  for(const section of ['home','chat','studio','features','library','code','profile','write','gallery','voice','notifications']){
   const x=s.sections[section]||defaults.sections[section];
