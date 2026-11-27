@@ -146,7 +146,7 @@ class _ChatPageState extends State<ChatPage> {
 
   Future<void> _loadConversations() async {
     try {
-      final d = await apiGet('/api/conversations');
+      final d = await apiGet('/api/auth');
       if (!mounted) return;
       setState(() {
         email = d['profile']?['email']?.toString();
@@ -163,8 +163,8 @@ class _ChatPageState extends State<ChatPage> {
     if (activeId == null) return;
     final safe = messages.where((m) => m['text'] is String).map((m) => {'role':m['role'], 'text':m['text']}).toList().reversed.take(100).toList().reversed.toList();
     try {
-      await http.post(Uri.parse('$apiBase/api/conversations'), headers: headers, body: jsonEncode({
-        'id': activeId, 'title': _title, 'sessionId': sessionId, 'messages': safe,
+      await http.post(Uri.parse('$apiBase/api/auth'), headers: headers, body: jsonEncode({
+        'action': 'saveConversation', 'id': activeId, 'title': _title, 'sessionId': sessionId, 'messages': safe,
       }));
       await _loadConversations();
     } catch (e) { _snack('لم يتم حفظ المحادثة: ${e.toString().replaceFirst('Exception: ', '')}'); }
@@ -186,7 +186,7 @@ class _ChatPageState extends State<ChatPage> {
   Future<void> _openConversation(String id) async {
     if (busy) return;
     try {
-      final d = await apiGet('/api/conversations?id=${Uri.encodeQueryComponent(id)}');
+      final d = await apiGet('/api/auth?id=${Uri.encodeQueryComponent(id)}');
       final c = Map<String, dynamic>.from(d['conversation'] as Map);
       setState(() {
         activeId = id; sessionId = c['sessionId']?.toString(); messages
@@ -205,7 +205,7 @@ class _ChatPageState extends State<ChatPage> {
 
   Future<void> _deleteConversation(String id) async {
     try {
-      final r = await http.delete(Uri.parse('$apiBase/api/conversations?id=${Uri.encodeQueryComponent(id)}'), headers: headers);
+      final r = await http.post(Uri.parse('$apiBase/api/auth'), headers: headers, body: jsonEncode({'action':'deleteConversation','id':id}));
       if (r.statusCode < 200 || r.statusCode >= 300) throw Exception('تعذر حذف المحادثة.');
       if (activeId == id) setState(() { activeId = null; sessionId = null; messages.clear(); });
       await _loadConversations();
