@@ -6,7 +6,8 @@ const defaults={
  sections:{
   home:{enabled:true,message:''},
   chat:{enabled:true,message:''},
-  studio:{enabled:true,message:''}
+  studio:{enabled:true,message:''},
+  features:{enabled:true,message:''},library:{enabled:true,message:''},code:{enabled:true,message:''},profile:{enabled:true,message:''},write:{enabled:true,message:''},gallery:{enabled:true,message:''},voice:{enabled:true,message:''},notifications:{enabled:true,message:''}
  },
  copy:{homeTitle:'WINE FOR MORE THING’S',homeSubtitle:'مساحة واحدة تجمع قوة الذكاء الاصطناعي وأدوات الإبداع. اسأل، اكتب، حلّل، واصنع أفكارك — بطريقتك ومن غير تعقيد.'}
 };
@@ -23,7 +24,7 @@ export async function getSiteSettings(force=false){
  s.maintenance=v.maintenance_enabled==='1';
  s.maintenanceMessage=v.maintenance_message||defaults.maintenanceMessage;
  s.noticeEnabled=v.notice_enabled==='1';s.notice=v.notice_message||'';
- for(const section of ['home','chat','studio']){
+ for(const section of ['home','chat','studio','features','library','code','profile','write','gallery','voice','notifications']){
   const prefix='section_'+section+'_';
   if(v[prefix+'enabled']!==undefined)s.sections[section].enabled=v[prefix+'enabled']==='1';
   s.sections[section].message=v[prefix+'message']||'';
@@ -44,7 +45,7 @@ export async function saveSiteSettings(values){
   copy_home_title:String(s.copy.homeTitle||defaults.copy.homeTitle).slice(0,120),
   copy_home_subtitle:String(s.copy.homeSubtitle||defaults.copy.homeSubtitle).slice(0,500)
  };
- for(const section of ['home','chat','studio']){
+ for(const section of ['home','chat','studio','features','library','code','profile','write','gallery','voice','notifications']){
   const x=s.sections[section]||defaults.sections[section];
   entries['section_'+section+'_enabled']=x.enabled===false?'0':'1';
   entries['section_'+section+'_message']=String(x.message||'').slice(0,500);
