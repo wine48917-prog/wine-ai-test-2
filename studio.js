@@ -1,6 +1,12 @@
 const $=s=>document.querySelector(s);
 let busy=false,objectUrl=null;
-async function ensureGuest(){
+
+async function saveToGallery(blob,name='WINE STUDIO creation'){
+  const data=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(reader.error);reader.readAsDataURL(blob)});
+  const db=await new Promise((resolve,reject)=>{const req=indexedDB.open('wine-ai-gallery',1);req.onupgradeneeded=()=>{if(!req.result.objectStoreNames.contains('images'))req.result.createObjectStore('images',{keyPath:'id',autoIncrement:true})};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)});
+  await new Promise((resolve,reject)=>{const req=db.transaction('images','readwrite').objectStore('images').add({name,data,createdAt:Date.now()});req.onsuccess=resolve;req.onerror=()=>reject(req.error)});
+}
+\nasync function ensureGuest(){
  let token=localStorage.getItem('wine_token')||'';
  if(token)return token;
  const name=localStorage.getItem('wine_name')||'زائر';
