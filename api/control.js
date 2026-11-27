@@ -13,7 +13,8 @@ export default async function handler(req,res){
  if(req.method!=='POST'){res.setHeader('Allow','GET, POST');return res.status(405).json({success:false,error:'Method not allowed'});}
  const b=typeof req.body==='string'?(()=>{try{return JSON.parse(req.body)}catch{return {}}})():(req.body||{});
  if(b.action!=='save'&&b.action!=='saveAll')return res.status(400).json({success:false,error:'طلب غير معروف.'});
- const lengths=[b.notice,b.maintenanceMessage,b.sections?.home?.message,b.sections?.chat?.message,b.sections?.studio?.message,b.copy?.homeTitle,b.copy?.homeSubtitle];
+ const sectionNames=['home','chat','studio','features','library','code','profile','write','gallery','voice','notifications'];
+ const lengths=[b.notice,b.maintenanceMessage,b.copy?.homeTitle,b.copy?.homeSubtitle,...sectionNames.map(key=>b.sections?.[key]?.message)];
  if(lengths.some(x=>x!==undefined&&typeof x!=='string')||lengths.some(x=>typeof x==='string'&&x.length>500))return res.status(400).json({success:false,error:'تأكد من النصوص؛ الحد الأقصى 500 حرف لكل رسالة.'});
  try{
   const values=b.action==='saveAll'?{
@@ -21,11 +22,7 @@ export default async function handler(req,res){
    maintenanceMessage:b.maintenanceMessage,
    noticeEnabled:b.noticeEnabled===true,
    notice:b.notice,
-   sections:{
-    home:{enabled:b.sections?.home?.enabled!==false,message:b.sections?.home?.message||''},
-    chat:{enabled:b.sections?.chat?.enabled!==false,message:b.sections?.chat?.message||''},
-    studio:{enabled:b.sections?.studio?.enabled!==false,message:b.sections?.studio?.message||''}
-   },
+   sections:Object.fromEntries(sectionNames.map(key=>[key,{enabled:b.sections?.[key]?.enabled!==false,message:typeof b.sections?.[key]?.message==='string'?b.sections[key].message:''}])),
    copy:{homeTitle:b.copy?.homeTitle,homeSubtitle:b.copy?.homeSubtitle}
   }:{
    maintenance:b.maintenance===true,maintenanceMessage:b.maintenanceMessage,
