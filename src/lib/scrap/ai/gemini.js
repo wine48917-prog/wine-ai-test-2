@@ -557,7 +557,7 @@ const gemini = {
       return await officialGeminiRequest(params.prompt.trim());
     } catch (error) {
       console.warn('[WINE AI provider]', String(error?.message || error).slice(0, 220));
-      if (error?.status === 429 || error?.status === 403 || error?.code === 'NO_API_KEY') throw error;
+      if (error?.status === 429 || error?.status === 403) throw error;
     }
 
     const savedSession = params.sessionId ? unpack(params.sessionId) : null;
