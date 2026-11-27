@@ -2,7 +2,7 @@ import pool, { ensureDatabase } from '../db.js';
 import { hasOwnerSession } from '../src/lib/owner-auth.js';
 import { checkRateLimit } from '../src/lib/rate-limit.js';
 
-const PAGE = \`<!doctype html>
+const PAGE = `<!doctype html>
 <html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#09090c"><title>إرسال مشكلة — WINE AI</title><link rel="icon" href="/icon.png"><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box}body{margin:0;min-height:100vh;padding:24px;background:radial-gradient(ellipse at 80% 0,#57182c55,transparent 38%),#09090c;color:#f4edf1;font-family:Cairo,Arial,sans-serif;display:grid;place-items:center}main{width:min(620px,100%);padding:clamp(22px,5vw,38px);border:1px solid #503044;border-radius:24px;background:linear-gradient(145deg,#19121a,#100d12);box-shadow:0 24px 80px #0008}.brand{font:900 13px Manrope;letter-spacing:3px;color:#d86a89}.eyebrow{margin-top:28px;color:#c04a68;font:800 10px Manrope;letter-spacing:3px}h1{font-size:clamp(25px,6vw,36px);margin:8px 0}.intro{font-size:12px;color:#b6aab2;line-height:2;margin:0 0 22px}label{display:block;font-size:12px;font-weight:800;color:#d9cbd4;margin:16px 0 8px}select,textarea{width:100%;margin-top:8px;border:1px solid #4a3341;border-radius:13px;background:#0b090d;color:#fff;padding:13px;font:inherit;outline:none}textarea{min-height:180px;resize:vertical;line-height:1.9}select:focus,textarea:focus{border-color:#bd4565;box-shadow:0 0 0 3px #a52b4822}button{width:100%;border:0;border-radius:13px;padding:14px;margin-top:18px;background:linear-gradient(120deg,#b83d5d,#701a35);color:#fff;font:800 13px Cairo;cursor:pointer}button:disabled{opacity:.6;cursor:wait}#state{min-height:24px;margin-top:14px;font-size:12px;line-height:1.8;color:#d98ca2}.back{display:inline-block;margin-top:20px;color:#c9879b;font-size:11px;text-decoration:none}.note{color:#8e828c;font-size:10px;line-height:1.9;margin-top:12px}
@@ -11,7 +11,7 @@ const PAGE = \`<!doctype html>
 <script>
 const form=document.getElementById('complaintForm'),button=document.getElementById('sendBtn'),state=document.getElementById('state');
 form.addEventListener('submit',async event=>{event.preventDefault();button.disabled=true;state.textContent='جارٍ إرسال الشكوى…';try{const response=await fetch('/api/complaints',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({category:document.getElementById('category').value,message:document.getElementById('message').value.trim()})});const data=await response.json();if(!response.ok)throw new Error(data.error||'تعذر إرسال الشكوى. حاول مرة أخرى.');form.reset();state.textContent='وصلت شكواك بنجاح. شكراً لمساعدتنا في تحسين WINE AI.';state.style.color='#75d39a'}catch(error){state.textContent=error.message;state.style.color='#ff8a9f'}finally{button.disabled=false}});
-</script></body></html>\`;
+</script></body></html>`;
 
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
