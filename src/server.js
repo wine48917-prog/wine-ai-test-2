@@ -42,7 +42,7 @@ app.get('/guide', (_req, res) => res.sendFile(path.join(root, 'pages/guide.html'
 app.get('/features', (_req, res) => res.sendFile(path.join(root, 'pages/features.html'), { headers: { 'Cache-Control': 'no-cache' } }));
 app.get('/chat-info', (_req, res) => res.sendFile(path.join(root, 'pages/chat.html'), { headers: { 'Cache-Control': 'no-cache' } }));
 app.get('/studio-info', (_req, res) => res.sendFile(path.join(root, 'pages/studio.html'), { headers: { 'Cache-Control': 'no-cache' } }));
-app.get('/about', (_req, res) => res.sendFile(path.join(root, 'pages/about.html'), { headers: { 'Cache-Control': 'no-cache' } }));
+app.get(['/about', '/about.html'], (_req, res) => res.sendFile(path.join(root, 'about.html'), { headers: { 'Cache-Control': 'no-cache' } }));
 app.get('/styles.css', (_req, res) => res.sendFile(path.join(root, 'styles.css'), {
   headers: { 'Cache-Control': 'public, max-age=3600' }
 }));
