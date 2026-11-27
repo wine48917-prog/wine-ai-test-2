@@ -722,3 +722,23 @@ a:hover *,button:hover *,.btn:hover *,.nav a.active *,.nav button.active *{color
 @keyframes wineDataSweep{to{transform:translateX(120%)}}
 @media(max-width:560px){.wine-data-skeleton{padding:13px;gap:11px}.wine-data-skeleton .skel-media{aspect-ratio:16/9}}
 @media(prefers-reduced-motion:reduce){.wine-data-skeleton .skel-shape:after{animation:none!important;transform:none;background:transparent}}
+
+
+/* FINAL WINE AI CHAT PALETTE — ONLY NAVY + BEIGE */
+:root{color-scheme:dark;--bg:#202943;--panel:#202943;--panel2:#202943;--line:#E9DCCB;--text:#E9DCCB;--muted:#E9DCCB;--accent:#E9DCCB;--wine:#E9DCCB;--wine2:#E9DCCB;--rose:#E9DCCB;--pink:#E9DCCB}
+html,body{background:#202943!important;color:#E9DCCB!important;color-scheme:dark}
+body:before{display:none!important}
+.app-shell,.main,.workspace,.sidebar,.topbar,.composer-dock,.composer-wrap,.composer,.welcome,.messages,.history,.user-box,.sidebar-bottom,.modal,.modal-backdrop,.quick-grid,.quick-card,.prompt-section,.welcome-footer{background:#202943!important;color:#E9DCCB!important;border-color:#E9DCCB!important;box-shadow:none!important}
+h1,h2,h3,h4,p,span,b,strong,small,label,a,i,em,.top-context,.brand,.brand b,.brand small,.history-empty,.side-label,.side-section-label,.user-meta,.composer-hint,.composer-shortcut,.disclaimer,.welcome-description,.prompt-section-heading,.prompt-section-heading span{color:#E9DCCB!important}
+.brand-mark,.avatar,.welcome-emblem,.emblem-core,.footer-mark,.quick-icon,.model-chip,.studio-nav,.top-new-chat,.account-btn,.new-chat,.send-btn,.image-btn,.primary-btn,.quick-card:hover,.quick-card:focus-visible{background:#E9DCCB!important;color:#202943!important;border:1px solid #E9DCCB!important;box-shadow:none!important}
+button,.studio-nav,.new-chat,.top-new-chat,.send-btn,.image-btn,.primary-btn{background:#E9DCCB!important;color:#202943!important;border:1px solid #E9DCCB!important}
+button *,button span,.send-btn span,.image-btn span{color:#202943!important}
+button:hover,.studio-nav:hover,.quick-card:hover{background:#202943!important;color:#E9DCCB!important;border-color:#E9DCCB!important}
+button:hover *,.quick-card:hover *{color:#E9DCCB!important}
+.quick-card,.composer,.prompt-section,.welcome-emblem,.emblem-ring,.emblem-core,.sidebar-status,.user-box,.model-chip,.studio-nav,.history,.history-empty,.modal,.name-modal{border-color:#E9DCCB!important}
+textarea,input,select,#prompt,#guestName{background:#202943!important;color:#E9DCCB!important;border:1px solid #E9DCCB!important;box-shadow:none!important}
+textarea::placeholder,input::placeholder{color:#E9DCCB!important;opacity:.7}
+textarea:focus,input:focus,select:focus{border-color:#E9DCCB!important;box-shadow:0 0 0 3px #E9DCCB22!important}
+.composer-mode i,.sidebar-status>span,.model-chip i,.kicker-dot,.kicker-line,.welcome-emblem i{background:#E9DCCB!important;box-shadow:none!important}
+.emblem-ring,.welcome-emblem:before,.welcome-emblem:after{border-color:#E9DCCB!important}
+::selection{background:#E9DCCB!important;color:#202943!important}
