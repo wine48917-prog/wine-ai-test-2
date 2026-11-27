@@ -11,163 +11,70 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{color-scheme:light;--paper:#f2f0eb;--ink:#171719;--muted:#77746f;--line:#d9d6cf;--accent:#a52b48;--white:#fff}
+:root{color-scheme:dark;--bg:#08080b;--panel:#111015;--panel2:#171219;--text:#f5f1f4;--muted:#aaa1aa;--line:#30232c;--wine:#a52b48;--wine2:#d05272;--silver:#c9c2ca}
 *{box-sizing:border-box}
-html{min-height:100%;background:var(--paper);scroll-behavior:smooth}
-body{margin:0;min-height:100vh;background:var(--paper);color:var(--ink);font-family:Cairo,Arial,sans-serif}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{margin:0;min-height:100vh;color:var(--text);font-family:Cairo,Arial,sans-serif;background:radial-gradient(ellipse at 78% 8%,#52172b55,transparent 34%),radial-gradient(ellipse at 4% 55%,#29232d55,transparent 35%),var(--bg)}
 a{color:inherit;text-decoration:none}
-.page{width:min(1240px,100%);margin:auto;padding:28px 42px 22px}
-header{height:62px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:18px}
-.brand{display:flex;align-items:center;gap:12px}
-.brand-mark{width:42px;height:42px;background:var(--ink);color:var(--paper);display:grid;place-items:center;font:800 21px Manrope;border-radius:50%}
-.brand-name{font:800 18px Manrope;letter-spacing:2.4px}.brand-name span{color:var(--accent)}
-.brand-caption{font:700 8px Manrope;letter-spacing:2px;color:#8b8780;margin-top:3px}
-.header-right{display:flex;align-items:center;gap:22px}
-.live{display:flex;align-items:center;gap:8px;color:#68645f;font-size:11px;font-weight:700}
-.live:before{content:"";width:7px;height:7px;background:#4e9668;border-radius:50%;box-shadow:0 0 0 4px #4e96681a}
-.header-link{font-size:11px;font-weight:800;border-bottom:1px solid var(--ink);padding-bottom:3px}
-main{padding-top:58px}
-.hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);gap:54px;align-items:center;min-height:480px}
-.kicker{display:flex;align-items:center;gap:12px;color:var(--accent);font:800 10px Manrope;letter-spacing:2.8px}
-.kicker:before{content:"";width:34px;height:2px;background:var(--accent)}
-h1{font-size:clamp(54px,7.2vw,94px);line-height:1.12;letter-spacing:-3px;margin:23px 0 18px;font-weight:900;max-width:720px}
-h1 em{font-style:normal;color:var(--accent)}
-.lead{max-width:550px;color:#6e6a64;font-size:15px;line-height:2.15;margin:0}
-.hero-foot{display:flex;align-items:center;gap:16px;margin-top:34px}
-.primary-link{display:inline-flex;align-items:center;gap:26px;background:var(--ink);color:white;padding:15px 20px 15px 15px;font-size:12px;font-weight:800;transition:background .2s,transform .2s}
-.primary-link:hover{background:var(--accent);transform:translateY(-2px)}
-.primary-link b{display:grid;place-items:center;width:28px;height:28px;background:#ffffff1b;font:700 17px Manrope}
-.hero-note{font-size:10px;color:#8b8780;line-height:1.8}
-.art-panel{position:relative;min-height:380px;background:#1b1b1d;color:white;overflow:hidden;padding:30px;display:flex;flex-direction:column;justify-content:space-between}
-.art-panel:before{content:"";position:absolute;width:360px;height:360px;border:1px solid #ffffff24;border-radius:50%;left:-100px;top:18px}
-.art-panel:after{content:"";position:absolute;width:250px;height:250px;border:1px solid #ffffff24;border-radius:50%;left:-45px;top:73px}
-.panel-top,.panel-bottom{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center}
-.panel-label{font:700 9px Manrope;letter-spacing:2px;color:#bcb8b2}
-.panel-index{font:700 10px Manrope;color:#aaa5a0}
-.glyph{position:absolute;left:50%;top:48%;transform:translate(-50%,-50%);font:900 clamp(110px,18vw,210px) Manrope;color:#f2f0eb;line-height:1;text-shadow:13px 13px 0 var(--accent)}
-.panel-bottom{align-items:end}
-.panel-bottom strong{font-size:19px;line-height:1.4}
-.panel-bottom span{font:700 9px Manrope;letter-spacing:2px;color:#bcb8b2}
-.destinations{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:54px}
-.destination{display:grid;grid-template-columns:58px 1fr auto;gap:18px;align-items:center;padding:23px 20px;transition:background .2s}
-.destination+ .destination{border-right:1px solid var(--line)}
-.destination:hover{background:#e8e5de}
-.dest-number{font:700 11px Manrope;color:var(--accent)}
-.dest-copy small{display:block;font:700 9px Manrope;letter-spacing:2px;color:#8b8780;margin-bottom:5px}
-.dest-copy strong{font-size:19px;font-weight:900}
-.dest-copy p{margin:3px 0 0;color:#77736d;font-size:10px;line-height:1.8}
-.dest-arrow{width:36px;height:36px;border:1px solid #c8c4bc;border-radius:50%;display:grid;place-items:center;font:700 17px Manrope;transition:all .2s}
-.destination:hover .dest-arrow{background:var(--accent);color:white;border-color:var(--accent)}
-.trust-row{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:20px 0 8px;color:#817d76;font-size:10px}
-.trust-row strong{color:#343235}
-footer{display:flex;align-items:end;justify-content:space-between;border-top:1px solid var(--line);margin-top:50px;padding-top:19px}
-.footer-brand{display:flex;align-items:baseline;gap:12px}
-.footer-wine{font:900 24px Manrope;letter-spacing:4px}
-.footer-bmg{font:800 10px Manrope;letter-spacing:4px;color:var(--accent)}
-.footer-copy{font:700 8px Manrope;letter-spacing:1.5px;color:#8c8881}
-@media(max-width:760px){
-.page{padding:18px 20px 20px}header{height:56px;padding-bottom:13px}.brand-mark{width:38px;height:38px}.brand-name{font-size:16px}.header-right{gap:12px}.header-link{display:none}
-main{padding-top:38px}.hero{grid-template-columns:1fr;gap:30px;min-height:0}h1{font-size:clamp(48px,13vw,76px);letter-spacing:-2px;margin:18px 0 14px}.lead{font-size:13px}.hero-foot{margin-top:25px}.art-panel{min-height:260px;padding:22px}.art-panel:before{width:270px;height:270px;left:-65px}.art-panel:after{width:190px;height:190px;left:-25px}.glyph{font-size:145px}.panel-bottom strong{font-size:16px}
-.destinations{grid-template-columns:1fr;margin-top:30px}.destination{padding:19px 8px;grid-template-columns:40px 1fr auto;gap:12px}.destination+.destination{border-right:0;border-top:1px solid var(--line)}.dest-copy strong{font-size:17px}.trust-row{font-size:9px;flex-wrap:wrap;line-height:1.8}footer{margin-top:35px}.footer-wine{font-size:21px}
-}
-@media(max-width:390px){.page{padding-inline:15px}.live{font-size:9px}.hero-foot{align-items:flex-start;flex-direction:column}.destination{grid-template-columns:30px 1fr 32px}.dest-copy p{font-size:9px}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
-
-/* WINE signature palette: black, burgundy and silver */
-:root{color-scheme:dark;--paper:#09090c;--ink:#f1edf0;--muted:#aaa2aa;--line:#30252d;--accent:#a52b48;--white:#fff}
-html,body{background:#09090c;color:var(--ink)}
-body{background:radial-gradient(ellipse at 82% 12%,#42132255 0,transparent 36%),radial-gradient(ellipse at 8% 72%,#29252d55 0,transparent 34%),#09090c}
-.page{position:relative}
-header{border-color:#33242c}
-.brand-mark{background:linear-gradient(145deg,#b43a59,#67172e);color:#fff;box-shadow:0 8px 26px #8e1e3c44}
-.brand-caption,.panel-label,.panel-index,.panel-bottom span{color:#aaa1aa}
-.brand-name span,.kicker,.dest-number,.footer-bmg{color:#c04a68}
-.live{color:#b9b1b8}
-.header-link{border-color:#b9aeb6}
-h1{color:#f4eff2}
-h1 em{color:#c04a68;text-shadow:0 0 34px #a52b4833}
-.lead{color:#b0a7ae}
-.primary-link{background:linear-gradient(120deg,#a52b48,#68182f);box-shadow:0 10px 28px #8c1d3b33}
-.primary-link:hover{background:linear-gradient(120deg,#bd3c5c,#7d1c39)}
-.primary-link b{background:#ffffff20}
-.hero-note{color:#a59ba4}
-.art-panel{background:radial-gradient(circle at 72% 35%,#542033 0,#24131d 36%,#111014 76%);border:1px solid #593044;box-shadow:0 24px 70px #0008}
-.art-panel:before,.art-panel:after{border-color:#ffffff20}
-.glyph{color:#e9e3e8;text-shadow:12px 12px 0 #9d2948,0 0 55px #c04a6844}
-.destinations{border-color:#392832;background:#0e0c10}
-.destination{background:#0e0c10}
-.destination+.destination{border-right-color:#392832}
-.destination:hover{background:#1b1118}
-.dest-copy small{color:#a99da6}
-.dest-copy strong{color:#f2edf1}
-.dest-copy p{color:#aaa0a8}
-.dest-arrow{border-color:#5a4652;color:#e6dce3}
+.page{width:min(1180px,100%);margin:auto;padding:24px 38px 22px}
+header{height:66px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);gap:16px}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand-mark{width:43px;height:43px;display:grid;place-items:center;border-radius:14px;background:linear-gradient(145deg,#c24768,#64172f);font:900 22px Manrope;color:#fff;box-shadow:0 8px 25px #a52b4840}
+.brand-name{display:block;font:800 18px Manrope;letter-spacing:2px;white-space:nowrap}.brand-name span{color:var(--wine2)}
+.brand-caption{display:block;margin-top:2px;color:#958b95;font:700 8px Manrope;letter-spacing:2.2px}
+.header-right{display:flex;align-items:center;gap:11px}
+.live{display:flex;align-items:center;gap:8px;color:#c0b7c0;font-size:11px;font-weight:700;padding:9px 12px;border:1px solid #382b35;border-radius:30px;background:#ffffff05}
+.live:before{content:"";width:7px;height:7px;background:#69bd85;border-radius:50%;box-shadow:0 0 0 4px #69bd8520}
+.header-link,.owner-link{display:inline-flex;align-items:center;justify-content:center;min-height:39px;padding:8px 15px;border-radius:10px;font-size:11px;font-weight:800}
+.header-link{border:1px solid #59404d;color:#f1dce5}.header-link:hover{background:#24131c}
+.owner-link{border:1px solid #a52b48;background:linear-gradient(120deg,#a52b48,#68182f);color:#fff;font:800 10px Manrope;letter-spacing:1.3px;box-shadow:0 6px 18px #8c1d3b30}
+#siteNotice{display:none;margin:18px 0 0;padding:13px 17px;border:1px solid #754052;border-radius:13px;background:linear-gradient(110deg,#32131f,#171016);color:#f5eaf0;font-size:12px;line-height:1.9;white-space:pre-wrap;overflow-wrap:anywhere}
+#siteNotice.show{display:block}#siteNotice b{color:#e17b98;margin-left:7px}
+main{padding-top:54px}
+.hero{position:relative;display:grid;grid-template-columns:minmax(0,1.08fr) minmax(310px,.92fr);align-items:center;gap:50px;min-height:440px}
+.hero-copy{position:relative;z-index:1}
+.kicker{display:inline-flex;align-items:center;gap:10px;color:#dc7892;font:800 10px Manrope;letter-spacing:2.6px}
+.kicker:before{content:"";width:26px;height:1px;background:var(--wine2)}
+h1{max-width:680px;margin:22px 0 17px;font-size:clamp(54px,7.2vw,88px);line-height:1.13;letter-spacing:-3px;font-weight:900;color:#f8f3f6}
+h1 em{font-style:normal;color:#d05272;text-shadow:0 0 35px #c33a6133}
+.lead{max-width:540px;margin:0;color:#b6acb5;font-size:14px;line-height:2.15}
+.hero-foot{display:flex;align-items:center;gap:18px;margin-top:30px}
+.primary-link{display:inline-flex;align-items:center;gap:20px;padding:9px 10px 9px 19px;border:1px solid #d45b7b;border-radius:13px;background:linear-gradient(120deg,#b83255,#68182f);color:white;font-size:12px;font-weight:900;box-shadow:0 12px 30px #8c1d3b40;transition:.2s}
+.primary-link:hover{transform:translateY(-3px);filter:brightness(1.13)}
+.primary-link b{width:32px;height:32px;display:grid;place-items:center;border-radius:9px;background:#ffffff20;font:700 18px Manrope}
+.hero-note{color:#a59ba4;font-size:10px;line-height:1.9}
+.art-panel{position:relative;isolation:isolate;min-height:360px;overflow:hidden;padding:27px;border:1px solid #633044;border-radius:28px;background:radial-gradient(circle at 72% 38%,#67233d 0,#29131f 38%,#111015 78%);box-shadow:0 28px 80px #0008,inset 0 1px 0 #ffffff12}
+.art-panel:before,.art-panel:after{content:"";position:absolute;z-index:-1;border:1px solid #ffffff20;border-radius:50%;aspect-ratio:1}
+.art-panel:before{width:340px;left:-105px;top:22px}.art-panel:after{width:245px;left:-58px;top:69px}
+.panel-top,.panel-bottom{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1}
+.panel-label,.panel-index,.panel-bottom span{color:#bdb0bb;font:700 9px Manrope;letter-spacing:2px}
+.glyph{position:absolute;left:50%;top:49%;transform:translate(-50%,-50%);font:900 clamp(145px,18vw,210px)/1 Manrope;color:#eee8ed;text-shadow:13px 13px 0 #9d2948,0 0 55px #c04a6844}
+.panel-bottom{align-items:end;margin-top:245px}.panel-bottom strong{font-size:20px;line-height:1.5}
+.complaint-cta{display:flex;align-items:center;justify-content:space-between;gap:22px;margin:25px 0 0;padding:20px 24px;border:1px solid #603044;border-radius:18px;background:linear-gradient(110deg,#211019,#100d12 72%);box-shadow:0 14px 35px #0005}
+.complaint-copy{display:flex;flex-direction:column;gap:4px}.complaint-kicker{color:#d16a87;font:800 9px Manrope;letter-spacing:2px}
+.complaint-copy strong{font-size:16px;font-weight:900}.complaint-copy p{margin:0;color:#b6aab2;font-size:11px;line-height:1.8}
+.complaint-link{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:46px;padding:11px 20px;border:1px solid #e06a8c;border-radius:12px;background:linear-gradient(135deg,#b83255,#781b36);color:#fff!important;font:900 12px Cairo,sans-serif;white-space:nowrap;box-shadow:0 7px 22px #a52b4855;transition:transform .2s,filter .2s}
+.complaint-link span{font:900 15px Manrope}.complaint-link:hover{transform:translateY(-2px);filter:brightness(1.15)}
+.destinations{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:28px}
+.destination{position:relative;display:grid;grid-template-columns:48px 1fr 38px;align-items:center;gap:16px;min-height:128px;padding:21px;border:1px solid #332631;border-radius:18px;background:linear-gradient(145deg,#171219,#0e0d11);transition:transform .2s,border-color .2s,background .2s}
+.destination:hover{transform:translateY(-3px);border-color:#804054;background:linear-gradient(145deg,#21131c,#100d12)}
+.dest-number{width:42px;height:42px;display:grid;place-items:center;border:1px solid #6b3549;border-radius:13px;color:#e17b98;font:800 11px Manrope;background:#a52b4818}
+.dest-copy small{display:block;margin-bottom:5px;color:#a99da6;font:700 9px Manrope;letter-spacing:1.7px}
+.dest-copy strong{font-size:19px;font-weight:900}.dest-copy p{margin:4px 0 0;color:#aaa0a8;font-size:10px;line-height:1.8}
+.dest-arrow{width:35px;height:35px;display:grid;place-items:center;border:1px solid #594451;border-radius:50%;color:#eadfe7;font:700 17px Manrope;transition:.2s}
 .destination:hover .dest-arrow{background:#a52b48;border-color:#a52b48;color:#fff}
-.trust-row{color:#a79da6}
-.trust-row strong{color:#e9e2e8}
-footer{border-color:#392832}
-.footer-copy{color:#968b95}
-@media(max-width:760px){.destination+.destination{border-top-color:#392832}}
-
-
-/* Compact entrance layout while preserving the original WINE palette */
-.page{width:min(1080px,100%);padding:20px 34px 18px}
-main{padding-top:34px}
-.hero{min-height:360px;gap:38px}
-h1{font-size:clamp(46px,6vw,76px);margin:16px 0 12px}
-.lead{font-size:13px;line-height:1.95;max-width:490px}
-.art-panel{min-height:300px;padding:24px}
-.glyph{font-size:clamp(110px,15vw,170px)}
-.hero-foot{margin-top:24px}
-.destinations{margin-top:34px}
-.destination{padding:17px 16px}
-footer{margin-top:30px;padding-top:14px}
-.footer-brand{display:flex;flex-direction:column;align-items:flex-start;gap:2px}
-.footer-wine{font-size:11px;letter-spacing:2px;color:#bcb4bc}
-.footer-bmg{font-size:15px;letter-spacing:3px}
-.footer-copy{font-size:8px}
+.section-state{display:none!important}.destination.is-disabled{opacity:.48;filter:grayscale(.65);cursor:not-allowed}.destination.is-disabled .dest-arrow{opacity:.5}
+.trust-row{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-top:22px;color:#a79da6;font-size:10px;line-height:1.8}.trust-row strong{color:#e9e2e8}
+footer{display:flex;align-items:end;justify-content:space-between;border-top:1px solid var(--line);margin-top:42px;padding-top:18px}
+.footer-brand{display:flex;flex-direction:column;align-items:flex-start;gap:2px}.footer-wine{font:800 11px Manrope;letter-spacing:2px;color:#bcb4bc}.footer-bmg{font:800 15px Manrope;letter-spacing:3px;color:#c04a68}.footer-copy{font:700 8px Manrope;letter-spacing:1.5px;color:#968b95}
 @media(max-width:760px){
- .page{padding:15px 18px 16px}
- main{padding-top:26px}
- .hero{gap:22px}
- h1{font-size:clamp(42px,11vw,64px);margin:14px 0 10px}
- .lead{font-size:12px;line-height:1.9}
- .art-panel{min-height:220px;padding:18px}
- .glyph{font-size:125px}
- .destinations{margin-top:24px}
- .destination{padding:15px 7px}
- footer{margin-top:24px}
+.page{padding:15px 18px 17px}header{height:58px}.brand-mark{width:38px;height:38px;border-radius:12px}.brand-name{font-size:16px}.header-right{gap:7px}.live{font-size:9px;padding:8px 9px}.header-link{display:none}.owner-link{padding:8px 10px;font-size:9px}
+main{padding-top:32px}.hero{grid-template-columns:1fr;gap:26px;min-height:0}h1{font-size:clamp(46px,12vw,70px);letter-spacing:-2px;margin:17px 0 13px}.lead{font-size:12px;line-height:2}.hero-foot{margin-top:23px}.art-panel{min-height:250px;padding:20px;border-radius:21px}.art-panel:before{width:270px;left:-70px}.art-panel:after{width:190px;left:-30px}.glyph{font-size:145px}.panel-bottom{margin-top:155px}.panel-bottom strong{font-size:16px}
+.complaint-cta{align-items:stretch;flex-direction:column;margin-top:19px;padding:17px;gap:13px}.complaint-copy strong{font-size:14px}.complaint-copy p{font-size:10px}.complaint-link{width:100%;min-height:44px}
+.destinations{grid-template-columns:1fr;gap:11px;margin-top:20px}.destination{min-height:112px;padding:16px 14px;grid-template-columns:42px 1fr 34px}.dest-copy strong{font-size:17px}.trust-row{font-size:9px;flex-wrap:wrap;margin-top:17px}footer{margin-top:28px}
 }
-@media(max-width:390px){.page{padding-inline:14px}.art-panel{min-height:200px}}
-#siteNotice{display:none;margin:20px 0 0;padding:13px 17px;border:1px solid #754052;border-radius:13px;background:linear-gradient(110deg,#32131f,#171016);color:#f5eaf0;font-size:12px;line-height:1.9;box-shadow:0 10px 28px #0005;white-space:pre-wrap;overflow-wrap:anywhere}#siteNotice.show{display:block}#siteNotice b{color:#d86a89;margin-left:7px}\n.complaint-link{display:inline-flex;align-items:center;justify-content:center;padding:9px 13px;border:1px solid #654052;border-radius:10px;color:#f2dfe7;font:800 10px Cairo,sans-serif;white-space:nowrap}.complaint-link:hover{background:#32131f}.owner-link{display:inline-flex;align-items:center;justify-content:center;padding:9px 15px;border:1px solid #a52b48;border-radius:10px;background:linear-gradient(120deg,#a52b48,#68182f);color:#fff;font:800 10px Manrope;letter-spacing:1.5px;box-shadow:0 6px 20px #8c1d3b33;transition:transform .2s,filter .2s}.owner-link:hover{transform:translateY(-2px);filter:brightness(1.15)}@media(max-width:760px){.header-right{gap:7px}.complaint-link{padding:8px 9px;font-size:9px}.owner-link{padding:8px 9px;font-size:9px}.live{font-size:9px}}\n .section-state{display:none!important}.destination.is-disabled{opacity:.48;filter:grayscale(.65);cursor:not-allowed}.destination.is-disabled .dest-arrow{opacity:.5}\n
-/* Make the complaints action clearly visible on desktop and mobile */
-.header-right .complaint-link{
- display:inline-flex!important;align-items:center;justify-content:center;gap:9px;
- min-height:42px;padding:10px 17px;border:1px solid #d45b7b;border-radius:12px;
- background:linear-gradient(135deg,#b83255,#781b36);color:#fff!important;
- font:900 12px Cairo,sans-serif;white-space:nowrap;letter-spacing:.1px;
- box-shadow:0 7px 22px #a52b4855, inset 0 1px 0 #ffffff24;
- transition:transform .2s,filter .2s,box-shadow .2s;
-}
-.header-right .complaint-link span{font:900 15px Manrope}
-.header-right .complaint-link:hover{transform:translateY(-2px);filter:brightness(1.15);box-shadow:0 10px 26px #a52b486b}
-@media(max-width:760px){
- .header-right{gap:7px}
- .header-right .complaint-link{min-height:38px;padding:8px 11px;font-size:10px;gap:5px}
-}
-
-
-/* Dedicated complaints section inside the homepage content */
-.complaint-cta{display:flex;align-items:center;justify-content:space-between;gap:22px;margin:24px 0 0;padding:20px 24px;border:1px solid #653044;border-radius:16px;background:linear-gradient(110deg,#211019,#120e14 72%);box-shadow:0 14px 35px #0005}
-.complaint-copy{display:flex;flex-direction:column;gap:4px}
-.complaint-kicker{font:800 9px Manrope;letter-spacing:2px;color:#d16a87}
-.complaint-copy strong{font-size:16px;font-weight:900;color:#f6edf1}
-.complaint-copy p{margin:0;color:#b6aab2;font-size:11px;line-height:1.8}
-.complaint-link{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:46px;padding:11px 20px;border:1px solid #e06a8c;border-radius:12px;background:linear-gradient(135deg,#b83255,#781b36);color:#fff!important;font:900 12px Cairo,sans-serif;white-space:nowrap;box-shadow:0 7px 22px #a52b4855,inset 0 1px 0 #ffffff24;transition:transform .2s,filter .2s}
-.complaint-link span{font:900 15px Manrope}
-.complaint-link:hover{transform:translateY(-2px);filter:brightness(1.15)}
-@media(max-width:760px){.complaint-cta{align-items:stretch;flex-direction:column;margin-top:20px;padding:17px;gap:13px}.complaint-copy strong{font-size:14px}.complaint-copy p{font-size:10px}.complaint-link{width:100%;min-height:44px}}
-
+@media(max-width:390px){.page{padding-inline:14px}.live{font-size:8px;padding:7px}.hero-foot{align-items:flex-start;flex-direction:column}.art-panel{min-height:220px}.panel-bottom{margin-top:130px}.destination{grid-template-columns:35px 1fr 30px;gap:11px}.dest-number{width:34px;height:34px}.dest-copy p{font-size:9px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -175,10 +82,11 @@ footer{margin-top:30px;padding-top:14px}
 <header>
 <a class="brand" href="/" aria-label="WINE AI"><span class="brand-mark">W</span><span><span class="brand-name">WINE <span>AI</span></span><span class="brand-caption">THINK BEYOND LIMITS</span></span></a>
 <div class="header-right"><span class="live">متاح للجميع</span><a class="header-link" href="/chat">ابدأ الاستخدام</a><a class="owner-link" href="/developer" aria-label="Open owner dashboard">OWENR</a></div>
-</header><div id="siteNotice" role="status" aria-live="polite"><b>WINE AI</b><span id="siteNoticeText"></span></div>
+</header>
+<div id="siteNotice" role="status" aria-live="polite"><b>WINE AI</b><span id="siteNoticeText"></span></div>
 <main>
 <section class="hero">
-<div>
+<div class="hero-copy">
 <div class="kicker">WELCOME TO WINE AI</div>
 <h1 id="homeTitle"><em>WINE</em> FOR<br>MORE THING’S</h1>
 <p class="lead" id="homeSubtitle">مساحة واحدة تجمع قوة الذكاء الاصطناعي وأدوات الإبداع. اسأل، اكتب، حلّل، واصنع أفكارك — بطريقتك ومن غير تعقيد.</p>
@@ -186,13 +94,13 @@ footer{margin-top:30px;padding-top:14px}
 </div>
 <div class="art-panel" aria-label="WINE AI creative identity">
 <div class="panel-top"><span class="panel-label">WINE INTELLIGENCE</span><span class="panel-index">01 / 02</span></div>
-<div class="glyph">W</div>
+<div class="glyph" aria-hidden="true">W</div>
 <div class="panel-bottom"><strong>فكّر أبعد.<br>اصنع أكثر.</strong><span>AI × CREATIVITY</span></div>
 </div>
 </section>
 <section class="complaint-cta" aria-label="إرسال شكوى">
- <div class="complaint-copy"><span class="complaint-kicker">WE LISTEN TO YOU</span><strong>واجهت مشكلة؟ إحنا مهتمين نسمعك</strong><p>ابعتلنا تفاصيل المشكلة أو اقتراحك، وفريق WINE هيراجع رسالتك.</p></div>
- <a class="complaint-link" href="/complaints" aria-label="افتح صفحة إرسال شكوى">إرسال شكوى <span aria-hidden="true">↗</span></a>
+<div class="complaint-copy"><span class="complaint-kicker">WE LISTEN TO YOU</span><strong>واجهت مشكلة؟ إحنا مهتمين نسمعك</strong><p>ابعتلنا تفاصيل المشكلة أو اقتراحك، وفريق WINE هيراجع رسالتك.</p></div>
+<a class="complaint-link" href="/complaints" aria-label="افتح صفحة إرسال شكوى">إرسال شكوى <span aria-hidden="true">↗</span></a>
 </section>
 <section class="destinations" aria-label="اختار وجهتك">
 <a class="destination" id="chatDestination" href="/chat"><span class="dest-number">01</span><span class="dest-copy"><small>INTELLIGENT ASSISTANT</small><strong>WINE AI</strong><p>محادثة ذكية للكتابة والتحليل والبرمجة والإجابة عن أسئلتك.</p><p class="section-state" id="chatSectionMessage"></p></span><span class="dest-arrow">←</span></a>
@@ -202,5 +110,8 @@ footer{margin-top:30px;padding-top:14px}
 </main>
 <footer><div class="footer-brand"><span class="footer-wine">DEV BY VELOR</span><span class="footer-bmg">BMG</span></div><span class="footer-copy">© 2026 · WINE ORGANIZATION</span></footer>
 </div>
-<script>(async()=>{try{const r=await fetch('/api/control?public=1',{cache:'no-store'});if(!r.ok)return;const d=await r.json();const $=id=>document.getElementById(id);if(d.noticeEnabled&&d.notice){$('siteNoticeText').textContent=d.notice;$('siteNotice').classList.add('show')}if(d.copy?.homeTitle)$('homeTitle').textContent=d.copy.homeTitle;if(d.copy?.homeSubtitle)$('homeSubtitle').textContent=d.copy.homeSubtitle;for(const key of ['chat','studio']){const item=d.sections?.[key];const link=$(key+'Destination');const note=$(key+'SectionMessage');if(item?.enabled===false){link.classList.add('is-disabled');link.href='#';link.setAttribute('aria-disabled','true');note.textContent=item.message||'هذا القسم متوقف مؤقتاً.';note.style.cssText='display:block!important;color:#d86a89;font-size:11px;margin-top:8px';link.addEventListener('click',e=>e.preventDefault());if(key==='chat')$('heroChatLink').style.display='none'}}}catch{}})();</script></body>
+<script>
+(async()=>{try{const r=await fetch('/api/control?public=1',{cache:'no-store'});if(!r.ok)return;const d=await r.json();const $=id=>document.getElementById(id);if(d.noticeEnabled&&d.notice){$('siteNoticeText').textContent=d.notice;$('siteNotice').classList.add('show')}if(d.copy?.homeTitle)$('homeTitle').textContent=d.copy.homeTitle;if(d.copy?.homeSubtitle)$('homeSubtitle').textContent=d.copy.homeSubtitle;for(const key of ['chat','studio']){const item=d.sections?.[key];const link=$(key+'Destination');const note=$(key+'SectionMessage');if(item?.enabled===false){link.classList.add('is-disabled');link.href='#';link.setAttribute('aria-disabled','true');note.textContent=item.message||'هذا القسم متوقف مؤقتاً.';note.style.cssText='display:block!important;color:#d86a89;font-size:11px;margin-top:8px';link.addEventListener('click',e=>e.preventDefault());if(key==='chat')$('heroChatLink').style.display='none'}}}catch{}})();
+</script>
+</body>
 </html>
