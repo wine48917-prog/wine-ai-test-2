@@ -10,6 +10,7 @@ import studioHandler from '../api/studio.js';
 import starXImageHandler from '../api/star-x-image.js';
 import workspaceHandler from '../api/workspace.js';
 import controlHandler from '../api/control.js';
+import complaintsHandler from '../api/complaints.js';
 import { maintenanceGuard, sectionGuard } from './lib/site-control.js';
 
 const app = express();
@@ -32,6 +33,8 @@ app.use(async (req,res,next)=>{
 // Static assets are served directly with short-lived caching; HTML stays fresh.
 app.get('/chat', workspaceHandler);
 app.get('/developer', ownerHandler);
+app.all('/complaints', complaintsHandler);
+app.all('/api/complaints', complaintsHandler);
 app.get('/', (_req, res) => res.sendFile(path.join(root, 'index.html'), {
   headers: { 'Cache-Control': 'no-cache' }
 }));
