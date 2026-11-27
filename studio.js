@@ -190,7 +190,8 @@ async function generate() {
   busy = true;
   button.disabled = true;
   button.textContent = 'جارٍ إنشاء الصورة...';
-  result.innerHTML = '<div class="loading"><span class="spinner"></span><b>WINE STUDIO يعمل على صورتك</b><br>قد يستغرق ذلك بعض الوقت.</div>';
+  result.setAttribute('aria-busy','true');
+  result.innerHTML = '<div class="wine-data-skeleton" role="status" aria-live="polite"><div class="skel-row"><i class="skel-shape skel-avatar"></i><div style="display:grid;gap:8px;flex:1"><i class="skel-shape skel-title"></i><i class="skel-shape skel-line skel-short"></i></div></div><i class="skel-shape skel-media"></i><div class="skel-grid"><div class="skel-card"><i class="skel-shape skel-line"></i><i class="skel-shape skel-line skel-medium"></i></div><div class="skel-card"><i class="skel-shape skel-line"></i><i class="skel-shape skel-line skel-short"></i></div></div><span class="skel-caption">جاري الاتصال بخدمة إنشاء الصور…</span></div>';
 
   try {
     const source = await getImage(prompt);
