@@ -1,4 +1,5 @@
 import pool, { ensureDatabase } from '../../db.js';
+import { hasOwnerSession } from './owner-auth.js';
 let cached=null,cachedAt=0;
 const defaults={
  maintenance:false,maintenanceMessage:'الموقع متوقف مؤقتاً لإجراء بعض التحسينات. سنعود قريباً.',
@@ -68,4 +69,4 @@ function blocked(req,res,message){
 }
 async function settingsOrPass(){try{return await getSiteSettings();}catch(e){console.error('[site-control]',e.message);return null;}}
 export async function maintenanceGuard(req,res){const s=await settingsOrPass();if(!s)return false;if(s.maintenance)return blocked(req,res,s.maintenanceMessage);return false;}
-export async function sectionGuard(req,res,section){const s=await settingsOrPass();if(!s)return false;if(s.maintenance)return blocked(req,res,s.maintenanceMessage);const item=s.sections?.[section];if(item&&item.enabled===false)return blocked(req,res,item.message);return false;}
+export async function sectionGuard(req,res,section){if(hasOwnerSession(req))return false;const s=await settingsOrPass();if(!s)return false;if(s.maintenance)return blocked(req,res,s.maintenanceMessage);const item=s.sections?.[section];if(item&&item.enabled===false)return blocked(req,res,item.message);return false;}
