@@ -226,6 +226,21 @@ input:focus,textarea:focus,select:focus{border-color:#d9c6a8!important;box-shado
 .sidebar .nav button.active,.pill{background:#3a4560!important;color:#fff1dc!important;border-color:#d9c6a8!important}
 ::selection{background:#d9c6a8;color:#202943}
 
+
+/* WINE AI — strict two-color palette: Navy Blue + Beige */
+:root{color-scheme:dark;--bg:#202943;--panel:#202943;--panel2:#202943;--line:#e9dccb;--text:#e9dccb;--muted:#e9dccb;--accent:#e9dccb;--wine:#e9dccb;--rose:#e9dccb;--pink:#e9dccb}
+html,body{background:#202943!important;color:#e9dccb!important}
+body:before{display:none!important}
+header,footer,nav,section,main,aside,.top,.sidebar,.workspace,.studio-shell{background-color:#202943!important;color:#e9dccb!important;border-color:#e9dccb!important}
+h1,h2,h3,h4,h5,h6,p,small,label,span,strong,em,li,a,.muted,.desc,.hint,.eyebrow,.section-tag,.brand-caption,.brand-name{color:#e9dccb!important}
+.card,.feature-card,.panel,.block,.entry-link,.metric,.complaint-card,.gallery-card,.list-item,.tool-card,.category,.login,.modal,.composer,.welcome-card,.float-tag,.output,.result,.preview,.editor,.workspace-card{background:#202943!important;color:#e9dccb!important;border:1px solid #e9dccb!important;box-shadow:none!important}
+button,.btn,.cta,.primary,.submit,.primary-btn,.send-btn,.generate,.action,.pill,.brand-mark,.mark,.core{background:#e9dccb!important;color:#202943!important;border:1px solid #e9dccb!important;box-shadow:none!important}
+button *, .btn *, .cta *, .primary *, .submit *, .primary-btn *, .send-btn *{color:#202943!important}
+input,textarea,select,.field input,.field textarea{background:#202943!important;color:#e9dccb!important;border:1px solid #e9dccb!important;box-shadow:none!important}
+input::placeholder,textarea::placeholder{color:#e9dccb!important;opacity:.7}
+a:hover,button:hover,.btn:hover,.nav a.active,.nav button.active{background:#e9dccb!important;color:#202943!important;border-color:#e9dccb!important}
+a:hover *,button:hover *,.btn:hover *,.nav a.active *,.nav button.active *{color:#202943!important}
+::selection{background:#e9dccb!important;color:#202943!important}
 </style>
 </head>
 <body>
