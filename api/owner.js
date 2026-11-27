@@ -78,36 +78,29 @@ button,input,textarea{font:inherit}button{border:0;border-radius:12px;padding:11
 .metric .field{margin-bottom:0}.metric .field textarea{min-height:85px}.owner-locked-link{display:block;text-decoration:none;color:#f3edf1;transition:.2s}.owner-locked-link:hover{border-color:#bd4565;transform:translateY(-2px);background:#211720}.owner-locked-link strong{font:800 15px Cairo;margin-top:9px}.complaint-card{padding:15px;border:1px solid #3d2a36;border-radius:14px;background:#120e13;margin-top:10px}.complaint-card h3{font-size:12px;margin:0 0 7px;color:#d989a0}.complaint-card p{white-space:pre-wrap;overflow-wrap:anywhere;color:#e6dce3;font-size:12px;line-height:1.9;margin:0}.complaint-meta{display:flex;gap:12px;flex-wrap:wrap;color:#938690;font-size:10px;margin-top:10px}.foot{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:18px 0 0;padding-top:15px;border-top:1px solid var(--line);color:#847983;font:700 9px Manrope;letter-spacing:1.5px}
 @media(max-width:760px){.layout{display:block;padding:12px}.sidebar{height:auto;position:static;margin-bottom:14px;padding:13px}.brand{padding-bottom:12px}.nav-label{margin:12px 5px 7px}.nav{grid-template-columns:repeat(2,minmax(0,1fr))}.nav button{font-size:11px;padding:9px 8px}.side-bottom{display:none}.grid{grid-template-columns:1fr}.panel{padding:16px}.hero{padding:20px 2px 14px}.top{padding-bottom:12px}}
 
-/* WINE AI · warm white / graphite / emerald identity */
-:root{color-scheme:light;--bg:#F9F8F5;--panel:#fff;--panel2:#f0f1ed;--line:#dfe4df;--text:#121313;--muted:#626b66;--silver:#e7ebe6;--wine:#16866e;--wine2:#28a486;--rose:#16866e;--pink:#16866e;--accent:#16866e}
-html{background:#F9F8F5!important;color-scheme:light}
-body{background:#F9F8F5!important;color:#121313!important}
-body:before{opacity:.18}
-header,footer,.top,.sidebar{border-color:#dfe4df!important}
-.brand-name,.brand strong,.brand-caption,.nav a,.hero h1,.hero h2,h1,h2,h3,h4,.section-title h2,.card h3,.panel-head h2,.entry-title{color:#121313}
-.brand-name i,.brand strong i,.eyebrow,.section-title small,.hero h1 span,.hero h2 span,.hero-accent,.section-tag{color:#16866e!important}
-.brand-caption,.brand small,.muted,.hero-copy>p,.hero p,.card p,.desc,.section-title p,.footer-copy,.footer-copy,.hint,.note,.intro{color:#626b66!important}
-.brand-mark,.mark,.core,.modal-logo{background:linear-gradient(145deg,#fff,#dce5df 55%,#16866e)!important;color:#121313!important;border-color:#16866e!important;box-shadow:0 8px 24px #16866e20!important}
-.eyebrow,.hero .hint{background:#e9f4ef!important;border-color:#b9d9ca!important;color:#14745e!important}
-.eyebrow:before,.composer-mode i,.dot{background:#16866e!important;box-shadow:0 0 0 4px #16866e1c!important}
-button,.btn,.cta,.primary,.submit,.primary-btn,.send-btn,.action.primary,.image-btn{background:linear-gradient(120deg,#16866e,#28a486)!important;color:#fff!important;border:1px solid #16866e!important}
-button:hover,.btn:hover,.action:hover{filter:brightness(1.05)}
-.action.secondary,.btn.secondary,.secondary,.header-actions a,.header-actions button,.quick-nav a{background:#fff!important;color:#121313!important;border:1px solid #d5ddd7!important}
-.card,.feature-card,.panel,.block,.entry-link,.metric,.complaint-card,.gallery-card,.list-item,.owner-locked-link,.tool-card,.category,.sidebar,.login,.modal,.composer,.welcome-card{background:#fff!important;color:#121313!important;border:1px solid #dfe4df!important;box-shadow:0 8px 28px #14251a0a!important}
-.card:nth-child(3n),.metric:nth-child(3n){background:#121313!important;color:#fff!important;border-color:#121313!important}
-.card:nth-child(3n) h3,.card:nth-child(3n) p,.metric:nth-child(3n) strong,.metric:nth-child(3n) small{color:#fff!important}
-input,textarea,select,.field input,.field textarea,.output,.tool-output{background:#fff!important;color:#121313!important;border:1px solid #cfd8d1!important}
-input::placeholder,textarea::placeholder{color:#89928c!important}
-input:focus,textarea:focus,select:focus{border-color:#16866e!important;box-shadow:0 0 0 3px #16866e20!important}
-.nav a,.nav button{color:#343b37!important}.nav a:hover,.nav a.active,.nav button:hover,.nav button.active{background:#e9f4ef!important;border-color:#b9d9ca!important;color:#126b56!important}
-.entry-link:hover,.card:hover,.tool-card:hover,.category.active{border-color:#16866e!important}
-.halo{border-color:#16866e66!important;box-shadow:0 0 0 18px #16866e0c,0 0 0 38px #16866e08,0 0 60px #16866e22!important}
-.halo:before,.halo:after{border-color:#16866e55!important}
-.float-tag{background:#fff!important;color:#121313!important;border-color:#dfe4df!important}
-#siteNotice{background:#edf6f0!important;color:#121313!important;border-color:#b9d9ca!important}
-.sidebar .nav button.active{background:#e9f4ef!important;color:#126b56!important}
-.pill{background:#e9f4ef!important;color:#126b56!important;border-color:#b9d9ca!important}
-::selection{background:#16866e;color:#fff}
+
+/* OWENR — WINE navy + beige identity */
+:root{color-scheme:dark;--bg:#202943;--panel:#202943;--panel2:#202943;--line:#e9dccb;--text:#e9dccb;--muted:#e9dccb;--silver:#e9dccb;--wine:#e9dccb;--wine2:#e9dccb;--rose:#e9dccb;--pink:#e9dccb;--accent:#e9dccb;--soft:#202943}
+html,body{background:#202943!important;color:#e9dccb!important;color-scheme:dark}
+body{background-image:linear-gradient(145deg,#202943,#202943)!important}
+.panel,.sidebar,.metric,.complaint-card,.login,.owner-locked-link{background:#202943!important;color:#e9dccb!important;border:1px solid #e9dccb!important;box-shadow:none!important}
+.brand,.brand small,.nav-label,.nav button,.side-bottom small,.top h1,.hero h2,.hero p,.section-title,.section-desc,.metric small,.metric strong,.complaint-card h3,.complaint-card p,.complaint-meta,.hint,.statusline,.field,.eyebrow,.pill{color:#e9dccb!important}
+.mark,.brand-mark,.modal-logo{background:#e9dccb!important;color:#202943!important;border:1px solid #e9dccb!important;box-shadow:none!important}
+button{background:#e9dccb!important;color:#202943!important;border:1px solid #e9dccb!important}
+button:hover{background:#202943!important;color:#e9dccb!important}
+button.secondary,.secondary,.nav button{background:#202943!important;color:#e9dccb!important;border:1px solid #e9dccb!important}
+.nav button.active,.nav button:hover{background:#e9dccb!important;color:#202943!important;border-color:#e9dccb!important}
+.nav .ico,.eyebrow,.pill{color:#e9dccb!important}
+.field input,.field textarea,input,textarea,select{background:#202943!important;color:#e9dccb!important;border:1px solid #e9dccb!important}
+.field input:focus,.field textarea:focus,input:focus,textarea:focus,select:focus{border-color:#e9dccb!important;box-shadow:0 0 0 3px #e9dccb22!important}
+.field input::placeholder,.field textarea::placeholder{color:#c6b9a9!important}
+.switch input{accent-color:#e9dccb}
+.dot,.ok{background:#e9dccb!important;color:#e9dccb!important;box-shadow:none!important}
+.bad,.error{color:#e9dccb!important}
+.pill{background:#202943!important;border-color:#e9dccb!important}
+.foot,.top,.brand,.side-bottom{border-color:#e9dccb!important}
+.view.active{animation:none}
+
 </style></head><body>
 <section id="login" class="panel login"><div class="eyebrow">OWENR AUTHENTICATION</div><h1>دخول OWENR</h1><p>مساحة إدارة WINE AI — الدخول مخصص للمطوّر فقط.</p><form id="loginForm"><label class="field">كلمة المرور<input id="password" type="password" autocomplete="current-password" placeholder="أدخل كلمة مرور المطوّر" required></label><button class="wide" id="loginBtn">دخول آمن ←</button><div id="loginError" class="error"></div></form></section>
 <section id="dashboard" class="layout hidden"><aside class="sidebar"><div class="brand"><span class="mark">V</span><span>VELOR <span style="color:#c04a68">DEVELOPER</span><small>WINE AI CONTROL</small></span></div><div class="nav-label">القائمة الرئيسية</div><nav class="nav" aria-label="صفحات لوحة التحكم">
