@@ -38,8 +38,8 @@ const STUDIO_HTML = `<!doctype html>
 <section class="panel editor" aria-labelledby="editorTitle">
 <div class="panel-head"><h2 id="editorTitle">مساحة الإنشاء</h2><small>01 / PROMPT LAB</small></div>
 <label class="field-label" for="prompt">وصف الصورة</label>
-<div class="prompt-wrap"><textarea class="prompt" id="prompt" maxlength="4000" placeholder="صف الصورة التي تتخيلها: الموضوع، المكان، الإضاءة، الألوان، زاوية التصوير والتفاصيل..."></textarea></div>
-<div class="counter"><span>اكتب بالعربية أو الإنجليزية</span><span id="counter">0 / 4000</span></div>
+<div class="prompt-wrap"><textarea class="prompt" id="prompt" maxlength="4000" placeholder="Describe your image in English: subject, setting, lighting, colors, camera angle and details..."></textarea></div>
+<div class="counter"><span>يفضّل كتابة الوصف بالإنجليزية لتوافق أفضل مع خدمة التوليد</span><span id="counter">0 / 4000</span></div>
 <label class="field-label">ابدأ بفكرة سريعة</label>
 <div class="chips">
 <button class="chip" type="button" data-prompt="A cinematic futuristic city at night, elegant architecture, dramatic lighting, ultra detailed">مدينة مستقبلية</button>
