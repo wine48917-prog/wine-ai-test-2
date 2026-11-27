@@ -677,3 +677,28 @@ input::placeholder,textarea::placeholder{color:#e9dccb!important;opacity:.7}
 a:hover,button:hover,.btn:hover,.nav a.active,.nav button.active{background:#e9dccb!important;color:#202943!important;border-color:#e9dccb!important}
 a:hover *,button:hover *,.btn:hover *,.nav a.active *,.nav button.active *{color:#202943!important}
 ::selection{background:#e9dccb!important;color:#202943!important}
+
+/* WINE AI modern loading skeleton */
+#wine-skeleton{position:fixed;inset:0;z-index:99999;background:#202943;color:#e9dccb;display:flex;align-items:center;justify-content:center;padding:24px;opacity:1;visibility:visible;transition:opacity .42s ease,visibility .42s ease}
+#wine-skeleton.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
+.wine-skeleton-inner{width:min(760px,100%);display:grid;gap:22px}
+.wine-skeleton-brand{display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:12px}
+.wine-skeleton-logo{width:42px;height:42px;border:1px solid #e9dccb;border-radius:13px;display:grid;place-items:center;font:900 22px Manrope,Arial,sans-serif;color:#202943;background:#e9dccb}
+.wine-skeleton-word{font:900 17px Manrope,Arial,sans-serif;letter-spacing:2px;color:#e9dccb}
+.wine-skeleton-word small{display:block;font:700 8px Manrope,Arial,sans-serif;letter-spacing:2px;margin-top:4px;opacity:.8}
+.wine-skeleton-hero{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center;padding:24px;border:1px solid #e9dccb55;border-radius:22px;background:#202943}
+.wine-skeleton-copy{display:grid;gap:13px}
+.wine-skeleton-line,.wine-skeleton-block,.wine-skeleton-circle{position:relative;overflow:hidden;background:#e9dccb18;border:1px solid #e9dccb22;border-radius:9px}
+.wine-skeleton-line{height:13px;width:100%}.wine-skeleton-line.wide{height:22px;width:82%}.wine-skeleton-line.mid{width:68%}.wine-skeleton-line.short{width:42%}
+.wine-skeleton-block{height:42px;width:145px;border-radius:11px}
+.wine-skeleton-circle{width:142px;height:142px;border-radius:50%;justify-self:center;border:1px solid #e9dccb55;background:radial-gradient(circle,#e9dccb22,#e9dccb08 65%,transparent)}
+.wine-skeleton-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.wine-skeleton-card{height:105px;border:1px solid #e9dccb33;border-radius:15px;padding:16px;display:grid;gap:12px;background:#202943}
+.wine-skeleton-card .wine-skeleton-line:first-child{width:38%;height:25px}
+#wine-skeleton .shine:after{content:"";position:absolute;inset:0;transform:translateX(-110%);background:linear-gradient(100deg,transparent,#e9dccb22,transparent);animation:wineShimmer 1.45s ease-in-out infinite}
+@keyframes wineShimmer{to{transform:translateX(110%)}}
+.wine-skeleton-status{display:flex;align-items:center;justify-content:center;gap:9px;font:700 10px Manrope,Arial,sans-serif;letter-spacing:1.3px;color:#e9dccb;opacity:.9}
+.wine-skeleton-status:before{content:"";width:7px;height:7px;border-radius:50%;background:#e9dccb;box-shadow:0 0 0 5px #e9dccb1a;animation:winePulse 1.2s ease-in-out infinite}
+@keyframes winePulse{50%{opacity:.35;transform:scale(.8)}}
+@media(max-width:560px){.wine-skeleton-hero{grid-template-columns:1fr;padding:18px}.wine-skeleton-circle{width:92px;height:92px;grid-row:1}.wine-skeleton-grid{grid-template-columns:repeat(2,1fr)}.wine-skeleton-card{height:88px}.wine-skeleton-card:last-child{display:none}}
+@media(prefers-reduced-motion:reduce){#wine-skeleton .shine:after,#wine-skeleton .wine-skeleton-status:before{animation:none!important}#wine-skeleton{transition:none}}
