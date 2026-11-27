@@ -37,6 +37,17 @@ export function ensureDatabase() {
         is_dev TINYINT(1) NOT NULL DEFAULT 0,
         created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+      await pool.query(`CREATE TABLE IF NOT EXISTS user_conversations (
+        user_uuid VARCHAR(64) NOT NULL,
+        conversation_id VARCHAR(80) NOT NULL,
+        title VARCHAR(160) NOT NULL DEFAULT 'محادثة جديدة',
+        session_id MEDIUMTEXT NULL,
+        messages_json LONGTEXT NOT NULL,
+        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        PRIMARY KEY (user_uuid, conversation_id),
+        INDEX idx_user_conversations_updated (user_uuid, updated_at)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
       await pool.query(`CREATE TABLE IF NOT EXISTS rate_limits (
         rk VARCHAR(190) NOT NULL PRIMARY KEY,
         cnt INT NOT NULL DEFAULT 0,
