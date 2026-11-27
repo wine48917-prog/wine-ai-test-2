@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
@@ -170,7 +171,8 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   String get _title {
-    final first = messages.where((m) => m['role'] == 'user').firstOrNull;
+    Map<String, dynamic>? first;
+    for (final item in messages) { if (item['role'] == 'user') { first = item; break; } }
     final value = first?['text']?.toString() ?? 'محادثة جديدة';
     return value.length > 48 ? '${value.substring(0, 48)}…' : value;
   }
@@ -178,7 +180,7 @@ class _ChatPageState extends State<ChatPage> {
   Future<void> _newChat() async {
     if (busy) return;
     setState(() { activeId = newId(); sessionId = null; messages.clear(); });
-    Navigator.of(context).maybePop();
+    scaffoldKey.currentState?.closeDrawer();
   }
 
   Future<void> _openConversation(String id) async {
@@ -191,7 +193,7 @@ class _ChatPageState extends State<ChatPage> {
           ..clear()
           ..addAll((c['messages'] as List? ?? []).whereType<Map>().map((m) => <String,dynamic>{'role':m['role'], 'text':m['text']}));
       });
-      if (mounted) Navigator.of(context).maybePop();
+      if (mounted) scaffoldKey.currentState?.closeDrawer();
       _scrollDown();
     } catch (e) { _snack(e.toString().replaceFirst('Exception: ', '')); }
   }
@@ -296,7 +298,7 @@ class _ChatPageState extends State<ChatPage> {
 
   Future<void> _copy(String text) async {
     // Selectable text remains available even when clipboard access is restricted.
-    await ClipboardBridge.copy(text);
+    await Clipboard.setData(ClipboardData(text: text));
     _snack('تم نسخ النص.');
   }
 
@@ -318,7 +320,8 @@ class _ChatPageState extends State<ChatPage> {
         Expanded(child: loadingHistory ? const Center(child: CircularProgressIndicator()) : conversations.isEmpty
           ? const Center(child: Text('لا توجد محادثات محفوظة بعد', style: TextStyle(color: Colors.white38)))
           : ListView.builder(itemCount: conversations.length, itemBuilder: (context, i) {
-            final c = conversations[i], id = c['id'].toString();
+            final c = conversations[i];
+            final id = c['id'].toString();
             return ListTile(
               selected: id == activeId, selectedTileColor: wineRed.withOpacity(.18),
               leading: const Icon(Icons.chat_bubble_outline, size: 19),
@@ -364,10 +367,3 @@ class _ChatPageState extends State<ChatPage> {
   Widget _suggest(String label, String prompt) => ActionChip(label: Text(label), onPressed: () { input.text = prompt; _send(); });
 }
 
-class ClipboardBridge {
-  static Future<void> copy(String value) async {
-    // Uses Flutter's built-in clipboard channel.
-    const channel = MethodChannel('flutter/platform');
-    await channel.invokeMethod<void>('Clipboard.setData', {'text': value});
-  }
-}
