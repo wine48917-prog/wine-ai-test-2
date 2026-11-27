@@ -32,6 +32,7 @@ app.use(async (req,res,next)=>{
 
 // Static assets are served directly with short-lived caching; HTML stays fresh.
 app.get('/chat', workspaceHandler);
+app.get(['/features', '/features.html'], (_req, res) => res.sendFile(path.join(root, 'features.html'), { headers: { 'Cache-Control': 'no-cache' } }));
 app.get('/developer', ownerHandler);
 app.all('/complaints', complaintsHandler);
 app.all('/api/complaints', complaintsHandler);
