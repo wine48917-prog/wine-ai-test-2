@@ -46,7 +46,7 @@ input,textarea{width:100%;background:#09090d;border:1px solid #36313a;color:#f4f
 <script>
 const $=id=>document.getElementById(id);
 const toolRoutes={library:'library',code:'code',profile:'profile',write:'write',gallery:'gallery',voice:'voice',notifications:'notifications'};
-const currentTool=location.pathname.match(/^\\/tools\\/([^/]+)/)?.[1];
+const currentTool=location.pathname.split('/')[2]||'';
 if(currentTool&&toolRoutes[currentTool]){const selected=document.getElementById(toolRoutes[currentTool]);document.querySelectorAll('.hero,.section-title,.grid,section.panel').forEach(el=>{if(el!==selected)el.style.display='none'});if(selected){selected.style.display='block';selected.style.marginTop='28px';const title=selected.querySelector('h2')?.textContent||'WINE AI';document.querySelector('.hero').style.display='none';document.title=title+' — WINE AI';const back=document.createElement('a');back.href='/features';back.className='tool-page-back';back.textContent='← العودة إلى كل الأدوات';selected.prepend(back);}}
 
 const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
