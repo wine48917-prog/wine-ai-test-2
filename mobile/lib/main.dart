@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:math';
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter/services.dart';
@@ -261,7 +260,7 @@ class _ChatPageState extends State<ChatPage> {
       final r = await http.post(Uri.parse('$apiBase/api/star-x-image'), headers: headers, body: jsonEncode({'prompt':prompt})).timeout(const Duration(seconds: 130));
       if (r.statusCode < 200 || r.statusCode >= 300) {
         String message = 'تعذر توليد الصورة.';
-        try { message = (jsonDecode(r.body) as Map)['error']?.toString() ?? message; } catch {}
+        try { message = (jsonDecode(r.body) as Map)['error']?.toString() ?? message; } catch (_) { /* Ignore malformed error payload and use the fallback message. */ }
         throw Exception(message);
       }
       if (!(r.headers['content-type'] ?? '').startsWith('image/')) throw Exception('استجابة الصورة غير صالحة.');
