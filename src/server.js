@@ -32,6 +32,11 @@ app.use(async (req,res,next)=>{
 
 // Static assets are served directly with short-lived caching; HTML stays fresh.
 app.get('/chat', workspaceHandler);
+app.get('/tools/:tool', (req, res) => {
+  const allowed = new Set(['library','code','profile','write','gallery','voice','notifications']);
+  if (!allowed.has(req.params.tool)) return res.status(404).send('Tool not found');
+  return res.sendFile(path.join(root, 'features.html'), { headers: { 'Cache-Control': 'no-cache' } });
+});
 app.get(['/features', '/features.html'], (_req, res) => res.sendFile(path.join(root, 'features.html'), { headers: { 'Cache-Control': 'no-cache' } }));
 app.get('/developer', ownerHandler);
 app.all('/complaints', complaintsHandler);
