@@ -156,13 +156,25 @@ footer{margin-top:30px;padding-top:14px}
  .header-right .complaint-link{min-height:38px;padding:8px 11px;font-size:10px;gap:5px}
 }
 
+
+/* Dedicated complaints section inside the homepage content */
+.complaint-cta{display:flex;align-items:center;justify-content:space-between;gap:22px;margin:24px 0 0;padding:20px 24px;border:1px solid #653044;border-radius:16px;background:linear-gradient(110deg,#211019,#120e14 72%);box-shadow:0 14px 35px #0005}
+.complaint-copy{display:flex;flex-direction:column;gap:4px}
+.complaint-kicker{font:800 9px Manrope;letter-spacing:2px;color:#d16a87}
+.complaint-copy strong{font-size:16px;font-weight:900;color:#f6edf1}
+.complaint-copy p{margin:0;color:#b6aab2;font-size:11px;line-height:1.8}
+.complaint-link{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:46px;padding:11px 20px;border:1px solid #e06a8c;border-radius:12px;background:linear-gradient(135deg,#b83255,#781b36);color:#fff!important;font:900 12px Cairo,sans-serif;white-space:nowrap;box-shadow:0 7px 22px #a52b4855,inset 0 1px 0 #ffffff24;transition:transform .2s,filter .2s}
+.complaint-link span{font:900 15px Manrope}
+.complaint-link:hover{transform:translateY(-2px);filter:brightness(1.15)}
+@media(max-width:760px){.complaint-cta{align-items:stretch;flex-direction:column;margin-top:20px;padding:17px;gap:13px}.complaint-copy strong{font-size:14px}.complaint-copy p{font-size:10px}.complaint-link{width:100%;min-height:44px}}
+
 </style>
 </head>
 <body>
 <div class="page">
 <header>
 <a class="brand" href="/" aria-label="WINE AI"><span class="brand-mark">W</span><span><span class="brand-name">WINE <span>AI</span></span><span class="brand-caption">THINK BEYOND LIMITS</span></span></a>
-<div class="header-right"><span class="live">متاح للجميع</span><a class="header-link" href="/chat">ابدأ الاستخدام</a><a class="complaint-link" href="/complaints" aria-label="إرسال شكوى">إرسال شكوى <span aria-hidden="true">↗</span></a><a class="owner-link" href="/developer" aria-label="Open owner dashboard">OWENR</a></div>
+<div class="header-right"><span class="live">متاح للجميع</span><a class="header-link" href="/chat">ابدأ الاستخدام</a><a class="owner-link" href="/developer" aria-label="Open owner dashboard">OWENR</a></div>
 </header><div id="siteNotice" role="status" aria-live="polite"><b>WINE AI</b><span id="siteNoticeText"></span></div>
 <main>
 <section class="hero">
@@ -177,6 +189,10 @@ footer{margin-top:30px;padding-top:14px}
 <div class="glyph">W</div>
 <div class="panel-bottom"><strong>فكّر أبعد.<br>اصنع أكثر.</strong><span>AI × CREATIVITY</span></div>
 </div>
+</section>
+<section class="complaint-cta" aria-label="إرسال شكوى">
+ <div class="complaint-copy"><span class="complaint-kicker">WE LISTEN TO YOU</span><strong>واجهت مشكلة؟ إحنا مهتمين نسمعك</strong><p>ابعتلنا تفاصيل المشكلة أو اقتراحك، وفريق WINE هيراجع رسالتك.</p></div>
+ <a class="complaint-link" href="/complaints" aria-label="افتح صفحة إرسال شكوى">إرسال شكوى <span aria-hidden="true">↗</span></a>
 </section>
 <section class="destinations" aria-label="اختار وجهتك">
 <a class="destination" id="chatDestination" href="/chat"><span class="dest-number">01</span><span class="dest-copy"><small>INTELLIGENT ASSISTANT</small><strong>WINE AI</strong><p>محادثة ذكية للكتابة والتحليل والبرمجة والإجابة عن أسئلتك.</p><p class="section-state" id="chatSectionMessage"></p></span><span class="dest-arrow">←</span></a>
