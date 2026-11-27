@@ -13,9 +13,28 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
+          cache: true
+      - name: Generate Android platform project
+        working-directory: mobile
+        run: flutter create --platforms=android --project-name wine_ai --org com.wineai .
+      - name: Enable Android internet access
+        working-directory: mobile
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('android/app/src/main/AndroidManifest.xml')
+          s = p.read_text()
+          permission = '<uses-permission android:name="android.permission.INTERNET"/>'
+          if permission not in s:
+              s = s.replace('<application', permission + '\n    <application', 1)
+          p.write_text(s)
+          PY
       - name: Install dependencies
         working-directory: mobile
         run: flutter pub get
+      - name: Analyze Flutter code
+        working-directory: mobile
+        run: flutter analyze
       - name: Build release APK
         working-directory: mobile
         run: flutter build apk --release
@@ -24,3 +43,4 @@ jobs:
         with:
           name: wine-ai-android-apk
           path: mobile/build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: error
