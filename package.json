@@ -4,7 +4,9 @@
   "private": true,
   "type": "module",
   "description": "Node.js Gemini web scraper API with sessions, fallback and SSE responses",
-  "engines": { "node": ">=22.0.0" },
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
