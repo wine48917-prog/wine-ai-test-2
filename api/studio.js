@@ -277,6 +277,27 @@ a:hover *,button:hover *,.btn:hover *,.nav a.active *,.nav button.active *{color
 @keyframes wineDataSweep{to{transform:translateX(120%)}}
 @media(max-width:560px){.wine-data-skeleton{padding:13px;gap:11px}.wine-data-skeleton .skel-media{aspect-ratio:16/9}}
 @media(prefers-reduced-motion:reduce){.wine-data-skeleton .skel-shape:after{animation:none!important;transform:none;background:transparent}}
+
+/* WINE STUDIO — remove green accents; strict navy + beige */
+:root{--bg:#202943;--surface:#202943;--surface2:#202943;--line:#e9dccb;--muted:#e9dccb;--silver:#e9dccb;--wine:#e9dccb;--wine2:#e9dccb}
+body{background:#202943!important;color:#e9dccb!important;background-image:linear-gradient(#e9dccb08 1px,transparent 1px),linear-gradient(90deg,#e9dccb08 1px,transparent 1px),linear-gradient(150deg,#202943,#202943)!important}
+body,.shell,.workspace,.panel,.editor,.preview,.result,.prompt,.select-wrap select,.chip,.tip{border-color:#e9dccb!important}
+.hero h1 span{background:linear-gradient(100deg,#e9dccb,#e9dccb)!important;background-clip:text!important;-webkit-background-clip:text!important;color:transparent!important}
+.eyebrow,.step-label,.hero-foot,.brand small,.hero p,.panel-head small,.field-label,.counter,.select-wrap label,.preview-head p,.empty,.empty p,.footer,.save-state{color:#e9dccb!important}
+.live-pill,.preview-state,.top-actions a,.panel,.chip,.tip,.result,.prompt,.select-wrap select,.empty .glyph,.image-actions a,.image-actions button,.error{background:#202943!important;color:#e9dccb!important;border-color:#e9dccb!important}
+.live-pill i,.preview-state i,.spinner{background:#e9dccb!important;box-shadow:0 0 10px #e9dccb55!important;border-top-color:#e9dccb!important;border-right-color:#e9dccb!important}
+.art-orbit,.orbit-one,.orbit-two,.art-core,.sculpture-ring,.sculpture-orb{border-color:#e9dccb!important;box-shadow:none!important}
+.art-core,.sculpture-orb{background:#202943!important;color:#e9dccb!important}
+.art-core span,.sculpture-spark{color:#e9dccb!important;text-shadow:none!important}
+.prompt:focus,.select-wrap select:focus{border-color:#e9dccb!important;box-shadow:0 0 0 3px #e9dccb22!important}
+.chip:hover,.chip.active,.top-actions a:hover{background:#e9dccb!important;color:#202943!important;border-color:#e9dccb!important}
+.generate,.image-actions .primary{background:#e9dccb!important;color:#202943!important;border-color:#e9dccb!important}
+.tip,.error{background:#202943!important}.tip b{color:#e9dccb!important}
+.empty .glyph{color:#e9dccb!important}
+.image-actions a:hover,.image-actions button:hover{border-color:#e9dccb!important}
+.result:before{border-color:#e9dccb22!important}
+.wine-mark{filter:grayscale(1)!important}
+
 </style>
 </head>
 <body>
