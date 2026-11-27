@@ -14,7 +14,7 @@ export default async function handler(req,res){
  const b=typeof req.body==='string'?(()=>{try{return JSON.parse(req.body)}catch{return {}}})():(req.body||{});
  if(b.action!=='save'&&b.action!=='saveAll')return res.status(400).json({success:false,error:'طلب غير معروف.'});
  const sectionNames=['home','chat','studio','features','library','code','profile','write','gallery','voice','notifications'];
- const lengths=[b.notice,b.maintenanceMessage,b.copy?.homeTitle,b.copy?.homeSubtitle,...sectionNames.map(key=>b.sections?.[key]?.message)];
+ const lengths=[b.notice,b.maintenanceMessage,b.copy?.homeTitle,b.copy?.homeSubtitle,...sectionNames.map(key=>b.sections?.[key]?.message),...Object.values(b.copy?.tools||{})];
  if(lengths.some(x=>x!==undefined&&typeof x!=='string')||lengths.some(x=>typeof x==='string'&&x.length>500))return res.status(400).json({success:false,error:'تأكد من النصوص؛ الحد الأقصى 500 حرف لكل رسالة.'});
  try{
   const values=b.action==='saveAll'?{
@@ -23,7 +23,7 @@ export default async function handler(req,res){
    noticeEnabled:b.noticeEnabled===true,
    notice:b.notice,
    sections:Object.fromEntries(sectionNames.map(key=>[key,{enabled:b.sections?.[key]?.enabled!==false,message:typeof b.sections?.[key]?.message==='string'?b.sections[key].message:''}])),
-   copy:{homeTitle:b.copy?.homeTitle,homeSubtitle:b.copy?.homeSubtitle}
+   copy:{homeTitle:b.copy?.homeTitle,homeSubtitle:b.copy?.homeSubtitle,tools:b.copy?.tools}
   }:{
    maintenance:b.maintenance===true,maintenanceMessage:b.maintenanceMessage,
    noticeEnabled:b.noticeEnabled===true,notice:b.notice
