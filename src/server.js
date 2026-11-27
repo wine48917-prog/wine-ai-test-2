@@ -23,9 +23,11 @@ app.use(async (req,res,next)=>{
  if(['/developer','/api/owner','/api/control','/api/health','/health'].includes(req.path))return next();
  if(await maintenanceGuard(req,res))return;
  let section=null;
- if(['/','/'].includes(req.path))section='home';
+ if(req.path==='/')section='home';
  else if(['/chat','/api/chat','/v1/chat','/v1/chat/stream','/api/guest','/api/auth','/api/workspace'].includes(req.path))section='chat';
  else if(['/studio','/api/studio','/api/star-x-image'].includes(req.path))section='studio';
+ else if(['/features','/features.html'].includes(req.path))section='features';
+ else if(req.path.startsWith('/tools/')){const tool=req.path.split('/')[2];if(['library','code','profile','write','gallery','voice','notifications'].includes(tool))section=tool;}
  if(section&&await sectionGuard(req,res,section))return;
  return next();
 });
@@ -45,7 +47,6 @@ app.get('/', (_req, res) => res.sendFile(path.join(root, 'index.html'), {
   headers: { 'Cache-Control': 'no-cache' }
 }));
 app.get('/guide', (_req, res) => res.sendFile(path.join(root, 'pages/guide.html'), { headers: { 'Cache-Control': 'no-cache' } }));
-app.get('/features', (_req, res) => res.sendFile(path.join(root, 'pages/features.html'), { headers: { 'Cache-Control': 'no-cache' } }));
 app.get('/chat-info', (_req, res) => res.sendFile(path.join(root, 'pages/chat.html'), { headers: { 'Cache-Control': 'no-cache' } }));
 app.get('/studio-info', (_req, res) => res.sendFile(path.join(root, 'pages/studio.html'), { headers: { 'Cache-Control': 'no-cache' } }));
 app.get(['/about', '/about.html'], (_req, res) => res.sendFile(path.join(root, 'about.html'), { headers: { 'Cache-Control': 'no-cache' } }));
