@@ -139,13 +139,30 @@ footer{margin-top:30px;padding-top:14px}
  footer{margin-top:24px}
 }
 @media(max-width:390px){.page{padding-inline:14px}.art-panel{min-height:200px}}
-#siteNotice{display:none;margin:20px 0 0;padding:13px 17px;border:1px solid #754052;border-radius:13px;background:linear-gradient(110deg,#32131f,#171016);color:#f5eaf0;font-size:12px;line-height:1.9;box-shadow:0 10px 28px #0005;white-space:pre-wrap;overflow-wrap:anywhere}#siteNotice.show{display:block}#siteNotice b{color:#d86a89;margin-left:7px}\n.complaint-link{display:inline-flex;align-items:center;justify-content:center;padding:9px 13px;border:1px solid #654052;border-radius:10px;color:#f2dfe7;font:800 10px Cairo,sans-serif;white-space:nowrap}.complaint-link:hover{background:#32131f}.owner-link{display:inline-flex;align-items:center;justify-content:center;padding:9px 15px;border:1px solid #a52b48;border-radius:10px;background:linear-gradient(120deg,#a52b48,#68182f);color:#fff;font:800 10px Manrope;letter-spacing:1.5px;box-shadow:0 6px 20px #8c1d3b33;transition:transform .2s,filter .2s}.owner-link:hover{transform:translateY(-2px);filter:brightness(1.15)}@media(max-width:760px){.header-right{gap:7px}.complaint-link{padding:8px 9px;font-size:9px}.owner-link{padding:8px 9px;font-size:9px}.live{font-size:9px}}\n .section-state{display:none!important}.destination.is-disabled{opacity:.48;filter:grayscale(.65);cursor:not-allowed}.destination.is-disabled .dest-arrow{opacity:.5}\n</style>
+#siteNotice{display:none;margin:20px 0 0;padding:13px 17px;border:1px solid #754052;border-radius:13px;background:linear-gradient(110deg,#32131f,#171016);color:#f5eaf0;font-size:12px;line-height:1.9;box-shadow:0 10px 28px #0005;white-space:pre-wrap;overflow-wrap:anywhere}#siteNotice.show{display:block}#siteNotice b{color:#d86a89;margin-left:7px}\n.complaint-link{display:inline-flex;align-items:center;justify-content:center;padding:9px 13px;border:1px solid #654052;border-radius:10px;color:#f2dfe7;font:800 10px Cairo,sans-serif;white-space:nowrap}.complaint-link:hover{background:#32131f}.owner-link{display:inline-flex;align-items:center;justify-content:center;padding:9px 15px;border:1px solid #a52b48;border-radius:10px;background:linear-gradient(120deg,#a52b48,#68182f);color:#fff;font:800 10px Manrope;letter-spacing:1.5px;box-shadow:0 6px 20px #8c1d3b33;transition:transform .2s,filter .2s}.owner-link:hover{transform:translateY(-2px);filter:brightness(1.15)}@media(max-width:760px){.header-right{gap:7px}.complaint-link{padding:8px 9px;font-size:9px}.owner-link{padding:8px 9px;font-size:9px}.live{font-size:9px}}\n .section-state{display:none!important}.destination.is-disabled{opacity:.48;filter:grayscale(.65);cursor:not-allowed}.destination.is-disabled .dest-arrow{opacity:.5}\n
+/* Make the complaints action clearly visible on desktop and mobile */
+.header-right .complaint-link{
+ display:inline-flex!important;align-items:center;justify-content:center;gap:9px;
+ min-height:42px;padding:10px 17px;border:1px solid #d45b7b;border-radius:12px;
+ background:linear-gradient(135deg,#b83255,#781b36);color:#fff!important;
+ font:900 12px Cairo,sans-serif;white-space:nowrap;letter-spacing:.1px;
+ box-shadow:0 7px 22px #a52b4855, inset 0 1px 0 #ffffff24;
+ transition:transform .2s,filter .2s,box-shadow .2s;
+}
+.header-right .complaint-link span{font:900 15px Manrope}
+.header-right .complaint-link:hover{transform:translateY(-2px);filter:brightness(1.15);box-shadow:0 10px 26px #a52b486b}
+@media(max-width:760px){
+ .header-right{gap:7px}
+ .header-right .complaint-link{min-height:38px;padding:8px 11px;font-size:10px;gap:5px}
+}
+
+</style>
 </head>
 <body>
 <div class="page">
 <header>
 <a class="brand" href="/" aria-label="WINE AI"><span class="brand-mark">W</span><span><span class="brand-name">WINE <span>AI</span></span><span class="brand-caption">THINK BEYOND LIMITS</span></span></a>
-<div class="header-right"><span class="live">متاح للجميع</span><a class="header-link" href="/chat">ابدأ الاستخدام</a><a class="complaint-link" href="/complaints">إرسال مشكلة</a><a class="owner-link" href="/developer" aria-label="Open owner dashboard">OWENR</a></div>
+<div class="header-right"><span class="live">متاح للجميع</span><a class="header-link" href="/chat">ابدأ الاستخدام</a><a class="complaint-link" href="/complaints" aria-label="إرسال شكوى">إرسال شكوى <span aria-hidden="true">↗</span></a><a class="owner-link" href="/developer" aria-label="Open owner dashboard">OWENR</a></div>
 </header><div id="siteNotice" role="status" aria-live="polite"><b>WINE AI</b><span id="siteNoticeText"></span></div>
 <main>
 <section class="hero">
