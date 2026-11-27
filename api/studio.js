@@ -105,6 +105,20 @@ body{background-color:#071311;background-image:linear-gradient(#d8fff008 1px,tra
 }
 @media(max-width:360px){.options{grid-template-columns:1fr}.top-actions a{font-size:9px;padding:7px}.brand b{font-size:12px}}
 
+
+/* Hero centerpiece replaces copy with an abstract visual */
+.hero-copy{max-width:720px}
+.hero-sculpture{position:relative;width:min(100%,590px);height:205px;margin:14px 0 0;overflow:hidden;isolation:isolate}
+.hero-sculpture:before{content:"";position:absolute;width:260px;height:130px;left:20%;top:38px;border-radius:50%;background:#35c6a52b;filter:blur(48px)}
+.sculpture-ring{position:absolute;left:50%;top:50%;border:1px solid #8be4ce55;border-radius:50%;transform:translate(-50%,-50%) rotate(-24deg);box-shadow:0 0 24px #37b99b12}
+.ring-a{width:330px;height:112px}
+.ring-b{width:260px;height:165px;transform:translate(-50%,-50%) rotate(48deg);border-color:#b6f0df44}
+.ring-c{width:190px;height:190px;border-color:#4bc5a555}
+.sculpture-orb{position:absolute;left:50%;top:50%;width:92px;height:92px;border-radius:29px;transform:translate(-50%,-50%) rotate(45deg);background:radial-gradient(circle at 30% 25%,#f3fff9,#9be1cc 32%,#288d77 68%,#103c34);box-shadow:0 0 0 13px #56c8a90d,0 0 55px #3cc6a45c,inset -12px -14px 24px #062c26a6}
+.sculpture-spark{position:absolute;color:#caffef;text-shadow:0 0 18px #65e4c3;font-size:22px}
+.spark-a{left:22%;top:34px}.spark-b{right:20%;bottom:27px;font-size:30px}
+@media(max-width:600px){.hero-sculpture{height:155px;margin:8px 0 0}.ring-a{width:260px;height:88px}.ring-b{width:205px;height:130px}.ring-c{width:150px;height:150px}.sculpture-orb{width:70px;height:70px;border-radius:23px}.spark-a{left:14%;top:20px}.spark-b{right:13%;bottom:15px}}
+
 </style>
 </head>
 <body>
@@ -113,7 +127,7 @@ body{background-color:#071311;background-image:linear-gradient(#d8fff008 1px,tra
 <a class="brand" href="/"><span class="mark">W</span><span><b>WINE <i>STUDIO</i></b><small>CREATIVE IMAGE WORKSPACE</small></span></a>
 <nav class="top-actions"><a href="/features">مركز الأدوات</a><a href="/">الرئيسية ↗</a></nav>
 </header>
-<section class="hero"><div class="hero-copy"><div class="hero-meta"><span class="eyebrow">WINE ORGANIZATION / CREATIVE DIVISION</span><span class="live-pill"><i></i> CREATIVE ENGINE ONLINE</span></div><h1>حوّل الخيال<br><span>إلى شيء يُرى.</span></h1><p>استوديو إبداعي لصناعة الصور بتفاصيلك. اكتب الفكرة، اختر المزاج البصري، واترك مساحة التنفيذ لـ WINE.</p><div class="hero-foot"><span>01 — DESCRIBE</span><span>02 — CREATE</span><span>03 — COLLECT</span></div></div><div class="hero-art" aria-hidden="true"><div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div><div class="art-core">W<span>✦</span></div><div class="art-caption">IMAGINATION<br>IN MOTION</div></div></section>
+<section class="hero"><div class="hero-copy"><div class="hero-meta"><span class="eyebrow">WINE ORGANIZATION / CREATIVE DIVISION</span><span class="live-pill"><i></i> CREATIVE ENGINE ONLINE</span></div><div class="hero-sculpture" aria-hidden="true"><span class="sculpture-ring ring-a"></span><span class="sculpture-ring ring-b"></span><span class="sculpture-ring ring-c"></span><span class="sculpture-orb"></span><span class="sculpture-spark spark-a">✦</span><span class="sculpture-spark spark-b">✧</span></div><div class="hero-foot"><span>01 — DESCRIBE</span><span>02 — CREATE</span><span>03 — COLLECT</span></div></div><div class="hero-art" aria-hidden="true"><div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div><div class="art-core">W<span>✦</span></div><div class="art-caption">IMAGINATION<br>IN MOTION</div></div></section>
 <div class="workspace">
 <section class="panel editor" aria-labelledby="editorTitle">
 <div class="panel-head"><div><small class="step-label">STEP 01 · INPUT</small><h2 id="editorTitle">ابنِ فكرتك</h2></div><span class="panel-index">01</span></div>
