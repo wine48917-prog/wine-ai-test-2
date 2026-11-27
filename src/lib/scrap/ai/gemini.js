@@ -599,7 +599,7 @@ const gemini = {
       return await officialGeminiRequest(params.prompt.trim(), onChunk || (() => {}));
     } catch (error) {
       console.warn('[WINE AI stream]', String(error?.message || error).slice(0, 220));
-      if (error?.status === 429 || error?.status === 403 || error?.code === 'NO_API_KEY') throw error;
+      if (error?.status === 429 || error?.status === 403) throw error;
       const result = await this.chat({ ...params, skipMethod3: true });
       if (result.response) { try { onChunk?.(result.response); } catch {} }
       return result;
