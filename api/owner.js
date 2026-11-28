@@ -5,7 +5,7 @@ export const APP_HTML = `<!doctype html>
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#080b0f"><meta name="description" content="WINE AI — مساحة ذكية للكتابة والبرمجة والتفكير.">
-<title>WINE AI — Intelligence Workspace</title><link rel="icon" type="image/png" href="/icon.png">
+<title>WINE AI — Intelligence Workspace</title><link rel="icon" type="image/png" href="/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
@@ -56,7 +56,7 @@ export const APP_HTML = `<!doctype html>
 </body></html>`;
 
 const DASHBOARD_HTML = `<!doctype html>
-<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#09090c"><title>OWNER — WINE AI</title><link rel="icon" href="/icon.png"><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#09090c"><title>OWNER — WINE AI</title><link rel="icon" href="/logo.svg"><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box} :root{--bg:#09090c;--panel:#151016;--line:#382630;--muted:#aa9fa7;--accent:#E9DCCB;--soft:#211720}
 body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 85% 0,#2029433d,transparent 36%),var(--bg);color:#f3edf1;font-family:Cairo,Arial,sans-serif}
