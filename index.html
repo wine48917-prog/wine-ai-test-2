@@ -159,20 +159,46 @@ a:hover *,button:hover *,.btn:hover *,.nav a.active *,.nav button.active *{color
 @media(prefers-reduced-motion:reduce){#wine-skeleton .shine:after,#wine-skeleton .wine-skeleton-status:before{animation:none!important}#wine-skeleton{transition:none}}
 </style><style id="nexus-maintenance-style">
 html.nexus-check body{visibility:hidden!important}
-#nexus-maintenance{display:none;position:fixed;inset:0;z-index:2147483647;align-items:center;justify-content:center;padding:24px;background:radial-gradient(ellipse at 50% 0%,#262a30 0%,#111317 58%,#090a0c 100%);color:#f5f6f7;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;text-align:center;direction:rtl}
+#nexus-maintenance{display:none;position:fixed;inset:0;z-index:2147483647;align-items:center;justify-content:center;overflow:auto;padding:24px;background:radial-gradient(ellipse at 50% 8%,#28313d 0%,#11161e 42%,#080b10 100%);color:#f4f6f9;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;text-align:center;direction:rtl}
 html.nexus-check #nexus-maintenance{display:flex;visibility:visible!important}
-html.nexus-maintenance body> :not(#nexus-maintenance){display:none!important}
+html.nexus-maintenance body>:not(#nexus-maintenance){display:none!important}
 html.nexus-maintenance #nexus-maintenance{display:flex}
-#nexus-maintenance .nm-card{width:min(100%,520px);padding:42px 28px;border:1px solid #414750;border-radius:24px;background:linear-gradient(145deg,#1c2026,#111419);box-shadow:0 24px 80px #0008}
-#nexus-maintenance .nm-mark{width:62px;height:62px;margin:0 auto 24px;display:grid;place-items:center;border:1px solid #7c8794;border-radius:19px;color:#fff;font-size:25px;font-weight:800;letter-spacing:-2px;background:linear-gradient(145deg,#39414b,#171b20)}
-#nexus-maintenance h1{margin:0 0 14px;font-size:clamp(25px,5vw,38px);font-weight:800;letter-spacing:-.04em}
-#nexus-maintenance p{margin:0 auto;color:#aeb5bf;line-height:1.9;font-size:15px;max-width:390px}
-#nexus-maintenance .nm-line{width:54px;height:3px;border-radius:9px;background:#aeb8c4;margin:24px auto}
-#nexus-maintenance button{margin-top:28px;padding:12px 22px;border:1px solid #68717d;border-radius:12px;background:#e7eaee;color:#11151a;font-weight:800;cursor:pointer}
-#nexus-maintenance .nm-foot{margin-top:28px;color:#727c89;font-size:11px;letter-spacing:.16em;direction:ltr}
+#nexus-maintenance *{box-sizing:border-box}
+#nexus-maintenance .nm-card{position:relative;isolation:isolate;width:min(100%,560px);padding:clamp(30px,6vw,54px) clamp(22px,5vw,48px);overflow:hidden;border:1px solid #ffffff20;border-radius:30px;background:linear-gradient(145deg,#1b2430f2,#111720f5 65%,#0d1219f5);box-shadow:0 32px 100px #0009,inset 0 1px #ffffff12}
+#nexus-maintenance .nm-card:before{content:"";position:absolute;z-index:-1;width:300px;height:300px;top:-190px;left:50%;transform:translateX(-50%);border-radius:50%;background:#9aaecb26;filter:blur(25px)}
+#nexus-maintenance .nm-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:38px}
+#nexus-maintenance .nm-brand{display:flex;align-items:center;gap:10px;color:#e8edf5;font-size:12px;font-weight:800;letter-spacing:.16em;direction:ltr}
+#nexus-maintenance .nm-brand-mark{display:grid;place-items:center;width:34px;height:34px;border:1px solid #aebbd04d;border-radius:11px;background:linear-gradient(145deg,#465568,#1b2532);font-size:15px}
+#nexus-maintenance .nm-status{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid #d4b77735;border-radius:99px;background:#d4b7770d;color:#e6c982;font-size:11px;font-weight:700}
+#nexus-maintenance .nm-status:before{content:"";width:7px;height:7px;border-radius:50%;background:#e6c982;box-shadow:0 0 0 4px #e6c98220;animation:nmPulse 1.8s ease-in-out infinite}
+#nexus-maintenance .nm-emblem{position:relative;display:grid;place-items:center;width:94px;height:94px;margin:0 auto 27px;border:1px solid #aebbd04d;border-radius:28px;background:linear-gradient(145deg,#354355,#17212e);box-shadow:0 15px 40px #0006,inset 0 1px #ffffff20}
+#nexus-maintenance .nm-emblem:before,#nexus-maintenance .nm-emblem:after{content:"";position:absolute;inset:-9px;border:1px solid #aebbd01b;border-radius:34px}
+#nexus-maintenance .nm-emblem:after{inset:-18px;border-color:#aebbd012;border-radius:40px}
+#nexus-maintenance .nm-emblem svg{width:43px;height:43px;stroke:#edf2f8;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+#nexus-maintenance h1{margin:0 0 13px;font-size:clamp(27px,5.8vw,39px);line-height:1.35;font-weight:850;letter-spacing:-.045em}
+#nexus-maintenance .nm-subtitle{margin:0 auto 12px;color:#c0cad7;font-size:16px;font-weight:650}
+#nexus-maintenance p{max-width:410px;margin:0 auto;color:#909dad;line-height:2;font-size:14px}
+#nexus-maintenance .nm-divider{width:100%;height:1px;margin:30px 0 22px;background:linear-gradient(90deg,transparent,#aebbd033,transparent)}
+#nexus-maintenance .nm-note{display:flex;align-items:center;justify-content:center;gap:8px;color:#8290a1;font-size:12px}
+#nexus-maintenance .nm-note svg{width:15px;height:15px;stroke:#aebbd0;fill:none;stroke-width:1.7}
+#nexus-maintenance button{display:inline-flex;align-items:center;justify-content:center;gap:10px;margin-top:27px;padding:13px 24px;border:1px solid #e8edf5;border-radius:13px;background:linear-gradient(135deg,#f2f5f9,#cbd5e2);color:#111925;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 8px 25px #0003;transition:transform .2s,box-shadow .2s}
+#nexus-maintenance button:hover{transform:translateY(-2px);box-shadow:0 12px 30px #0005}
+#nexus-maintenance button:focus-visible{outline:3px solid #aebbd0;outline-offset:4px}
+#nexus-maintenance .nm-foot{margin-top:34px;color:#667487;font-size:10px;font-weight:700;letter-spacing:.2em;direction:ltr}
+@keyframes nmPulse{50%{opacity:.45;transform:scale(.8)}}
+@media(max-width:480px){#nexus-maintenance{padding:15px}#nexus-maintenance .nm-card{border-radius:23px}#nexus-maintenance .nm-top{margin-bottom:32px}#nexus-maintenance .nm-emblem{width:82px;height:82px;border-radius:25px}}
+@media(prefers-reduced-motion:reduce){#nexus-maintenance .nm-status:before{animation:none}#nexus-maintenance button{transition:none}}
 </style><script>document.documentElement.classList.add('nexus-check');</script>
 </head>
-<body><div id="nexus-maintenance" role="alert" aria-live="polite"><div class="nm-card"><div class="nm-mark">W</div><h1 id="nm-title">الموقع تحت الصيانة</h1><p id="nm-message">نعمل حاليًا على تحسين التجربة. هنرجع قريبًا بشكل أفضل.</p><div class="nm-line"></div><button id="nm-retry" type="button">إعادة المحاولة</button><div class="nm-foot">POWERED BY VELOR NEXUS</div></div></div><div class="shell">
+<body><div id="nexus-maintenance" role="alert" aria-live="polite"><div class="nm-card">
+<div class="nm-top"><div class="nm-brand"><span class="nm-brand-mark">V</span><span>VELOR NEXUS</span></div><span class="nm-status">تحديثات جارية</span></div>
+<div class="nm-emblem" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M28.5 8.5a12 12 0 0 0-15 15L7 30l11 11 6.5-6.5a12 12 0 0 0 15-15l-8 8-8-8 7-11z"/><path d="m18 30 0 0"/></svg></div>
+<h1 id="nm-title">نرجع لك بتجربة أفضل</h1><div class="nm-subtitle">الموقع تحت الصيانة حالياً</div>
+<p id="nm-message">نعمل على تحسين الأداء وإضافة لمسات جديدة. نعتذر عن التوقف المؤقت، ونشكرك على انتظارك.</p>
+<div class="nm-divider"></div><div class="nm-note"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7.2"/><path d="M10 6v4l2.5 1.5"/></svg><span>نعود إليك فور انتهاء أعمال التحديث</span></div>
+<button id="nm-retry" type="button">إعادة المحاولة <span aria-hidden="true">←</span></button>
+<div class="nm-foot">A BETTER EXPERIENCE IS ON THE WAY</div>
+</div></div></div><div class="shell">
 <header><a class="brand" href="/" aria-label="WINE AI"><span class="brand-mark">W</span><span><span class="brand-name">WINE <i>AI</i></span><span class="brand-caption">INTELLIGENCE PLATFORM</span></span></a><nav class="nav"><a href="/chat">المحادثة</a><a href="/features">الأدوات</a><a href="/studio">الاستوديو</a><a class="owner" href="/developer">OWENR</a></nav></header>
 <div id="siteNotice" role="status" aria-live="polite"><b>WINE AI</b><span id="siteNoticeText"></span></div>
 <main>
