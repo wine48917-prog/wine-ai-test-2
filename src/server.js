@@ -41,17 +41,33 @@ app.get('/tools/:tool', (req, res) => {
   return res.sendFile(path.join(root, 'features.html'), { headers: { 'Cache-Control': 'no-cache' } });
 });
 app.get(['/features', '/features.html'], (_req, res) => res.sendFile(path.join(root, 'features.html'), { headers: { 'Cache-Control': 'no-cache' } }));
-app.get('/developer', ownerHandler);
+app.get('/developer', (req, res, next) => {
+  const originalSend = res.send;
+  res.send = function (body) {
+    if (typeof body === 'string') body = body.replaceAll('OWENR', 'OWNER');
+    return originalSend.call(this, body);
+  };
+  return ownerHandler(req, res, next);
+});
 app.all('/complaints', complaintsHandler);
 app.all('/api/complaints', complaintsHandler);
 app.get('/', async (_req, res, next) => {
   try {
     let html = await fs.readFile(path.join(root, 'index.html'), 'utf8');
+    html = html.replaceAll('OWENR', 'OWNER');
 
     // The old homepage injected a second maintenance screen from an external
     // Supabase function. It raced the server-side maintenance controller and
     // caused the page to flash, disappear, or remain stuck on mobile.
     html = html.replace('<script>document.documentElement.classList.add(\'nexus-check\');</script>', '');
+
+    const legacyStyleStart = html.indexOf('<style id="nexus-maintenance-style">');
+    if (legacyStyleStart >= 0) {
+      const legacyStyleEnd = html.indexOf('</style>', legacyStyleStart);
+      if (legacyStyleEnd >= 0) {
+        html = html.slice(0, legacyStyleStart) + html.slice(legacyStyleEnd + '</style>'.length);
+      }
+    }
 
     const legacyPanelStart = html.indexOf('<div id="nexus-maintenance"');
     const homepageStart = legacyPanelStart >= 0 ? html.indexOf('<div class="shell">', legacyPanelStart) : -1;
