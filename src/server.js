@@ -103,6 +103,7 @@ app.get('/studio.js', (_req, res) => res.sendFile(path.join(root, 'studio.js'), 
   headers: { 'Cache-Control': 'public, max-age=3600' }
 }));
 app.get('/favicon.svg', (_req, res) => res.sendFile(path.join(root, 'favicon.svg')));
+app.get('/logo.svg', (_req, res) => res.sendFile(path.join(root, 'logo.svg'), { headers: { 'Cache-Control': 'public, max-age=86400' } }));
 app.get('/icon.png', (_req, res) => res.sendFile(path.join(root, 'icon.png')));
 
 // Keep the creative studio and owner workspace on the same Express runtime.
