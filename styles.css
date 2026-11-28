@@ -640,3 +640,55 @@ textarea:focus,input:focus,select:focus{border-color:#c0c5cc!important;box-shado
 @keyframes wineDataSweep{to{transform:translateX(120%)}}
 @media(max-width:560px){.wine-data-skeleton{padding:13px;gap:11px}.wine-data-skeleton .skel-media{aspect-ratio:16/9}}
 @media(prefers-reduced-motion:reduce){.wine-data-skeleton .skel-shape:after{animation:none!important;transform:none;background:transparent}}
+
+/* WINE AI — final black/silver workspace, mobile-first correction */
+.wine-workspace{--bg:#090a0d!important;--panel:#111318!important;--panel2:#171a20!important;--line:#30343b!important;--text:#f4f5f7!important;--muted:#969da7!important;--silver:#c0c5cc!important;--accent:#c0c5cc!important;background:#090a0d!important;color:#f4f5f7!important}
+.wine-workspace .sidebar{background:#0d0f13!important;border-color:#30343b!important}
+.wine-workspace .brand-mark.brand-logo,.wine-workspace .footer-mark.brand-logo{background:#090a0d!important;border:1px solid #747d89!important;box-shadow:0 8px 24px #0008!important}
+.wine-workspace .brand-mark.brand-logo img,.wine-workspace .footer-mark.brand-logo img{width:100%;height:100%;object-fit:contain;display:block}
+.wine-workspace .welcome{background:transparent!important}
+.wine-workspace .welcome-emblem{width:132px!important;height:132px!important;margin:18px auto 22px!important;display:grid!important;place-items:center!important;background:transparent!important;border:1px solid #747d8955!important;border-radius:50%!important;box-shadow:0 0 0 12px #c0c5cc08,0 16px 45px #0007!important}
+.wine-workspace .emblem-ring{border-color:#747d894d!important}
+.wine-workspace .emblem-core{width:88px!important;height:88px!important;border-radius:23px!important;background:#090a0d!important;border:1px solid #747d89!important;box-shadow:0 10px 30px #0009!important;padding:0!important;overflow:hidden!important}
+.wine-workspace .emblem-core img{display:block!important;width:100%!important;height:100%!important;object-fit:contain!important;border-radius:inherit!important}
+.wine-workspace .emblem-core i{display:none!important}
+.wine-workspace .welcome h1 em{color:#c0c5cc!important;background:none!important;-webkit-text-fill-color:#c0c5cc!important}
+.wine-workspace .quick-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}
+.wine-workspace .quick-card{min-width:0!important;min-height:92px!important;display:grid!important;grid-template-columns:42px minmax(0,1fr) 16px!important;align-items:center!important;gap:10px!important;padding:14px!important;background:linear-gradient(145deg,#171b21,#111419)!important;border:1px solid #343a43!important;border-radius:17px!important;color:#f4f5f7!important;text-align:right!important;opacity:1!important;visibility:visible!important}
+.wine-workspace .quick-copy{display:block!important;min-width:0!important;opacity:1!important;visibility:visible!important;text-align:right!important}
+.wine-workspace .quick-copy b{display:block!important;color:#f4f5f7!important;font-size:13px!important;line-height:1.5!important;white-space:normal!important}
+.wine-workspace .quick-copy small{display:block!important;color:#a4abb5!important;font-size:10px!important;line-height:1.7!important;white-space:normal!important}
+.wine-workspace .quick-icon{width:40px!important;height:40px!important;display:grid!important;place-items:center!important;background:#20252d!important;border:1px solid #59616c!important;border-radius:13px!important;color:#e8eaed!important}
+.wine-workspace .quick-arrow{color:#c0c5cc!important}
+.wine-workspace .prompt-section-heading{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;flex-wrap:wrap!important}
+.wine-workspace .prompt-section-heading b{color:#f4f5f7!important}
+.wine-workspace .prompt-section-heading span{color:#a4abb5!important}
+.wine-workspace .composer{background:#12161c!important;border:1px solid #454c57!important;border-radius:20px!important}
+.wine-workspace .composer-dock{background:linear-gradient(180deg,#090a0de0,#090a0d 28%)!important}
+.wine-workspace .send-btn,.wine-workspace .image-btn,.wine-workspace .new-chat{background:linear-gradient(145deg,#e5e7ea,#aeb4bd 62%,#7b838e)!important;color:#111318!important;border:1px solid #d4d8de!important}
+.wine-workspace .send-btn span,.wine-workspace .image-btn span,.wine-workspace .new-chat span{color:#111318!important}
+.wine-workspace .welcome-description,.wine-workspace .disclaimer{color:#a4abb5!important}
+@media(max-width:760px){
+ .app-shell.wine-workspace{display:block!important;min-height:100dvh!important}
+ .wine-workspace .sidebar{position:fixed!important;inset:0 auto 0 0!important;width:min(300px,86vw)!important;z-index:40!important;transform:translateX(-110%);transition:transform .25s ease!important}
+ .wine-workspace .sidebar.open{transform:translateX(0)!important}
+ .wine-workspace .main{min-width:0!important;width:100%!important}
+ .wine-workspace .topbar{height:64px!important;padding:0 14px!important}
+ .wine-workspace .welcome{padding:26px 16px 16px!important}
+ .wine-workspace .welcome h1{font-size:clamp(25px,7vw,34px)!important;line-height:1.35!important}
+ .wine-workspace .welcome-description{font-size:13px!important;line-height:1.9!important}
+ .wine-workspace .welcome-emblem{width:116px!important;height:116px!important}
+ .wine-workspace .emblem-core{width:78px!important;height:78px!important}
+ .wine-workspace .quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}
+ .wine-workspace .quick-card{min-height:100px!important;grid-template-columns:34px minmax(0,1fr)!important;gap:8px!important;padding:11px!important}
+ .wine-workspace .quick-icon{width:34px!important;height:34px!important;border-radius:11px!important;font-size:13px!important}
+ .wine-workspace .quick-arrow{display:none!important}
+ .wine-workspace .quick-copy b{font-size:11px!important}
+ .wine-workspace .quick-copy small{font-size:9px!important}
+ .wine-workspace .composer-dock{padding:9px 12px calc(12px + env(safe-area-inset-bottom))!important}
+ .wine-workspace .composer-wrap{width:100%!important}
+ .wine-workspace .composer{padding:10px 12px!important}
+ .wine-workspace .disclaimer{font-size:10px!important;text-align:center!important}
+}
+@media(max-width:390px){.wine-workspace .quick-card{grid-template-columns:1fr!important;justify-items:start!important}.wine-workspace .quick-copy{text-align:right!important}}
+@media(prefers-reduced-motion:reduce){.wine-workspace *,.wine-workspace *:before,.wine-workspace *:after{transition:none!important;animation:none!important}}
