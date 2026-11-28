@@ -15,7 +15,7 @@ export const APP_HTML = `<!doctype html>
 <div class="sidebar-scrim" id="sidebarScrim"></div>
 <aside class="sidebar" id="sidebar">
 <button class="sidebar-close" id="sidebarClose" aria-label="إغلاق القائمة">×</button>
-<a class="brand" href="#home"><span class="brand-mark">W</span><span><b>WINE <i>AI</i></b><small>INTELLIGENCE WORKSPACE</small></span></a>
+<a class="brand" href="#home"><span class="brand-mark brand-logo"><img src="/logo.svg" alt="WINE AI"></span><span><b>WINE <i>AI</i></b><small>INTELLIGENCE WORKSPACE</small></span></a>
 <div class="side-section-label">مساحة WINE</div>
 <button class="new-chat" id="newChat"><span>＋</span> محادثة جديدة</button>
 <a class="studio-nav" href="/studio"><span>✧</span> WINE STUDIO</a>
@@ -35,7 +35,7 @@ export const APP_HTML = `<!doctype html>
 
 <div class="welcome" id="welcome">
 <div class="welcome-kicker"><span class="kicker-line"></span> مساحتك الذكية، بإمكانيات أوسع <span class="kicker-dot"></span></div>
-<div class="welcome-emblem"><div class="emblem-ring ring-one"></div><div class="emblem-ring ring-two"></div><div class="emblem-core"><span>W</span><i></i></div></div>
+<div class="welcome-emblem"><div class="emblem-ring ring-one"></div><div class="emblem-ring ring-two"></div><div class="emblem-core"><img src="/logo.svg" alt="WINE AI"><i></i></div></div>
 <h1>حوّل أفكارك إلى <em>إنجازات</em></h1>
 <p class="welcome-description">من أول فكرة لحدّ النتيجة — اكتب، برمج، حلّل واطوّر مشاريعك مع مساعد ذكي يفهم احتياجك.</p>
 <div class="prompt-section"><div class="prompt-section-heading"><b>إيه اللي حابب تنجزه؟</b><span>اختار نقطة بداية أو اكتب طلبك مباشرة</span></div>
@@ -45,7 +45,7 @@ export const APP_HTML = `<!doctype html>
 <button class="quick-card" data-prompt="ساعدني في كتابة محتوى احترافي ومنظم، واسألني عن التفاصيل الناقصة عند الحاجة."><span class="quick-icon">✎</span><span class="quick-copy"><b>اكتب باحتراف</b><small>أفكار وصياغة ومراجعة</small></span><span class="quick-arrow">↗</span></button>
 <button class="quick-card" data-prompt="حلّل المشكلة التي سأشرحها، وحدد السبب الجذري ثم أعطني خطوات عملية للحل."><span class="quick-icon">⌕</span><span class="quick-copy"><b>حلّل وتوصّل للحل</b><small>حلول عملية بخطوات واضحة</small></span><span class="quick-arrow">↗</span></button>
 </div></div>
-<div class="welcome-footer"><span class="footer-mark">W</span><span>خصوصيتك أولويتنا</span><i></i><span>ذكاء يساعدك على الإنجاز</span></div>
+<div class="welcome-footer"><span class="footer-mark brand-logo"><img src="/logo.svg" alt="WINE AI"></span><span>خصوصيتك أولويتنا</span><i></i><span>ذكاء يساعدك على الإنجاز</span></div>
 </div>
 <div class="messages" id="messages" aria-live="polite"></div>
 </section>
