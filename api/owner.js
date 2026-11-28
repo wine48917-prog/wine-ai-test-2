@@ -8,7 +8,7 @@ export const APP_HTML = `<!doctype html>
 <title>WINE AI — Intelligence Workspace</title><link rel="icon" type="image/png" href="/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/styles.css?v=20261128-silver2">
 </head>
 <body>
 <div class="app-shell wine-workspace">
@@ -51,7 +51,7 @@ export const APP_HTML = `<!doctype html>
 </section>
 <div class="composer-dock"><div class="composer-wrap"><div class="composer"><div class="composer-topline"><span class="composer-mode"><i></i> رسالة جديدة</span><span class="composer-shortcut">ENTER للإرسال</span></div><textarea id="prompt" rows="1" placeholder="اكتب سؤالك أو صف المهمة اللي عايز تنفذها..." maxlength="12000"></textarea><div class="composer-bottom"><span class="composer-hint">Shift + Enter لسطر جديد</span><div class="composer-actions"><button id="generateImage" class="image-btn" type="button" aria-label="إنشاء صورة"><span>✧</span> صورة</button><button id="send" class="send-btn" aria-label="إرسال الرسالة"><span>↑</span></button></div></div></div><div class="disclaimer"><span>◇</span> قد تحتاج بعض الإجابات إلى مراجعة قبل الاعتماد عليها.</div></div></div>
 </main></div>
-<div class="modal-backdrop" id="nameModal"><section class="modal name-modal"><div class="modal-logo">W</div><div class="eyebrow">WELCOME TO WINE AI</div><h2>أهلاً بك في WINE AI</h2><p class="modal-sub">عرّفنا باسمك وابدأ استخدام WINE AI مباشرة.</p><form id="nameForm"><label>الاسم<input id="guestName" type="text" placeholder="اسمك" minlength="2" maxlength="30" autocomplete="nickname" required></label><button class="primary-btn" type="submit">ابدأ الآن <span>←</span></button><div class="form-error" id="nameError"></div></form><div class="modal-note">تقدر تعدّل اسمك لاحقاً من إعدادات الحساب.</div></section></div>
+<div class="modal-backdrop" id="nameModal"><section class="modal name-modal"><div class="modal-logo brand-logo"><img src="/logo.svg" alt="WINE AI"></div><div class="eyebrow">WELCOME TO WINE AI</div><h2>أهلاً بك في WINE AI</h2><p class="modal-sub">عرّفنا باسمك وابدأ استخدام WINE AI مباشرة.</p><form id="nameForm"><label>الاسم<input id="guestName" type="text" placeholder="اسمك" minlength="2" maxlength="30" autocomplete="nickname" required></label><button class="primary-btn" type="submit">ابدأ الآن <span>←</span></button><div class="form-error" id="nameError"></div></form><div class="modal-note">تقدر تعدّل اسمك لاحقاً من إعدادات الحساب.</div></section></div>
 <div class="toast" id="toast"></div><script src="/app.js" defer></script>
 </body></html>`;
 
