@@ -567,215 +567,46 @@ html,body{background:var(--bg);color:var(--text)}
  .sidebar{box-shadow:-20px 0 60px #0009}
 }
 
-/* WINE unified visual identity · deep emerald / jade / warm silver */
-:root{color-scheme:dark}
-html,body{background:#081310!important;color:#edf5f1}
-.app-shell{background:radial-gradient(ellipse at 65% -20%,#1b8b6a26,transparent 38%),#081310!important}
-.sidebar{background:#0b1712!important;border-color:#29483e!important}
-.brand-mark{border-color:#7dcbb3!important;background:linear-gradient(145deg,#eff8f2,#91bda9 52%,#29483c)!important;color:#102019!important}
-.brand b i,.side-label,.side-section-label{color:#8bd7bd!important}
-.new-chat,.studio-nav,.send-button,.primary-button{background:linear-gradient(120deg,#1a745d,#35a987)!important;border-color:#69c7a8!important;color:#f4fff9!important}
-input,textarea{background:#091712!important;border-color:#31584a!important;color:#edf5f1!important}
-
-
-/* WINE AI · warm white / graphite / emerald identity */
-:root{color-scheme:light;--bg:#F9F8F5;--panel:#fff;--panel2:#f0f1ed;--line:#dfe4df;--text:#121313;--muted:#626b66;--silver:#e7ebe6;--wine:#16866e;--wine2:#28a486;--rose:#16866e;--pink:#16866e;--accent:#16866e}
-html{background:#F9F8F5!important;color-scheme:light}
-body{background:#F9F8F5!important;color:#121313!important}
-body:before{opacity:.18}
-header,footer,.top,.sidebar{border-color:#dfe4df!important}
-.brand-name,.brand strong,.brand-caption,.nav a,.hero h1,.hero h2,h1,h2,h3,h4,.section-title h2,.card h3,.panel-head h2,.entry-title{color:#121313}
-.brand-name i,.brand strong i,.eyebrow,.section-title small,.hero h1 span,.hero h2 span,.hero-accent,.section-tag{color:#16866e!important}
-.brand-caption,.brand small,.muted,.hero-copy>p,.hero p,.card p,.desc,.section-title p,.footer-copy,.footer-copy,.hint,.note,.intro{color:#626b66!important}
-.brand-mark,.mark,.core,.modal-logo{background:linear-gradient(145deg,#fff,#dce5df 55%,#16866e)!important;color:#121313!important;border-color:#16866e!important;box-shadow:0 8px 24px #16866e20!important}
-.eyebrow,.hero .hint{background:#e9f4ef!important;border-color:#b9d9ca!important;color:#14745e!important}
-.eyebrow:before,.composer-mode i,.dot{background:#16866e!important;box-shadow:0 0 0 4px #16866e1c!important}
-button,.btn,.cta,.primary,.submit,.primary-btn,.send-btn,.action.primary,.image-btn{background:linear-gradient(120deg,#16866e,#28a486)!important;color:#fff!important;border:1px solid #16866e!important}
-button:hover,.btn:hover,.action:hover{filter:brightness(1.05)}
-.action.secondary,.btn.secondary,.secondary,.header-actions a,.header-actions button,.quick-nav a{background:#fff!important;color:#121313!important;border:1px solid #d5ddd7!important}
-.card,.feature-card,.panel,.block,.entry-link,.metric,.complaint-card,.gallery-card,.list-item,.owner-locked-link,.tool-card,.category,.sidebar,.login,.modal,.composer,.welcome-card{background:#fff!important;color:#121313!important;border:1px solid #dfe4df!important;box-shadow:0 8px 28px #14251a0a!important}
-.card:nth-child(3n),.metric:nth-child(3n){background:#121313!important;color:#fff!important;border-color:#121313!important}
-.card:nth-child(3n) h3,.card:nth-child(3n) p,.metric:nth-child(3n) strong,.metric:nth-child(3n) small{color:#fff!important}
-input,textarea,select,.field input,.field textarea,.output,.tool-output{background:#fff!important;color:#121313!important;border:1px solid #cfd8d1!important}
-input::placeholder,textarea::placeholder{color:#89928c!important}
-input:focus,textarea:focus,select:focus{border-color:#16866e!important;box-shadow:0 0 0 3px #16866e20!important}
-.nav a,.nav button{color:#343b37!important}.nav a:hover,.nav a.active,.nav button:hover,.nav button.active{background:#e9f4ef!important;border-color:#b9d9ca!important;color:#126b56!important}
-.entry-link:hover,.card:hover,.tool-card:hover,.category.active{border-color:#16866e!important}
-.halo{border-color:#16866e66!important;box-shadow:0 0 0 18px #16866e0c,0 0 0 38px #16866e08,0 0 60px #16866e22!important}
-.halo:before,.halo:after{border-color:#16866e55!important}
-.float-tag{background:#fff!important;color:#121313!important;border-color:#dfe4df!important}
-#siteNotice{background:#edf6f0!important;color:#121313!important;border-color:#b9d9ca!important}
-.sidebar .nav button.active{background:#e9f4ef!important;color:#126b56!important}
-.pill{background:#e9f4ef!important;color:#126b56!important;border-color:#b9d9ca!important}
-::selection{background:#16866e;color:#fff}
-
-
-/* WINE AI — Navy Blue & Beige identity */
-:root{
- color-scheme:dark;
- --bg:#202943;--panel:#293550;--panel2:#34415d;--line:#48536b;
- --text:#eee2cf;--muted:#c7bcae;--silver:#e8dcc9;
- --wine:#d9c6a8;--wine2:#eee2cf;--rose:#d9c6a8;--pink:#d9c6a8;--accent:#d9c6a8;
-}
-html{background:#202943!important;color-scheme:dark}
-body{background:#202943!important;color:#eee2cf!important}
-body:before{opacity:.12}
-header,footer,.top,.sidebar{border-color:#48536b!important}
-.brand-name,.brand strong,.brand-caption,.nav a,.hero h1,.hero h2,h1,h2,h3,h4,
-.section-title h2,.card h3,.panel-head h2,.entry-title{color:#eee2cf}
-.brand-name i,.brand strong i,.eyebrow,.section-title small,.hero h1 span,.hero h2 span,
-.hero-accent,.section-tag{color:#d9c6a8!important}
-.brand-caption,.brand small,.muted,.hero-copy>p,.hero p,.card p,.desc,.section-title p,
-.footer-copy,.hint,.note,.intro{color:#c7bcae!important}
-.brand-mark,.mark,.core,.modal-logo{
- background:linear-gradient(145deg,#f2e8d9,#d9c6a8 55%,#8d806e)!important;
- color:#202943!important;border-color:#d9c6a8!important;box-shadow:0 8px 24px #080d1a55!important
-}
-.eyebrow,.hero .hint{background:#34415d!important;border-color:#8d806e!important;color:#eee2cf!important}
-.eyebrow:before,.composer-mode i,.dot{background:#d9c6a8!important;box-shadow:0 0 0 4px #d9c6a822!important}
-button,.btn,.cta,.primary,.submit,.primary-btn,.send-btn,.action.primary,.image-btn,.generate{
- background:linear-gradient(120deg,#d9c6a8,#bca98d)!important;color:#202943!important;border:1px solid #e8dcc9!important
-}
-button:hover,.btn:hover,.action:hover{filter:brightness(1.07)}
-.action.secondary,.btn.secondary,.secondary,.header-actions a,.header-actions button,.quick-nav a{
- background:#293550!important;color:#eee2cf!important;border:1px solid #59647a!important
-}
-.card,.feature-card,.panel,.block,.entry-link,.metric,.complaint-card,.gallery-card,.list-item,
-.owner-locked-link,.tool-card,.category,.sidebar,.login,.modal,.composer,.welcome-card{
- background:#293550!important;color:#eee2cf!important;border:1px solid #48536b!important;
- box-shadow:0 8px 28px #080d1a30!important
-}
-.card:nth-child(3n),.metric:nth-child(3n){background:#121a2b!important;color:#eee2cf!important;border-color:#48536b!important}
-.card:nth-child(3n) h3,.card:nth-child(3n) p,.metric:nth-child(3n) strong,.metric:nth-child(3n) small{color:#eee2cf!important}
-input,textarea,select,.field input,.field textarea,.output,.tool-output{
- background:#202943!important;color:#eee2cf!important;border:1px solid #59647a!important
-}
-input::placeholder,textarea::placeholder{color:#a9a99f!important}
-input:focus,textarea:focus,select:focus{border-color:#d9c6a8!important;box-shadow:0 0 0 3px #d9c6a822!important}
-.nav a,.nav button{color:#eee2cf!important}
-.nav a:hover,.nav a.active,.nav button:hover,.nav button.active{background:#3a4560!important;border-color:#d9c6a8!important;color:#fff1dc!important}
-.entry-link:hover,.card:hover,.tool-card:hover,.category.active{border-color:#d9c6a8!important}
-.halo{border-color:#d9c6a866!important;box-shadow:0 0 0 18px #d9c6a80c,0 0 0 38px #d9c6a808,0 0 60px #d9c6a822!important}
-.halo:before,.halo:after{border-color:#d9c6a855!important}
-.float-tag{background:#293550!important;color:#eee2cf!important;border-color:#48536b!important}
-#siteNotice{background:#34415d!important;color:#eee2cf!important;border-color:#d9c6a8!important}
-.sidebar .nav button.active,.pill{background:#3a4560!important;color:#fff1dc!important;border-color:#d9c6a8!important}
-::selection{background:#d9c6a8;color:#202943}
-
-
-/* WINE AI — strict two-color palette: Navy Blue + Beige */
-:root{color-scheme:dark;--bg:#202943;--panel:#202943;--panel2:#202943;--line:#e9dccb;--text:#e9dccb;--muted:#e9dccb;--accent:#e9dccb;--wine:#e9dccb;--rose:#e9dccb;--pink:#e9dccb}
-html,body{background:#202943!important;color:#e9dccb!important}
-body:before{display:none!important}
-header,footer,nav,section,main,aside,.top,.sidebar,.workspace,.studio-shell{background-color:#202943!important;color:#e9dccb!important;border-color:#e9dccb!important}
-h1,h2,h3,h4,h5,h6,p,small,label,span,strong,em,li,a,.muted,.desc,.hint,.eyebrow,.section-tag,.brand-caption,.brand-name{color:#e9dccb!important}
-.card,.feature-card,.panel,.block,.entry-link,.metric,.complaint-card,.gallery-card,.list-item,.tool-card,.category,.login,.modal,.composer,.welcome-card,.float-tag,.output,.result,.preview,.editor,.workspace-card{background:#202943!important;color:#e9dccb!important;border:1px solid #e9dccb!important;box-shadow:none!important}
-button,.btn,.cta,.primary,.submit,.primary-btn,.send-btn,.generate,.action,.pill,.brand-mark,.mark,.core{background:#e9dccb!important;color:#202943!important;border:1px solid #e9dccb!important;box-shadow:none!important}
-button *, .btn *, .cta *, .primary *, .submit *, .primary-btn *, .send-btn *{color:#202943!important}
-input,textarea,select,.field input,.field textarea{background:#202943!important;color:#e9dccb!important;border:1px solid #e9dccb!important;box-shadow:none!important}
-input::placeholder,textarea::placeholder{color:#e9dccb!important;opacity:.7}
-a:hover,button:hover,.btn:hover,.nav a.active,.nav button.active{background:#e9dccb!important;color:#202943!important;border-color:#e9dccb!important}
-a:hover *,button:hover *,.btn:hover *,.nav a.active *,.nav button.active *{color:#202943!important}
-::selection{background:#e9dccb!important;color:#202943!important}
-
-/* WINE AI modern loading skeleton */
-#wine-skeleton{position:fixed;inset:0;z-index:99999;background:#202943;color:#e9dccb;display:flex;align-items:center;justify-content:center;padding:24px;opacity:1;visibility:visible;transition:opacity .42s ease,visibility .42s ease}
-#wine-skeleton.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
-.wine-skeleton-inner{width:min(760px,100%);display:grid;gap:22px}
-.wine-skeleton-brand{display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:12px}
-.wine-skeleton-logo{width:42px;height:42px;border:1px solid #e9dccb;border-radius:13px;display:grid;place-items:center;font:900 22px Manrope,Arial,sans-serif;color:#202943;background:#e9dccb}
-.wine-skeleton-word{font:900 17px Manrope,Arial,sans-serif;letter-spacing:2px;color:#e9dccb}
-.wine-skeleton-word small{display:block;font:700 8px Manrope,Arial,sans-serif;letter-spacing:2px;margin-top:4px;opacity:.8}
-.wine-skeleton-hero{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center;padding:24px;border:1px solid #e9dccb55;border-radius:22px;background:#202943}
-.wine-skeleton-copy{display:grid;gap:13px}
-.wine-skeleton-line,.wine-skeleton-block,.wine-skeleton-circle{position:relative;overflow:hidden;background:#e9dccb18;border:1px solid #e9dccb22;border-radius:9px}
-.wine-skeleton-line{height:13px;width:100%}.wine-skeleton-line.wide{height:22px;width:82%}.wine-skeleton-line.mid{width:68%}.wine-skeleton-line.short{width:42%}
-.wine-skeleton-block{height:42px;width:145px;border-radius:11px}
-.wine-skeleton-circle{width:142px;height:142px;border-radius:50%;justify-self:center;border:1px solid #e9dccb55;background:radial-gradient(circle,#e9dccb22,#e9dccb08 65%,transparent)}
-.wine-skeleton-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.wine-skeleton-card{height:105px;border:1px solid #e9dccb33;border-radius:15px;padding:16px;display:grid;gap:12px;background:#202943}
-.wine-skeleton-card .wine-skeleton-line:first-child{width:38%;height:25px}
-#wine-skeleton .shine:after{content:"";position:absolute;inset:0;transform:translateX(-110%);background:linear-gradient(100deg,transparent,#e9dccb22,transparent);animation:wineShimmer 1.45s ease-in-out infinite}
-@keyframes wineShimmer{to{transform:translateX(110%)}}
-.wine-skeleton-status{display:flex;align-items:center;justify-content:center;gap:9px;font:700 10px Manrope,Arial,sans-serif;letter-spacing:1.3px;color:#e9dccb;opacity:.9}
-.wine-skeleton-status:before{content:"";width:7px;height:7px;border-radius:50%;background:#e9dccb;box-shadow:0 0 0 5px #e9dccb1a;animation:winePulse 1.2s ease-in-out infinite}
-@keyframes winePulse{50%{opacity:.35;transform:scale(.8)}}
-@media(max-width:560px){.wine-skeleton-hero{grid-template-columns:1fr;padding:18px}.wine-skeleton-circle{width:92px;height:92px;grid-row:1}.wine-skeleton-grid{grid-template-columns:repeat(2,1fr)}.wine-skeleton-card{height:88px}.wine-skeleton-card:last-child{display:none}}
-@media(prefers-reduced-motion:reduce){#wine-skeleton .shine:after,#wine-skeleton .wine-skeleton-status:before{animation:none!important}#wine-skeleton{transition:none}}
-
-
-/* WINE AI · external-data skeletons (content-shaped, quiet shimmer) */
-.wine-data-skeleton{display:grid;gap:14px;width:100%;padding:18px;border:1px solid #e9dccb55;border-radius:16px;background:#202943;color:#e9dccb}
-.wine-data-skeleton[aria-busy="true"]{min-height:150px}
-.wine-data-skeleton .skel-row{display:flex;align-items:center;gap:12px}
-.wine-data-skeleton .skel-shape{display:block;position:relative;overflow:hidden;background:#e9dccb18;border:1px solid #e9dccb25;border-radius:8px}
-.wine-data-skeleton .skel-shape:after{content:"";position:absolute;inset:0;transform:translateX(-120%);background:linear-gradient(100deg,transparent,#e9dccb28,transparent);animation:wineDataSweep 1.6s ease-in-out infinite}
-.wine-data-skeleton .skel-avatar{width:42px;height:42px;flex:0 0 42px;border-radius:50%}
-.wine-data-skeleton .skel-line{height:11px;width:100%}
-.wine-data-skeleton .skel-title{height:17px;width:54%}
-.wine-data-skeleton .skel-medium{width:76%}
-.wine-data-skeleton .skel-short{width:43%}
-.wine-data-skeleton .skel-media{width:100%;aspect-ratio:16/7;border-radius:12px}
-.wine-data-skeleton .skel-card{display:grid;gap:11px;padding:14px;border:1px solid #e9dccb28;border-radius:12px}
-.wine-data-skeleton .skel-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.wine-data-skeleton .skel-caption{font-size:10px;line-height:1.7;color:#e9dccb;opacity:.8}
-@keyframes wineDataSweep{to{transform:translateX(120%)}}
-@media(max-width:560px){.wine-data-skeleton{padding:13px;gap:11px}.wine-data-skeleton .skel-media{aspect-ratio:16/9}}
-@media(prefers-reduced-motion:reduce){.wine-data-skeleton .skel-shape:after{animation:none!important;transform:none;background:transparent}}
-
-
-
-/* WINE AI · Graphite / Silver / Ice Blue */
-:root{
- color-scheme:dark;
- --bg:#0b0f14;--panel:#121922;--panel2:#182230;--line:#2c3948;
- --text:#f1f4f8;--muted:#9ca9b8;--silver:#dce4ee;
- --accent:#a9c7ff;--accent-strong:#7faaff;
-}
-html,body{background:#0b0f14!important;color:#f1f4f8!important;color-scheme:dark}
-body{background-image:radial-gradient(ellipse at 50% -15%,#7299d51c,transparent 48%),linear-gradient(145deg,#0b0f14,#101722 58%,#0b0f14)!important}
-.app-shell,.main,.workspace,.sidebar,.topbar,.composer-dock,.composer-wrap,.composer,.welcome,.messages,.history,.user-box,.sidebar-bottom,.modal,.modal-backdrop,.quick-grid,.quick-card,.prompt-section,.welcome-footer{
- background-color:#0f151e!important;color:#f1f4f8!important;border-color:#2c3948!important;box-shadow:none
-}
-.sidebar{background:#0c121a!important}
-.topbar{background:#101720!important}
-h1,h2,h3,h4,p,span,b,strong,small,label,a,i,em,.top-context,.brand,.brand b,.brand small,.history-empty,.side-label,.side-section-label,.user-meta,.composer-hint,.composer-shortcut,.disclaimer,.welcome-description,.prompt-section-heading,.prompt-section-heading span{
- color:#e7edf5
-}
-.brand i,.top-brand span,.welcome h1 em,.eyebrow,.welcome-kicker,.side-label,.model-chip,.composer-mode,.quick-arrow{color:#a9c7ff!important}
-.brand-mark,.avatar,.welcome-emblem,.emblem-core,.footer-mark,.quick-icon,.model-chip,.studio-nav,.top-new-chat,.account-btn,.new-chat,.send-btn,.image-btn,.primary-btn,.quick-card:hover,.quick-card:focus-visible{
- background:linear-gradient(145deg,#e7eef8,#a9c7ff)!important;color:#101722!important;border:1px solid #a9c7ff!important;box-shadow:0 8px 24px #7299d51c
-}
-button,.studio-nav,.new-chat,.top-new-chat,.send-btn,.image-btn,.primary-btn{
- background:linear-gradient(120deg,#dce8fa,#9dbcf2)!important;color:#101722!important;border:1px solid #a9c7ff!important
-}
-button *, .send-btn span,.image-btn span{color:#101722!important}
-button:hover,.studio-nav:hover,.quick-card:hover{filter:brightness(1.08);border-color:#c4d9ff!important}
-.quick-card,.composer,.prompt-section,.welcome-emblem,.emblem-ring,.emblem-core,.sidebar-status,.user-box,.model-chip,.studio-nav,.history,.history-empty,.modal,.name-modal{
- border-color:#344356!important
-}
-textarea,input,select,#prompt,#guestName{
- background:#111a25!important;color:#f1f4f8!important;border:1px solid #344356!important;box-shadow:none
-}
-textarea::placeholder,input::placeholder{color:#8493a5!important;opacity:1}
-textarea:focus,input:focus,select:focus{border-color:#a9c7ff!important;box-shadow:0 0 0 3px #a9c7ff20!important}
-.composer{background:#121a25!important;border-color:#3b4b60!important}
-.composer:focus-within{border-color:#a9c7ff!important;box-shadow:0 0 0 3px #a9c7ff1c,0 15px 45px #0006!important}
-.message-avatar{background:#182333!important;border-color:#526b8c!important;color:#dce8fa!important}
-.message.assistant .message-avatar{border-color:#8caedc!important;color:#c4d9ff!important;background:#172538!important}
-.user .bubble{background:#1b2a3d!important;border-color:#4c6688!important;color:#f1f4f8!important}
-.assistant .bubble{background:#131c27!important;border-color:#2d3b4d!important;color:#e7edf5!important}
-.bubble pre{background:#0b1119!important;border-color:#344356!important}
-.bubble code{color:#c4d9ff!important}
-.modal{background:linear-gradient(145deg,#172231,#101720)!important;border-color:#344356!important}
-.modal-logo{background:linear-gradient(145deg,#e7eef8,#a9c7ff)!important;color:#101722!important}
-.auth-tabs{background:#0c121a!important}
-.auth-tabs button.active{background:#24364d!important;color:#f1f4f8!important}
-.modal input{background:#0e151e!important;border-color:#344356!important}
-.modal input:focus{border-color:#a9c7ff!important}
-.composer-mode i,.sidebar-status>span,.model-chip i,.kicker-dot,.kicker-line,.welcome-emblem i{background:#a9c7ff!important;box-shadow:0 0 0 4px #a9c7ff1c!important}
-.emblem-ring,.welcome-emblem:before,.welcome-emblem:after{border-color:#a9c7ff66!important}
-.wine-data-skeleton{background:#121a25!important;color:#e7edf5!important;border-color:#344356!important}
-.wine-data-skeleton .skel-shape{background:#a9c7ff12!important;border-color:#a9c7ff20!important}
-::selection{background:#a9c7ff!important;color:#101722!important}
-
+/* WINE AI — restored Graphite Black & Silver identity */
+:root{color-scheme:dark;--bg:#090a0d;--panel:#111318;--panel2:#171a20;--line:#30343b;--text:#f4f5f7;--muted:#969da7;--silver:#c0c5cc;--steel:#747d89;--accent:#c0c5cc;--accent-strong:#eef0f3}
+html,body{background:#090a0d!important;color:#f4f5f7!important;color-scheme:dark}
+body{background-image:radial-gradient(ellipse at 50% -18%,#c0c5cc12,transparent 48%),linear-gradient(145deg,#090a0d,#11151b 58%,#090a0d)!important}
+.app-shell,.main,.workspace,.sidebar,.topbar,.composer-dock,.composer-wrap,.composer,.welcome,.messages,.history,.user-box,.sidebar-bottom,.modal,.modal-backdrop,.quick-grid,.quick-card,.prompt-section,.welcome-footer{background-color:#111318!important;color:#f4f5f7!important;border-color:#30343b!important}
+.sidebar{background:#0c0e12!important}.topbar{background:#101216!important}
+h1,h2,h3,h4,p,span,b,strong,small,label,a,i,em,.top-context,.brand,.brand b,.brand small,.history-empty,.side-label,.side-section-label,.user-meta,.composer-hint,.composer-shortcut,.disclaimer,.welcome-description,.prompt-section-heading,.prompt-section-heading span{color:#e8eaed}
+.brand i,.top-brand span,.welcome h1 em,.eyebrow,.welcome-kicker,.side-label,.model-chip,.composer-mode,.quick-arrow{color:#c0c5cc!important}
+.brand-mark,.avatar,.welcome-emblem,.emblem-core,.footer-mark,.quick-icon,.model-chip,.studio-nav,.top-new-chat,.account-btn,.new-chat,.send-btn,.image-btn,.primary-btn{border:1px solid #747d89!important;box-shadow:0 8px 24px #0008}
+button,.studio-nav,.new-chat,.top-new-chat,.send-btn,.image-btn,.primary-btn,.btn.primary,.action.primary{background:linear-gradient(145deg,#e5e7ea,#aeb4bd 62%,#7b838e)!important;color:#111318!important;border:1px solid #d4d8de!important}
+button *, .send-btn span,.image-btn span{color:#111318!important}
+button:hover,.studio-nav:hover,.quick-card:hover,.btn:hover{filter:brightness(1.08);border-color:#f0f1f3!important}
+.quick-card,.composer,.prompt-section,.welcome-emblem,.emblem-ring,.emblem-core,.sidebar-status,.user-box,.model-chip,.studio-nav,.history,.history-empty,.modal,.name-modal{border-color:#343a43!important}
+textarea,input,select,#prompt,#guestName{background:#0d1015!important;color:#f4f5f7!important;border:1px solid #343a43!important;box-shadow:none}
+textarea::placeholder,input::placeholder{color:#858d98!important;opacity:1}
+textarea:focus,input:focus,select:focus{border-color:#c0c5cc!important;box-shadow:0 0 0 3px #c0c5cc20!important}
+.composer{background:#12161c!important;border-color:#454c57!important}
+.composer:focus-within{border-color:#c0c5cc!important;box-shadow:0 0 0 3px #c0c5cc1c,0 15px 45px #0008!important}
+.message-avatar{background:#1b2028!important;border-color:#626b77!important;color:#e4e7eb!important}
+.message.assistant .message-avatar{border-color:#aeb4bd!important;color:#f1f2f4!important;background:#171b21!important}
+.user .bubble{background:#242a33!important;border-color:#555e69!important;color:#f4f5f7!important}
+.assistant .bubble{background:#15191f!important;border-color:#343a43!important;color:#e8eaed!important}
+.bubble pre{background:#090c10!important;border-color:#343a43!important}.bubble code{color:#dce0e5!important}
+.modal{background:linear-gradient(145deg,#1a1f27,#101318)!important;border-color:#454c57!important}
+.modal-logo{background:linear-gradient(145deg,#e5e7ea,#aeb4bd)!important;color:#111318!important}
+.auth-tabs{background:#0c0e12!important}.auth-tabs button.active{background:#343b45!important;color:#f4f5f7!important}
+.modal input{background:#0e1116!important;border-color:#343a43!important}.modal input:focus{border-color:#c0c5cc!important}
+.composer-mode i,.sidebar-status>span,.model-chip i,.kicker-dot,.kicker-line,.welcome-emblem i{background:#c0c5cc!important;box-shadow:0 0 0 4px #c0c5cc1c!important}
+.emblem-ring,.welcome-emblem:before,.welcome-emblem:after{border-color:#c0c5cc55!important}
+.wine-data-skeleton{background:#12161c!important;color:#e8eaed!important;border-color:#343a43!important}
+.wine-data-skeleton .skel-shape{background:#c0c5cc12!important;border-color:#c0c5cc20!important}
+.wine-skeleton-line,.wine-skeleton-block,.wine-skeleton-circle,.wine-skeleton-card{background:#c0c5cc12!important;border-color:#c0c5cc25!important}
+.wine-skeleton-status{color:#c0c5cc!important}
+.wine-skeleton-status:before{background:#c0c5cc!important}
+.brand-logo{display:inline-flex;align-items:center;justify-content:center;overflow:hidden;background:#090a0d!important;border:1px solid #747d89!important}
+.brand-logo img{display:block;width:100%;height:100%;object-fit:contain}
+.brand-mark.brand-logo{width:43px;height:43px;border-radius:13px;padding:0}
+.emblem-core{overflow:hidden;background:#090a0d!important}
+.emblem-core img{width:100%;height:100%;display:block;object-fit:cover;border-radius:inherit}
+.footer-mark.brand-logo{width:30px;height:30px;border-radius:9px;padding:0}
+::selection{background:#c0c5cc!important;color:#090a0d!important}
+@media(max-width:760px){.app-shell{grid-template-columns:1fr}.brand-mark.brand-logo{width:39px;height:39px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
