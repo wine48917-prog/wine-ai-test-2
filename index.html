@@ -248,6 +248,49 @@ input:focus,textarea:focus,select:focus{border-color:#c0c5cc!important;box-shado
 @media(max-width:700px){.brand-mark,.mark{width:37px!important;height:37px!important}.hero-art{min-height:190px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
 </style>
+<style id="wine-final-black-silver">
+:root{color-scheme:dark!important;--bg:#090a0d!important;--panel:#111318!important;--panel2:#171a20!important;--line:#30343b!important;--text:#f4f5f7!important;--muted:#969da7!important;--wine:#c0c5cc!important;--rose:#c0c5cc!important}
+html,body{width:100%;max-width:100%;overflow-x:hidden!important;background:#090a0d!important;color:#f4f5f7!important}
+body{background-image:radial-gradient(ellipse at 50% -20%,#c0c5cc10,transparent 48%),linear-gradient(145deg,#090a0d,#101318 60%,#090a0d)!important}
+.shell{width:min(1050px,calc(100% - 36px))!important}
+header{border-color:#30343b!important}
+.brand-mark.brand-logo{background:#090a0d!important;border:1px solid #747d89!important;box-shadow:0 8px 24px #0008!important}
+.brand-mark.brand-logo img{width:100%;height:100%;object-fit:contain}
+.brand-name,.nav a,.hero h1,.entry-title{color:#f4f5f7!important}
+.brand-name i,.eyebrow,.hero h1 span{color:#c0c5cc!important}
+.brand-caption,.hero-copy>p,.entry-desc,.footer-copy{color:#a4abb5!important}
+.eyebrow{background:#15191f!important;border:1px solid #454c57!important;color:#dce1e7!important}
+.actions .action.primary{background:linear-gradient(145deg,#e5e7ea,#aeb4bd 62%,#7b838e)!important;color:#111318!important;border:1px solid #d4d8de!important;box-shadow:0 8px 22px #0005!important}
+.actions .action.primary *{color:#111318!important}
+.actions .action.secondary,.quick-nav a{background:#15191f!important;color:#e8eaed!important;border:1px solid #454c57!important}
+.brand-hero-art{min-height:250px!important;position:relative;display:grid;place-items:center;isolation:isolate}
+.brand-orbit{width:176px;height:176px;display:grid;place-items:center;border-radius:50%;background:radial-gradient(circle,#171b21 0 48%,#0d1015 70%);border:1px solid #737d89;box-shadow:0 0 0 12px #c0c5cc0a,0 0 0 26px #c0c5cc06,0 20px 55px #0009}
+.brand-orbit:before,.brand-orbit:after{content:"";position:absolute;width:202px;height:202px;border:1px solid #747d8948;border-radius:50%;pointer-events:none}
+.brand-orbit:after{width:226px;height:226px;border-style:dashed;animation:spin 34s linear infinite}
+.brand-orbit img{width:104px;height:104px;object-fit:contain;filter:drop-shadow(0 10px 18px #0009)}
+.float-tag{background:#11151b!important;color:#dce1e7!important;border:1px solid #454c57!important}
+.entry-links{gap:12px!important}
+.entry-link{background:linear-gradient(145deg,#15191f,#101318)!important;border:1px solid #343a43!important;border-radius:18px!important;padding:18px!important;min-width:0}
+.entry-icon{background:#20252d!important;color:#dce1e7!important;border:1px solid #59616c!important}
+.quick-nav a{border-radius:13px!important;padding:13px!important}
+.footer{border-color:#30343b!important;background:transparent!important}
+.footer-brand strong,.footer-brand b{color:#dce1e7!important}
+#siteNotice{background:#15191f!important;color:#f4f5f7!important;border-color:#747d89!important}
+@media(max-width:700px){
+ .shell{width:calc(100% - 28px)!important}
+ header{min-height:66px!important;height:auto!important;gap:8px}
+ .nav{gap:3px!important;flex-wrap:wrap;justify-content:flex-end}
+ .nav a{padding:7px 8px!important;font-size:10px!important}
+ .hero{grid-template-columns:1fr!important;gap:12px!important;padding:32px 0 16px!important;min-height:0!important;text-align:center}
+ .hero-copy .actions{justify-content:center}
+ .brand-hero-art{min-height:235px!important}
+ .entry-links{display:grid!important;grid-template-columns:1fr!important}
+ .quick-nav{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important}
+ .quick-nav a{text-align:center;font-size:11px!important;padding:12px 5px!important}
+ .footer{display:flex!important;flex-wrap:wrap;gap:12px!important;justify-content:center!important;text-align:center;padding:20px 0!important}
+}
+@media(prefers-reduced-motion:reduce){.brand-orbit:after{animation:none!important}}
+</style>
 </head>
 <body><div id="nexus-maintenance" role="alert" aria-live="polite"><div class="nm-card">
 <div class="nm-top"><div class="nm-brand"><span class="nm-brand-mark">V</span><span>VELOR NEXUS</span></div><span class="nm-status">تحديثات جارية</span></div>
@@ -262,7 +305,7 @@ input:focus,textarea:focus,select:focus{border-color:#c0c5cc!important;box-shado
 <div id="siteNotice" role="status" aria-live="polite"><b>WINE AI</b><span id="siteNoticeText"></span></div>
 <main>
 <section class="hero"><div class="hero-copy"><span class="eyebrow">A NEW WAY TO THINK & CREATE</span><h1 id="homeTitle">أفكارك،<br><span>بلا حدود.</span></h1><p id="homeSubtitle">مرحباً بك في WINE AI. منصة ذكية تجمع المحادثة والإبداع وأدوات الإنتاج في تجربة واحدة — ابدأ من فكرتك واترك الباقي علينا.</p><div class="actions"><a class="action primary" id="heroChatLink" href="/chat">دخول للذكاء <b>←</b></a><a class="action secondary" href="/features">دخول للأدوات <b>↗</b></a><a class="action secondary" href="/studio">دخول للاستوديو <b>✧</b></a></div></div>
-<div class="hero-art" aria-hidden="true"><span class="halo"><span class="core"><img src="/logo.svg" alt="WINE AI"></span></span><span class="float-tag tag-one">INTELLIGENCE</span><span class="float-tag tag-two">CREATIVITY</span><span class="float-tag tag-three">WINE AI · 2026</span></div></section>
+<div class="hero-art brand-hero-art" aria-label="شعار WINE AI"><div class="brand-orbit"><img src="/logo.svg" alt="WINE AI"></div><span class="float-tag tag-one">INTELLIGENCE</span><span class="float-tag tag-two">CREATIVITY</span><span class="float-tag tag-three">WINE AI · 2026</span></div></section>
 <section class="entry-links" aria-label="روابط مهمة">
 <a class="entry-link" href="/complaints"><span><span class="entry-title">الشكاوى والاقتراحات</span><span class="entry-desc">شاركنا رأيك أو بلّغ عن أي مشكلة تواجهك</span></span><span class="entry-icon">✉</span></a>
 <a class="entry-link" href="/about.html"><span><span class="entry-title">شرح الموقع بالكامل</span><span class="entry-desc">اعرف أقسام WINE AI وطريقة استخدام كل ميزة</span></span><span class="entry-icon">ⓘ</span></a>
