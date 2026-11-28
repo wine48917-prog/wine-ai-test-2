@@ -1,4 +1,5 @@
 import express from 'express';
+import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chat, streamChat } from './lib/api-handler.js';
@@ -43,9 +44,35 @@ app.get(['/features', '/features.html'], (_req, res) => res.sendFile(path.join(r
 app.get('/developer', ownerHandler);
 app.all('/complaints', complaintsHandler);
 app.all('/api/complaints', complaintsHandler);
-app.get('/', (_req, res) => res.sendFile(path.join(root, 'index.html'), {
-  headers: { 'Cache-Control': 'no-cache' }
-}));
+app.get('/', async (_req, res, next) => {
+  try {
+    let html = await fs.readFile(path.join(root, 'index.html'), 'utf8');
+
+    // The old homepage injected a second maintenance screen from an external
+    // Supabase function. It raced the server-side maintenance controller and
+    // caused the page to flash, disappear, or remain stuck on mobile.
+    html = html.replace('<script>document.documentElement.classList.add(\'nexus-check\');</script>', '');
+
+    const legacyPanelStart = html.indexOf('<div id="nexus-maintenance"');
+    const homepageStart = legacyPanelStart >= 0 ? html.indexOf('<div class="shell">', legacyPanelStart) : -1;
+    if (legacyPanelStart >= 0 && homepageStart >= 0) {
+      html = html.slice(0, legacyPanelStart) + html.slice(homepageStart);
+    }
+
+    const legacyScriptStart = html.indexOf('const API="https://wkyzpknlvgvoloeohsej.supabase.co/functions/v1/velor-maintenance"');
+    if (legacyScriptStart >= 0) {
+      const scriptStart = html.lastIndexOf('<script>', legacyScriptStart);
+      const scriptEnd = html.indexOf('</script>', legacyScriptStart);
+      if (scriptStart >= 0 && scriptEnd >= 0) {
+        html = html.slice(0, scriptStart) + html.slice(scriptEnd + '</script>'.length);
+      }
+    }
+
+    return res.status(200).type('html').set('Cache-Control', 'no-cache').send(html);
+  } catch (error) {
+    return next(error);
+  }
+});
 app.get('/guide', (_req, res) => res.sendFile(path.join(root, 'pages/guide.html'), { headers: { 'Cache-Control': 'no-cache' } }));
 app.get('/chat-info', (_req, res) => res.sendFile(path.join(root, 'pages/chat.html'), { headers: { 'Cache-Control': 'no-cache' } }));
 app.get('/studio-info', (_req, res) => res.sendFile(path.join(root, 'pages/studio.html'), { headers: { 'Cache-Control': 'no-cache' } }));
